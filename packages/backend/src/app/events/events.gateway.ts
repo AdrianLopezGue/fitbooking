@@ -37,13 +37,13 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleDisconnect(@ConnectedSocket() client: Socket) {
     console.log(`Client disconnected: ${client.id}`, this.reservations);
     if (this.reservations.has(client.id)) {
-      this.releaseClass(undefined, client);
+      this.releaseSession(undefined, client);
     }
     this.server.emit('reservationsCount', this.reservations.size);
   }
 
-  @SubscribeMessage('reserveClass')
-  reserveClass(@MessageBody() _data: unknown, @ConnectedSocket() client: Socket): void {
+  @SubscribeMessage('reserveSession')
+  reserveSession(@MessageBody() _data: unknown, @ConnectedSocket() client: Socket): void {
     if (!this.reservations.has(client.id)) {
       const reservation: Reservation = {
         clientId: client.id,
@@ -53,18 +53,18 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.server.emit('classReserved');
       this.server.emit('reservationsCount', this.reservations.size);
       this.sendReservationStatus(client);
-      console.log(`Class reserved by client: ${client?.id}`);
+      console.log(`Session reserved by client: ${client?.id}`);
     }
   }
 
-  @SubscribeMessage('releaseClass')
-  releaseClass(@MessageBody() _data: unknown, @ConnectedSocket() client: Socket): void {
+  @SubscribeMessage('releaseSession')
+  releaseSession(@MessageBody() _data: unknown, @ConnectedSocket() client: Socket): void {
     if (this.reservations.has(client.id)) {
       this.reservations.delete(client.id);
       this.server.emit('classReleased');
       this.server.emit('reservationsCount', this.reservations.size);
       this.sendReservationStatus(client);
-      console.log(`Class released by client: ${client.id}`);
+      console.log(`Session released by client: ${client.id}`);
     }
 
     throw new WsException('Cannot reserve from another person.');
