@@ -57,14 +57,19 @@
     "@nestjs/common": "^9.1.1",
     "@nestjs/core": "^9.1.1",
     "@nestjs/platform-express": "^9.1.1",
+    "@nestjs/platform-socket.io": "^9.4.2",
+    "@nestjs/websockets": "^9.4.2",
     "axios": "^1.0.0",
+    "bufferutil": "^4.0.7",
     "next": "13.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "socket.io-client": "^4.6.2",
     "styled-components": "5.3.6",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "utf-8-validate": "^5.0.10"
   }
 }
