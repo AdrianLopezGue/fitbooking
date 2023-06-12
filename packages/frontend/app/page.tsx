@@ -16,7 +16,7 @@ const Index = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io('http://localhost:8081');
+      socketRef.current = io('http://localhost:8080');
 
       socketRef.current.on('connect', () => {
         console.log('Connected');

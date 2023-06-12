@@ -17,7 +17,7 @@ interface Reservation {
   reservedBy: string;
 }
 
-@WebSocketGateway({
+@WebSocketGateway(8080, {
   cors: {
     origin: '*',
   },
