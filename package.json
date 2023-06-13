@@ -57,8 +57,10 @@
   "dependencies": {
     "@aulasoftwarelibre/nestjs-eventstore": "^0.7.0",
     "@nestjs/common": "^9.1.1",
+    "@nestjs/config": "^2.3.3",
     "@nestjs/core": "^9.1.1",
     "@nestjs/cqrs": "^9.0.4",
+    "@nestjs/mongoose": "^9.2.2",
     "@nestjs/platform-express": "^9.1.1",
     "@nestjs/platform-socket.io": "^9.4.2",
     "@nestjs/websockets": "^9.4.2",
