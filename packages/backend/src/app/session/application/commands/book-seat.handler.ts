@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BookSeatCommand } from './book-seat.command';
-import { Err, Result } from 'neverthrow';
+import { Result, err } from 'neverthrow';
 import { SessionRepository } from '../../domain/service/session.repository';
 import { InjectAggregateRepository } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Session } from '../../domain/model/session';
@@ -21,9 +21,9 @@ export class BookSeatHandler implements ICommandHandler<BookSeatCommand> {
     const session = await this.sessionRepository.findById(sessionId);
 
     if (!session) {
-      return new Err(new Error(`Session with id: ${sessionId.value} does not exist`));
+      return err(new Error(`Session with id: ${sessionId.value} does not exist`));
     }
 
-    return session.book(assistantId);
+    return session.book(assistantId).asyncMap(s => this.sessionRepository.save(s));
   }
 }

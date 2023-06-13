@@ -1,10 +1,9 @@
-import { UserId } from '../../../user';
 import { Session } from '../../domain/model/session';
 import { SessionId } from '../../domain/model/session-id';
 import { SessionRepository } from '../../domain/service/session.repository';
 
 export class InMemorySessionRepository implements SessionRepository {
-  constructor(public readonly sessions: Session[]) {}
+  constructor(public sessions: Session[] = []) {}
 
   async find(): Promise<Session[]> {
     return this.sessions;
@@ -14,11 +13,13 @@ export class InMemorySessionRepository implements SessionRepository {
     return this.sessions.find((session: Session) => session.id.equals(id));
   }
 
-  async save(session: Session, assistant: UserId): Promise<void> {
-    this.sessions.forEach((inMemorySession: Session) => {
-      if (session.id.equals(inMemorySession.id)) {
-        inMemorySession.book(assistant);
-      }
-    });
+  async save(session: Session): Promise<void> {
+    const sessionFound = await this.findById(session.id);
+
+    if (sessionFound) {
+      this.sessions = this.sessions.filter(s => !s.id.equals(session.id));
+    }
+
+    this.sessions.push(session);
   }
 }

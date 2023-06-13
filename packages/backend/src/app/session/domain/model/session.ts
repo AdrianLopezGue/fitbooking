@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
-import { SessionId } from './session-id';
+import { Result, err, ok } from 'neverthrow';
 import { UserId } from '../../../user';
 import { SessionSeatWasBookedEvent } from '../event/session-seat-was-booked.event';
-import { Err, Result, ok } from 'neverthrow';
+import { SessionId } from './session-id';
 
 export class Session extends AggregateRoot {
   private _id: SessionId;
@@ -28,21 +28,24 @@ export class Session extends AggregateRoot {
     return this._maxCapacity;
   }
 
-  book(assistant: UserId): Result<void, Error> {
-    if (this.assistants.includes(assistant)) {
-      return new Err(new Error(`Assistant already subscribed to this session`));
+  aggregateId(): string {
+    return this._id.value;
+  }
+
+  book(assistant: UserId): Result<Session, Error> {
+    if (this.assistants.filter(a => a.value == assistant.value).length) {
+      return err(new Error(`Assistant already subscribed to this session`));
     }
 
     if (this.assistants.length >= this.maxCapacity) {
-      return new Err(new Error(`Session is already full`));
+      return err(new Error(`Session is already full`));
     }
 
-    this.assistants.push(assistant);
     this.apply(new SessionSeatWasBookedEvent(this.id.value, assistant.value));
-    return ok(null);
+    return ok(this);
   }
 
-  aggregateId(): string {
-    return this._id.value;
+  private onSessionSeatWasBookedEvent(event: SessionSeatWasBookedEvent): void {
+    this.assistants.push(UserId.fromString(event.assistant));
   }
 }
