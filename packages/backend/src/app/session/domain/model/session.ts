@@ -3,17 +3,33 @@ import { Result, err, ok } from 'neverthrow';
 import { UserId } from '../../../user';
 import { SessionSeatWasBookedEvent } from '../event/session-seat-was-booked.event';
 import { SessionId } from './session-id';
+import { SessionWasCreatedEvent } from '../event/session-was-created.event';
 
 export class Session extends AggregateRoot {
-  private _id: SessionId;
-  private _maxCapacity: number;
-  private _assistants: UserId[];
+  private _id!: SessionId;
+  private _maxCapacity!: number;
+  private _assistants!: UserId[];
 
-  constructor(id: SessionId, assistants: UserId[], maxCapacity: number) {
+  constructor(id?: SessionId, assistants?: UserId[], maxCapacity?: number) {
     super();
     this._id = id;
     this._maxCapacity = maxCapacity;
     this._assistants = assistants;
+  }
+
+  public static add(maxCapacity: number): Session {
+    const session = new Session();
+
+    const event = new SessionWasCreatedEvent(SessionId.generate().value, [], maxCapacity);
+
+    session.apply(event);
+    return session;
+  }
+
+  private onSessionWasCreatedEvent(event: SessionWasCreatedEvent): void {
+    this._id = SessionId.fromString(event.id);
+    this._maxCapacity = event.maxCapacity;
+    this._assistants = event.assistants.map(assistant => UserId.fromString(assistant));
   }
 
   get id(): SessionId {
