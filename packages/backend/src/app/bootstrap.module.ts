@@ -9,7 +9,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
 
 import config from './config/config';
-import { SessionModule } from './session';
+import { SessionModule } from './session/infrastructure';
 
 @Module({
   imports: [
