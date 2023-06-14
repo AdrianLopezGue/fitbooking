@@ -17,11 +17,6 @@ interface Reservation {
   reservedBy: string;
 }
 
-type Session = {
-  id: string;
-  assistants: string[];
-};
-
 @WebSocketGateway(8080, {
   cors: {
     origin: '*',
@@ -32,7 +27,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private reservations: Map<string, Reservation> = new Map<string, Reservation>();
-  private session: Session;
 
   handleConnection(@ConnectedSocket() client: Socket) {
     console.log(`Client connected: ${client.id}`, this.reservations);
