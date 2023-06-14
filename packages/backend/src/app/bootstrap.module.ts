@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EventsModule } from './events/events.module';
 import {
   EVENTSTORE_KEYSTORE_CONNECTION,
   EventStoreModule,
@@ -24,7 +23,6 @@ import { SessionModule } from './session/infrastructure';
       load: [config],
     }),
     CqrsModule,
-    EventsModule,
     EventStoreModule.forRoot({
       connection: process.env.EVENTSTORE_URI || '',
     }),

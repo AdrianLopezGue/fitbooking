@@ -9,6 +9,7 @@ import { SessionService } from './service/session.service';
 import { SessionController } from './controller/session.controller';
 import { SessionProviders } from './session.provider';
 import { ProjectionHandlers, SESSION_PROJECTION, SessionSchema } from './projection';
+import { EventsModule } from './events/events.module';
 
 @Module({
   controllers: [SessionController],
@@ -21,6 +22,7 @@ import { ProjectionHandlers, SESSION_PROJECTION, SessionSchema } from './project
         schema: SessionSchema,
       },
     ]),
+    EventsModule,
   ],
   providers: [
     ...CommandHandlers,
