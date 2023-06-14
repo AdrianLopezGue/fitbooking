@@ -1,4 +1,7 @@
-import { InjectAggregateRepository } from '@aulasoftwarelibre/nestjs-eventstore';
+import {
+  DomainError,
+  InjectAggregateRepository,
+} from '@aulasoftwarelibre/nestjs-eventstore';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Result, ok } from 'neverthrow';
 import { Session } from '../../domain/model/session';
@@ -12,7 +15,7 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
     private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async execute(command: CreateSessionCommand): Promise<Result<null, Error>> {
+  async execute(command: CreateSessionCommand): Promise<Result<null, DomainError>> {
     const session = Session.add(command.maxCapacity);
     await this.sessionRepository.save(session);
 
