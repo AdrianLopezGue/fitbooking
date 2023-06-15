@@ -10,8 +10,8 @@ const StyledPage = styled.div`
 `;
 
 const Index = () => {
-  const [isReservedByClient, setIsReservedByClient] = useState(false);
   const [isClassReserved, setIsClassReserved] = useState(false);
+  const [assistants, setAssistants] = useState([]);
   const socketRef = useRef<Socket>();
 
   useEffect(() => {
@@ -30,10 +30,6 @@ const Index = () => {
         console.log('Disconnected');
       });
 
-      socketRef.current.on('reservationStatus', status => {
-        setIsReservedByClient(status);
-      });
-
       socketRef.current.on('classReserved', () => {
         setIsClassReserved(true);
       });
@@ -41,8 +37,6 @@ const Index = () => {
       socketRef.current.on('classReleased', () => {
         setIsClassReserved(false);
       });
-
-      socketRef.current.emit('getReservations');
     }
 
     return () => {
@@ -53,27 +47,31 @@ const Index = () => {
     };
   }, []);
 
-  const handleReserveClass = () => {
-    if (!isClassReserved && socketRef.current) {
-      socketRef.current.emit('reserveClass');
-    }
-  };
-
-  const handleReleaseClass = () => {
-    if (isClassReserved && socketRef.current) {
-      socketRef.current.emit('releaseClass');
-    }
-  };
+  useEffect(() => {
+    fetch('http://localhost:3333/api/session/1937bad9-8726-45ca-a15b-27c5fd6391e5')
+      .then(res => {
+        console.debug(res);
+        return res.json();
+      })
+      .then(res => {
+        console.log(res);
+        setAssistants(res.assistants);
+      })
+      .catch(err => console.error(err.message));
+  }, []);
 
   return (
     <StyledPage>
-      <h1>WebSocket Chat</h1>
-      <button disabled={isClassReserved} onClick={handleReserveClass}>
-        {isClassReserved ? 'Class Reserved' : 'Reserve Class'}
-      </button>
-      {isReservedByClient && isClassReserved && (
-        <button onClick={handleReleaseClass}>Release Class</button>
-      )}
+      <>
+        <h1>WebSocket Chat {assistants.length}</h1>
+        <h3>
+          <ol>
+            {assistants.map((a, key) => (
+              <li key={key}>{a}</li>
+            ))}
+          </ol>
+        </h3>
+      </>
     </StyledPage>
   );
 };
