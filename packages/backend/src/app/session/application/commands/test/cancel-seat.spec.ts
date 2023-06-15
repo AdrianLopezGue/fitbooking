@@ -23,7 +23,7 @@ describe('Cancel seat command', () => {
 
     expect(result.isOk()).toBe(true);
 
-    const sessionFound = await sessionRepository.findById(session.id);
+    const sessionFound = await sessionRepository.find(session.id);
     expect(sessionFound.assistants).toHaveLength(1);
   });
 

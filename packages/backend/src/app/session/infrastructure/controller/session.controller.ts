@@ -29,13 +29,14 @@ export class SessionController {
     });
   }
 
-  @Put()
+  @Put('book/:id')
   @HttpCode(200)
   async bookSeat(
-    @Body(new ValidationPipe()) bookSeatDTO: { id: string; userId: string },
+    @Body(new ValidationPipe()) bookSeatDTO: { userId: string },
+    @Param() params: { id: string },
   ) {
     const bookSeatResult = await this.sessionService.bookSeat(
-      bookSeatDTO.id,
+      params.id,
       bookSeatDTO.userId,
     );
 
@@ -44,13 +45,14 @@ export class SessionController {
     });
   }
 
-  @Put()
+  @Put('cancel/:id')
   @HttpCode(200)
   async cancelSeat(
-    @Body(new ValidationPipe()) cancelSeatSessionDTO: { id: string; userId: string },
+    @Body(new ValidationPipe()) cancelSeatSessionDTO: { userId: string },
+    @Param() params: { id: string },
   ) {
     const cancelSeatResult = await this.sessionService.cancelSeat(
-      cancelSeatSessionDTO.id,
+      params.id,
       cancelSeatSessionDTO.userId,
     );
 

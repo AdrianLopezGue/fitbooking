@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BookSeatCommand } from './book-seat.command';
-import { Result, err } from 'neverthrow';
+import { Result, err, ok } from 'neverthrow';
 import { SessionRepository } from '../../domain/service/session.repository';
 import {
   DomainError,
@@ -22,12 +22,19 @@ export class BookSeatHandler implements ICommandHandler<BookSeatCommand> {
     const sessionId = SessionId.fromString(command.id);
     const assistantId = UserId.fromString(command.userId);
 
-    const session = await this.sessionRepository.findById(sessionId);
+    const session = await this.sessionRepository.find(sessionId);
 
     if (!session) {
       return err(SessionNotFound.with(sessionId.value));
     }
 
-    return session.book(assistantId).asyncMap(s => this.sessionRepository.save(s));
+    const sessionBooked = session.book(assistantId);
+
+    if (sessionBooked.isErr()) {
+      return err(sessionBooked.error);
+    }
+
+    this.sessionRepository.save(sessionBooked.value);
+    return ok(undefined);
   }
 }

@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Result, err } from 'neverthrow';
+import { Result, err, ok } from 'neverthrow';
 import { SessionRepository } from '../../domain/service/session.repository';
 import {
   DomainError,
@@ -22,12 +22,19 @@ export class CancelSeatHandler implements ICommandHandler<CancelSeatCommand> {
     const sessionId = SessionId.fromString(command.id);
     const assistantId = UserId.fromString(command.userId);
 
-    const session = await this.sessionRepository.findById(sessionId);
+    const session = await this.sessionRepository.find(sessionId);
 
     if (!session) {
       return err(SessionNotFound.with(sessionId.value));
     }
 
-    return session.cancel(assistantId).asyncMap(s => this.sessionRepository.save(s));
+    const canceledSession = session.cancel(assistantId);
+
+    if (canceledSession.isErr()) {
+      return err(canceledSession.error);
+    }
+
+    this.sessionRepository.save(canceledSession.value);
+    return ok(undefined);
   }
 }

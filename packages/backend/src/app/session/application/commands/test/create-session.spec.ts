@@ -11,7 +11,7 @@ describe('Create session handler', () => {
 
     expect(result.isOk()).toBe(true);
 
-    const sessionsFound = await sessionRepository.find();
+    const sessionsFound = await sessionRepository.findAll();
     expect(sessionsFound).toHaveLength(1);
     expect(sessionsFound[0].maxCapacity).toBe(1);
     expect(sessionsFound[0].assistants).toHaveLength(0);

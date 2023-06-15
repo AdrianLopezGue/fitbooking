@@ -5,21 +5,25 @@ import { SessionRepository } from '../../domain/service/session.repository';
 export class InMemorySessionRepository implements SessionRepository {
   constructor(public sessions: Session[] = []) {}
 
-  async find(): Promise<Session[]> {
-    return this.sessions;
-  }
-
-  async findById(id: SessionId): Promise<Session | undefined> {
+  async find(id: SessionId): Promise<Session | undefined> {
     return this.sessions.find((session: Session) => session.id.equals(id));
   }
 
   async save(session: Session): Promise<void> {
-    const sessionFound = await this.findById(session.id);
+    const sessionFound = await this.find(session.id);
 
     if (sessionFound) {
       this.sessions = this.sessions.filter(s => !s.id.equals(session.id));
     }
 
     this.sessions.push(session);
+  }
+
+  delete(entity: Session): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  findAll(): Promise<Session[]> {
+    return Promise.resolve(this.sessions);
   }
 }
