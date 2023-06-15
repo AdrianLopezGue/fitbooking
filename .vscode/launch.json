@@ -10,8 +10,12 @@
         "address": "127.0.0.1",
         "sourceMaps": true,
         "restart": true,
-        "localRoot": "${workspaceFolder}/packages/backend/src",
-        "remoteRoot": "/app/packages/backend/src"
+        "localRoot": "${workspaceFolder}",
+        "remoteRoot": "/app",
+        "outFiles": ["${workspaceFolder}/dist/**/*.js", "!**/node_modules/**"],
+        "sourceMapPathOverrides": {        
+          "webpack:///./src/*": "${workspaceFolder}/packages/backend/src/*"
+        }
       }
     ]
   }
