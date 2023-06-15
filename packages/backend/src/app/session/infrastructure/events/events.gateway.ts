@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import {
   ConnectedSocket,
   OnGatewayConnection,
@@ -17,6 +18,7 @@ interface Reservation {
     origin: '*',
   },
 })
+@Injectable()
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
