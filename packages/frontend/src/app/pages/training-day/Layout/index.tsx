@@ -5,14 +5,16 @@ import Session from '../Session';
 export const TrainingDay = () => {
   const [assistants, setAssistants] = useState<string[]>([]);
   const [maxCapacity, setMaxCapacity] = useState(0);
+  const [name, setName] = useState('');
   const socketRef = useRef<Socket>();
 
   useEffect(() => {
-    fetch('http://localhost:3333/api/session/a3834756-6b7c-482a-9af0-3f8fce786849')
+    fetch('http://localhost:3333/api/session/ef6f99ff-aae9-4831-a619-979f4d971be0')
       .then(res => res.json())
       .then(res => {
         setAssistants(res.assistants);
         setMaxCapacity(res.maxCapacity);
+        setName(res.name);
       })
       .catch(err => console.error(err));
   }, []);
@@ -60,7 +62,7 @@ export const TrainingDay = () => {
           <li key={key}>{a}</li>
         ))}
       </ol>
-      <Session maxCapacity={maxCapacity} assistants={assistants}></Session>
+      <Session name={name} maxCapacity={maxCapacity} assistants={assistants}></Session>
     </>
   );
 };
