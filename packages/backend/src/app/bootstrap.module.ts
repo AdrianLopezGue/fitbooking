@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import config from './config/config';
 import { SessionModule } from './session/infrastructure';
+import { UserModule } from './user/infrastructure/user.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SessionModule } from './session/infrastructure';
       connectionName: EVENTSTORE_KEYSTORE_CONNECTION,
     }),
     SessionModule,
+    UserModule,
   ],
 })
 export class BootstrapModule {}
