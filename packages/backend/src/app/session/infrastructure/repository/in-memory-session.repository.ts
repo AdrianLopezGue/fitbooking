@@ -21,7 +21,7 @@ export class InMemorySessionRepository implements SessionRepository {
 
   delete(entity: Session): Promise<void> {
     this.sessions = this.sessions.filter(
-      (session: Session) => !session.id.equals(entity.id)
+      (session: Session) => !session.id.equals(entity.id),
     );
     return Promise.resolve();
   }
