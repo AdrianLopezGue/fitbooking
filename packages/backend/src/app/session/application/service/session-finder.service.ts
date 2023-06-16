@@ -2,6 +2,7 @@ export const SESSION_FINDER = 'SESSION_FINDER';
 
 export type SessionDTO = {
   _id: string;
+  name: string;
   assistants: string[];
   maxCapacity: number;
 };
