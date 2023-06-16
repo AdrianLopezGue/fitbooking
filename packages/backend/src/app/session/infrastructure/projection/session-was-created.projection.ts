@@ -15,7 +15,7 @@ export class SessionWasCreatedProjection
   ) {}
 
   async handle(event: SessionWasCreatedEvent) {
-    const space = new this.sessionProjection({ _id: event.aggregateId, ...event.payload });
-    await space.save();
+    const session = new this.sessionProjection({ _id: event.aggregateId, ...event.payload });
+    await session.save();
   }
 }
