@@ -20,7 +20,10 @@ export class InMemorySessionRepository implements SessionRepository {
   }
 
   delete(entity: Session): Promise<void> {
-    throw new Error('Method not implemented.');
+    this.sessions = this.sessions.filter(
+      (session: Session) => !session.id.equals(entity.id)
+    );
+    return Promise.resolve();
   }
 
   findAll(): Promise<Session[]> {
