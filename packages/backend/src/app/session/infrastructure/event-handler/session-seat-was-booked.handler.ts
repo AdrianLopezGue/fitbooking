@@ -1,6 +1,6 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { SessionSeatWasBookedEvent } from '../../domain';
-import { WebsocketSessionGateway } from './session.gateway';
+import { WebsocketSessionGateway } from '../websocket/session.gateway';
 
 @EventsHandler(SessionSeatWasBookedEvent)
 export class SessionSeatWasBookedHandler

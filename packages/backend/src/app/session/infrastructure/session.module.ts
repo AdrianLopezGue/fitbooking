@@ -10,7 +10,7 @@ import { SessionController } from './controller/session.controller';
 import { SessionProviders } from './session.provider';
 import { ProjectionHandlers, SESSION_PROJECTION, SessionSchema } from './projection';
 import { WebsocketSessionGateway } from './websocket/session.gateway';
-import { EventsHandlers } from './websocket';
+import { EventsHandlers } from './event-handler';
 
 @Module({
   controllers: [SessionController],
