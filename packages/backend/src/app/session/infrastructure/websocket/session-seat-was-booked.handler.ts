@@ -1,14 +1,14 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { SessionSeatWasBookedEvent } from '../../domain';
-import { EventsGateway } from './events.gateway';
+import { WebsocketSessionGateway } from './session.gateway';
 
 @EventsHandler(SessionSeatWasBookedEvent)
 export class SessionSeatWasBookedHandler
   implements IEventHandler<SessionSeatWasBookedEvent>
 {
-  constructor(private readonly eventsGateway: EventsGateway) {}
+  constructor(private readonly websocketGateway: WebsocketSessionGateway) {}
   async handle(event: SessionSeatWasBookedEvent) {
-    this.eventsGateway.server.emit('classReserved', {
+    this.websocketGateway.server.emit('classReserved', {
       assistantRegistered: event.assistant,
     });
   }

@@ -19,7 +19,7 @@ interface Reservation {
   },
 })
 @Injectable()
-export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class WebsocketSessionGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 

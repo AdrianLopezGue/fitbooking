@@ -9,8 +9,8 @@ import { SessionService } from './service/session.service';
 import { SessionController } from './controller/session.controller';
 import { SessionProviders } from './session.provider';
 import { ProjectionHandlers, SESSION_PROJECTION, SessionSchema } from './projection';
-import { EventsGateway } from './events/events.gateway';
-import { EventsHandlers } from './events';
+import { WebsocketSessionGateway } from './websocket/session.gateway';
+import { EventsHandlers } from './websocket';
 
 @Module({
   controllers: [SessionController],
@@ -30,7 +30,7 @@ import { EventsHandlers } from './events';
     ...QueryHandlers,
     ...ProjectionHandlers,
     ...SessionProviders,
-    EventsGateway,
+    WebsocketSessionGateway,
     SessionService,
   ],
 })
