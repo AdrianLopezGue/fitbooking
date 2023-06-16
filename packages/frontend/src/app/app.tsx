@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { useEffect, useState, useRef } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 
 const StyledApp = styled.div`
@@ -38,16 +37,10 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3333/api/session/1937bad9-8726-45ca-a15b-27c5fd6391e5')
-      .then(res => {
-        console.debug(res);
-        return res.json();
-      })
-      .then(res => {
-        console.log(res);
-        setAssistants(res.assistants);
-      })
-      .catch(err => console.error(err.message));
+    fetch('http://localhost:3333/api/session/011be8cb-5784-4db4-b0ce-ea43a6cc3138')
+      .then(res => res.json())
+      .then(res => setAssistants(res.assistants))
+      .catch(err => console.error(err));
   }, []);
 
   return (
@@ -57,25 +50,6 @@ export function App() {
           <li key={key}>{a}</li>
         ))}
       </ol>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
     </StyledApp>
   );
 }
