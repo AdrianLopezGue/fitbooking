@@ -6,7 +6,7 @@ services:
       context: ./
       target: frontend
     ports:
-      - 3000:3000
+      - 4200:4200
     volumes:
       - .:/app
     depends_on:

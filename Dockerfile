@@ -12,9 +12,9 @@ FROM base as frontend
 
 COPY ./packages/frontend .
 
-EXPOSE 3000
+EXPOSE 4200
 
-CMD ["npx", "nx", "run", "frontend:serve", "--hostname=0.0.0.0", "--port=3000"]
+CMD ["npx", "nx", "serve", "frontend", "--hostname=0.0.0.0"]
 
 # ===============================
 

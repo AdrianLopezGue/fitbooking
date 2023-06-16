@@ -1,16 +1,14 @@
-'use client';
-
-import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
+
+import { useEffect, useState, useRef } from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 
-const StyledPage = styled.div`
-  .page {
-  }
+const StyledApp = styled.div`
+  // Your style here
 `;
 
-const Index = () => {
-  const [isClassReserved, setIsClassReserved] = useState(false);
+export function App() {
   const [assistants, setAssistants] = useState([]);
   const socketRef = useRef<Socket>();
 
@@ -28,14 +26,6 @@ const Index = () => {
 
       socketRef.current.on('disconnect', () => {
         console.log('Disconnected');
-      });
-
-      socketRef.current.on('classReserved', () => {
-        setIsClassReserved(true);
-      });
-
-      socketRef.current.on('classReleased', () => {
-        setIsClassReserved(false);
       });
     }
 
@@ -61,19 +51,33 @@ const Index = () => {
   }, []);
 
   return (
-    <StyledPage>
-      <>
-        <h1>WebSocket Chat {assistants.length}</h1>
-        <h3>
-          <ol>
-            {assistants.map((a, key) => (
-              <li key={key}>{a}</li>
-            ))}
-          </ol>
-        </h3>
-      </>
-    </StyledPage>
+    <StyledApp>
+      <ol>
+        {assistants.map((a, key) => (
+          <li key={key}>{a}</li>
+        ))}
+      </ol>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              This is the generated root route.{' '}
+              <Link to="/page-2">Click here for page 2.</Link>
+            </div>
+          }
+        />
+        <Route
+          path="/page-2"
+          element={
+            <div>
+              <Link to="/">Click here to go back to root page.</Link>
+            </div>
+          }
+        />
+      </Routes>
+    </StyledApp>
   );
-};
+}
 
-export default Index;
+export default App;
