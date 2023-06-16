@@ -6,8 +6,12 @@ import { EventStoreModule } from '@aulasoftwarelibre/nestjs-eventstore';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProjectionHandlers, USER_PROJECTION, UserSchema } from './projection';
 import { CommandHandlers, QueryHandlers } from '../application';
+import { UserProviders } from './user.provider';
+import { UserService } from './service/user.service';
+import { UserController } from './controller/user.controller';
 
 @Module({
+  controllers: [UserController],
   imports: [
     CqrsModule,
     EventStoreModule.forFeature([User], eventTransformers),
@@ -18,6 +22,12 @@ import { CommandHandlers, QueryHandlers } from '../application';
       },
     ]),
   ],
-  providers: [...CommandHandlers, ...QueryHandlers, ...ProjectionHandlers],
+  providers: [
+    ...CommandHandlers,
+    ...QueryHandlers,
+    ...ProjectionHandlers,
+    ...UserProviders,
+    UserService,
+  ],
 })
 export class UserModule {}
