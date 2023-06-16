@@ -8,8 +8,15 @@ const StyledApp = styled.div`
 `;
 
 export function App() {
-  const [assistants, setAssistants] = useState([]);
+  const [assistants, setAssistants] = useState<string[]>([]);
   const socketRef = useRef<Socket>();
+
+  useEffect(() => {
+    fetch('http://localhost:3333/api/session/a3834756-6b7c-482a-9af0-3f8fce786849')
+      .then(res => res.json())
+      .then(res => setAssistants(res.assistants))
+      .catch(err => console.error(err));
+  }, []);
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -26,6 +33,17 @@ export function App() {
       socketRef.current.on('disconnect', () => {
         console.log('Disconnected');
       });
+
+      socketRef.current.on('classReserved', data =>
+        setAssistants([...assistants, data.assistantRegistered]),
+      );
+
+      socketRef.current.on('classCancelled', data => {
+        console.log(data);
+        setAssistants(
+          assistants.filter(assistant => assistant !== data.assistantRegistered),
+        );
+      });
     }
 
     return () => {
@@ -34,17 +52,11 @@ export function App() {
         socketRef.current = undefined;
       }
     };
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:3333/api/session/011be8cb-5784-4db4-b0ce-ea43a6cc3138')
-      .then(res => res.json())
-      .then(res => setAssistants(res.assistants))
-      .catch(err => console.error(err));
-  }, []);
+  }, [assistants]);
 
   return (
     <StyledApp>
+      <h1>Assistants</h1>
       <ol>
         {assistants.map((a, key) => (
           <li key={key}>{a}</li>
