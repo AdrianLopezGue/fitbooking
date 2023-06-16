@@ -18,12 +18,12 @@ describe('Create user handler', () => {
   });
 
   it('should should throw error if name is empty', async () => {
-    const sessionRepository = new InMemoryUserRepository([]);
-    const bookSeatHandler = new CreateUserHandler(sessionRepository);
-    const emptySessionName = '';
+    const userRepository = new InMemoryUserRepository([]);
+    const bookSeatHandler = new CreateUserHandler(userRepository);
+    const emptyUserName = '';
 
     await expect(
-      bookSeatHandler.execute(new CreateUserCommand(emptySessionName)),
+      bookSeatHandler.execute(new CreateUserCommand(emptyUserName)),
     ).rejects.toThrow(Error);
   });
 });
