@@ -1,17 +1,17 @@
-import { Document, Schema } from 'mongoose';
-import { SessionDTO } from '../../application/service/session-finder.service';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export const SESSION_PROJECTION = 'sessions';
 
-export type SessionDocument = SessionDTO & Document;
+@Schema({ versionKey: false })
+export class SessionDocument {
+  @Prop({ required: true })
+  _id: string;
 
-export const SessionSchema = new Schema(
-  {
-    _id: String,
-    assistants: Array<string>,
-    maxCapacity: Number,
-  },
-  {
-    versionKey: false,
-  },
-);
+  @Prop({ required: true, type: [String] })
+  assistants: string[];
+
+  @Prop({ required: true })
+  maxCapacity: number;
+}
+
+export const SessionSchema = SchemaFactory.createForClass(SessionDocument);
