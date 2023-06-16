@@ -7,6 +7,9 @@ export class SessionDocument {
   @Prop({ required: true })
   _id: string;
 
+  @Prop({ required: true })
+  name: string;
+
   @Prop({ required: true, type: [String] })
   assistants: string[];
 

@@ -8,23 +8,37 @@ import { AssistantAlreadyConfirmed } from '../exception/assistant-already-confir
 import { SessionWithoutAvailableSeats } from '../exception/session-without-available-seats.error';
 import { SessionSeatWasCancelledEvent } from '../event/session-seat-was-cancelled.event';
 import { AssistantNotFound } from '../exception/assistant-not-found.error';
+import { SessionName } from './session-name';
+import { SessionMaxCapacity } from './session-max-capacity';
 
 export class Session extends AggregateRoot {
   private _id!: SessionId;
-  private _maxCapacity!: number;
+  private _name: SessionName;
+  private _maxCapacity!: SessionMaxCapacity;
   private _assistants!: UserId[];
 
-  constructor(id?: SessionId, assistants?: UserId[], maxCapacity?: number) {
+  constructor(
+    id?: SessionId,
+    name?: SessionName,
+    assistants?: UserId[],
+    maxCapacity?: SessionMaxCapacity,
+  ) {
     super();
     this._id = id;
+    this._name = name;
     this._maxCapacity = maxCapacity;
     this._assistants = assistants;
   }
 
-  public static add(maxCapacity: number): Session {
+  public static add(name: SessionName, maxCapacity: SessionMaxCapacity): Session {
     const session = new Session();
 
-    const event = new SessionWasCreatedEvent(SessionId.generate().value, [], maxCapacity);
+    const event = new SessionWasCreatedEvent(
+      SessionId.generate().value,
+      name.value,
+      [],
+      maxCapacity.value,
+    );
 
     session.apply(event);
     return session;
@@ -32,7 +46,8 @@ export class Session extends AggregateRoot {
 
   private onSessionWasCreatedEvent(event: SessionWasCreatedEvent): void {
     this._id = SessionId.fromString(event.id);
-    this._maxCapacity = event.maxCapacity;
+    this._name = SessionName.from(event.name);
+    this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
     this._assistants = event.assistants.map(assistant => UserId.fromString(assistant));
   }
 
@@ -40,11 +55,14 @@ export class Session extends AggregateRoot {
     return this._id;
   }
 
+  get name(): SessionName {
+    return this._name;
+  }
   get assistants(): UserId[] {
     return this._assistants;
   }
 
-  get maxCapacity(): number {
+  get maxCapacity(): SessionMaxCapacity {
     return this._maxCapacity;
   }
 
@@ -59,7 +77,7 @@ export class Session extends AggregateRoot {
       return err(AssistantAlreadyConfirmed.with(this.id.value, assistant.value));
     }
 
-    if (this.assistants.length >= this.maxCapacity) {
+    if (this.assistants.length >= this.maxCapacity.value) {
       return err(SessionWithoutAvailableSeats.with(this.id.value));
     }
 

@@ -7,6 +7,8 @@ import { Result, ok } from 'neverthrow';
 import { Session } from '../../domain/model/session';
 import { SessionRepository } from '../../domain/service/session.repository';
 import { CreateSessionCommand } from './create-session.command';
+import { SessionName } from '../../domain/model/session-name';
+import { SessionMaxCapacity } from '../../domain/model/session-max-capacity';
 
 @CommandHandler(CreateSessionCommand)
 export class CreateSessionHandler implements ICommandHandler<CreateSessionCommand> {
@@ -16,7 +18,11 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
   ) {}
 
   async execute(command: CreateSessionCommand): Promise<Result<null, DomainError>> {
-    const session = Session.add(command.maxCapacity);
+    const session = Session.add(
+      SessionName.from(command.name),
+      SessionMaxCapacity.from(command.maxCapacity),
+    );
+
     await this.sessionRepository.save(session);
 
     return ok(null);

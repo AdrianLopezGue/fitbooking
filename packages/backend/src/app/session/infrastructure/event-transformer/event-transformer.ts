@@ -14,6 +14,7 @@ export const eventTransformers = {
   SessionWasCreatedEvent: (event: Event<CreateSessionDTO>) =>
     new SessionWasCreatedEvent(
       event.aggregateId,
+      event.payload.name,
       event.payload.assistants,
       event.payload.maxCapacity,
     ),

@@ -9,6 +9,10 @@ export class CreateSessionDTO {
 
   @ApiProperty()
   @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   readonly maxCapacity: number;
 
   @ApiProperty()

@@ -14,9 +14,9 @@ export class SessionService {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createSession(maxCapacity: number): Promise<Result<null, Error>> {
+  async createSession(name: string, maxCapacity: number): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new CreateSessionCommand(maxCapacity),
+      new CreateSessionCommand(name, maxCapacity),
     );
   }
 

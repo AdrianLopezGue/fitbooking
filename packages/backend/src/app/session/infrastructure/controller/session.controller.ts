@@ -19,8 +19,11 @@ export class SessionController {
 
   @Post()
   @HttpCode(201)
-  async create(@Body(new ValidationPipe()) createSessionDTO: { maxCapacity: number }) {
+  async create(
+    @Body(new ValidationPipe()) createSessionDTO: { name: string; maxCapacity: number },
+  ) {
     const createdSessionResult = await this.sessionService.createSession(
+      createSessionDTO.name,
       createSessionDTO.maxCapacity,
     );
 
