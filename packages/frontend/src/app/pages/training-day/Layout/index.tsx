@@ -9,7 +9,7 @@ export const TrainingDay = () => {
   const socketRef = useRef<Socket>();
 
   useEffect(() => {
-    fetch('http://localhost:3333/api/session/ef6f99ff-aae9-4831-a619-979f4d971be0')
+    fetch('http://localhost:3333/api/sessions/ef6f99ff-aae9-4831-a619-979f4d971be0')
       .then(res => res.json())
       .then(res => {
         setAssistants(res.assistants);
