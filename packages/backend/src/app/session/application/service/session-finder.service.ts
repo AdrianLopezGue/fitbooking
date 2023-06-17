@@ -5,8 +5,10 @@ export type SessionDTO = {
   name: string;
   assistants: string[];
   maxCapacity: number;
+  date: Date;
 };
 
 export interface SessionFinder {
   find(id: string): Promise<SessionDTO | undefined>;
+  findByDate(date: Date): Promise<SessionDTO[] | undefined>;
 }
