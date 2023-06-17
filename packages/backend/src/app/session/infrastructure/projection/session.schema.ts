@@ -15,6 +15,9 @@ export class SessionDocument {
 
   @Prop({ required: true })
   maxCapacity: number;
+
+  @Prop({ required: true })
+  date: Date;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(SessionDocument);

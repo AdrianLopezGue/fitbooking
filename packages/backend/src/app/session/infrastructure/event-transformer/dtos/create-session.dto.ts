@@ -18,4 +18,8 @@ export class CreateSessionDTO {
   @ApiProperty()
   @IsNotEmpty()
   readonly assistants: Array<string>;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly date: Date;
 }

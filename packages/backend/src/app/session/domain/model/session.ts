@@ -13,24 +13,31 @@ import { SessionMaxCapacity } from './session-max-capacity';
 
 export class Session extends AggregateRoot {
   private _id!: SessionId;
-  private _name: SessionName;
+  private _name!: SessionName;
   private _maxCapacity!: SessionMaxCapacity;
   private _assistants!: UserId[];
+  private _date!: Date;
 
   constructor(
     id?: SessionId,
     name?: SessionName,
     assistants?: UserId[],
     maxCapacity?: SessionMaxCapacity,
+    date?: Date,
   ) {
     super();
     this._id = id;
     this._name = name;
     this._maxCapacity = maxCapacity;
     this._assistants = assistants;
+    this._date = date;
   }
 
-  public static add(name: SessionName, maxCapacity: SessionMaxCapacity): Session {
+  public static add(
+    name: SessionName,
+    maxCapacity: SessionMaxCapacity,
+    date: Date,
+  ): Session {
     const session = new Session();
 
     const event = new SessionWasCreatedEvent(
@@ -38,6 +45,7 @@ export class Session extends AggregateRoot {
       name.value,
       [],
       maxCapacity.value,
+      date,
     );
 
     session.apply(event);
@@ -49,6 +57,7 @@ export class Session extends AggregateRoot {
     this._name = SessionName.from(event.name);
     this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
     this._assistants = event.assistants.map(assistant => UserId.fromString(assistant));
+    this._date = event.date;
   }
 
   get id(): SessionId {
@@ -64,6 +73,10 @@ export class Session extends AggregateRoot {
 
   get maxCapacity(): SessionMaxCapacity {
     return this._maxCapacity;
+  }
+
+  get date(): Date {
+    return this._date;
   }
 
   aggregateId(): string {

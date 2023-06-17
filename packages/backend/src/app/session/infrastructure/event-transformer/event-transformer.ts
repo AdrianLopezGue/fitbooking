@@ -17,6 +17,7 @@ export const eventTransformers = {
       event.payload.name,
       event.payload.assistants,
       event.payload.maxCapacity,
+      event.payload.date,
     ),
   SessionSeatWasCancelledEvent: (event: Event<CancelSeatDTO>) =>
     new SessionSeatWasCancelledEvent(event.aggregateId, event.payload.assistant),

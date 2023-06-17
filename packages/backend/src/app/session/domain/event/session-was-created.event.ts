@@ -6,11 +6,13 @@ export class SessionWasCreatedEvent extends Event {
     public readonly name: string,
     public readonly assistants: string[],
     public readonly maxCapacity: number,
+    public readonly date: Date,
   ) {
     super(id, {
       name,
       assistants,
       maxCapacity,
+      date,
     });
   }
 }

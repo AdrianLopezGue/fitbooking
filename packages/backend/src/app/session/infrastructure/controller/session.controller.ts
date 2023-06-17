@@ -20,11 +20,17 @@ export class SessionController {
   @Post()
   @HttpCode(201)
   async create(
-    @Body(new ValidationPipe()) createSessionDTO: { name: string; maxCapacity: number },
+    @Body(new ValidationPipe())
+    createSessionDTO: {
+      name: string;
+      maxCapacity: number;
+      date: Date;
+    },
   ) {
     const createdSessionResult = await this.sessionService.createSession(
       createSessionDTO.name,
       createSessionDTO.maxCapacity,
+      createSessionDTO.date,
     );
 
     createdSessionResult.mapErr<Error>(err => {

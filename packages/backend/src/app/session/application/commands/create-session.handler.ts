@@ -21,6 +21,7 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
     const session = Session.add(
       SessionName.from(command.name),
       SessionMaxCapacity.from(command.maxCapacity),
+      command.date,
     );
 
     await this.sessionRepository.save(session);
