@@ -18,8 +18,19 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
-  async create(@Body(new ValidationPipe()) createUserDTO: { name: string }) {
-    const createdUserResult = await this.userService.createUser(createUserDTO.name);
+  async create(
+    @Body(new ValidationPipe())
+    createUserDTO: {
+      name: string;
+      email: string;
+      password: string;
+    },
+  ) {
+    const createdUserResult = await this.userService.createUser(
+      createUserDTO.name,
+      createUserDTO.email,
+      createUserDTO.password,
+    );
 
     createdUserResult.mapErr<Error>(err => {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);

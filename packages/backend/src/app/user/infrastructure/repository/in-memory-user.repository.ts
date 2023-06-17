@@ -1,4 +1,5 @@
 import { User } from '../../domain/model/user';
+import { UserEmail } from '../../domain/model/user-email';
 import { UserId } from '../../domain/model/user-id';
 import { UserRepository } from '../../domain/service/user.repository';
 
@@ -7,6 +8,10 @@ export class InMemoryUserRepository implements UserRepository {
 
   async find(id: UserId): Promise<User | undefined> {
     return this.users.find((user: User) => user.id.equals(id));
+  }
+
+  async findByEmail(email: UserEmail): Promise<User | undefined> {
+    return this.users.find((user: User) => user.email.equals(email));
   }
 
   async save(user: User): Promise<void> {

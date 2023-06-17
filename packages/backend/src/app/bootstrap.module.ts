@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import config from './config/config';
 import { SessionModule } from './session/infrastructure';
 import { UserModule } from './user/infrastructure/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UserModule } from './user/infrastructure/user.module';
     }),
     SessionModule,
     UserModule,
+    AuthModule,
   ],
 })
 export class BootstrapModule {}

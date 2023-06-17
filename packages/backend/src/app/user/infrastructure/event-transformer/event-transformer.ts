@@ -4,5 +4,10 @@ import { CreateUserDTO } from './dtos/create-user.dto';
 
 export const eventTransformers = {
   UserWasCreatedEvent: (event: Event<CreateUserDTO>) =>
-    new UserWasCreatedEvent(event.aggregateId, event.payload.name),
+    new UserWasCreatedEvent(
+      event.aggregateId,
+      event.payload.name,
+      event.payload.email,
+      event.payload.password,
+    ),
 };

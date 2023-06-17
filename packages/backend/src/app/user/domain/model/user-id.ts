@@ -6,7 +6,7 @@ export class UserId extends Id {
     return new UserId(uuid());
   }
 
-  public static fromString(id: string): UserId {
+  public static from(id: string): UserId {
     return new UserId(id);
   }
 

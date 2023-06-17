@@ -12,9 +12,13 @@ export class UserService {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createUser(name: string): Promise<Result<null, Error>> {
+  async createUser(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new CreateUserCommand(name),
+      new CreateUserCommand(name, email, password),
     );
   }
 
