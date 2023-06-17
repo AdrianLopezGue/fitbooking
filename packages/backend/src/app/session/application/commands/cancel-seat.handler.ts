@@ -19,8 +19,8 @@ export class CancelSeatHandler implements ICommandHandler<CancelSeatCommand> {
   ) {}
 
   async execute(command: CancelSeatCommand): Promise<Result<void, DomainError>> {
-    const sessionId = SessionId.fromString(command.id);
-    const assistantId = UserId.fromString(command.userId);
+    const sessionId = SessionId.from(command.id);
+    const assistantId = UserId.from(command.userId);
 
     const session = await this.sessionRepository.find(sessionId);
 

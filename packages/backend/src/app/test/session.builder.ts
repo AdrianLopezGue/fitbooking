@@ -20,9 +20,9 @@ export class SessionBuilder {
 
   build(): Session {
     return new Session(
-      SessionId.fromString(this.id),
+      SessionId.from(this.id),
       SessionName.from(this.name),
-      this.assistants.map(assistant => UserId.fromString(assistant)),
+      this.assistants.map(assistant => UserId.from(assistant)),
       SessionMaxCapacity.from(this.maxCapacity),
     );
   }

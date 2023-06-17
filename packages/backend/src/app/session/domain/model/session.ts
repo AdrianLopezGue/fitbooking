@@ -53,10 +53,10 @@ export class Session extends AggregateRoot {
   }
 
   private onSessionWasCreatedEvent(event: SessionWasCreatedEvent): void {
-    this._id = SessionId.fromString(event.id);
+    this._id = SessionId.from(event.id);
     this._name = SessionName.from(event.name);
     this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
-    this._assistants = event.assistants.map(assistant => UserId.fromString(assistant));
+    this._assistants = event.assistants.map(assistant => UserId.from(assistant));
     this._date = event.date;
   }
 
@@ -99,7 +99,7 @@ export class Session extends AggregateRoot {
   }
 
   private onSessionSeatWasBookedEvent(event: SessionSeatWasBookedEvent): void {
-    this._assistants.push(UserId.fromString(event.assistant));
+    this._assistants.push(UserId.from(event.assistant));
   }
 
   cancel(assistant: UserId): Result<Session, DomainError> {

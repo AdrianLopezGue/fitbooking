@@ -19,8 +19,8 @@ export class BookSeatHandler implements ICommandHandler<BookSeatCommand> {
   ) {}
 
   async execute(command: BookSeatCommand): Promise<Result<void, DomainError>> {
-    const sessionId = SessionId.fromString(command.id);
-    const assistantId = UserId.fromString(command.userId);
+    const sessionId = SessionId.from(command.id);
+    const assistantId = UserId.from(command.userId);
 
     const session = await this.sessionRepository.find(sessionId);
 

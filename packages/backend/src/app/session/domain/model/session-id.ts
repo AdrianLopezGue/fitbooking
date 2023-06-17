@@ -6,7 +6,7 @@ export class SessionId extends Id {
     return new SessionId(uuid());
   }
 
-  public static fromString(id: string): SessionId {
+  public static from(id: string): SessionId {
     return new SessionId(id);
   }
 
