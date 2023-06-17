@@ -8,12 +8,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { SessionService } from '../service/session.service';
 import { SessionDTO } from '../../application/service/session-finder.service';
 
-@Controller('session')
+@Controller('sessions')
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
@@ -73,5 +74,10 @@ export class SessionController {
   @Get(':id')
   async getById(@Param() params: { id: string }): Promise<SessionDTO | undefined> {
     return await this.sessionService.getSessionById(params.id);
+  }
+
+  @Get()
+  async getByDate(@Query('date') date: Date): Promise<SessionDTO[] | undefined> {
+    return await this.sessionService.getSessionsByDate(date);
   }
 }
