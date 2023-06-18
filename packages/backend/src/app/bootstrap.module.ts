@@ -11,6 +11,7 @@ import config from './config/config';
 import { SessionModule } from './session/infrastructure';
 import { UserModule } from './user/infrastructure/user.module';
 import { AuthModule } from './auth/auth.module';
+import { BoxModule } from './box/infrastructure/box.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AuthModule } from './auth/auth.module';
     SessionModule,
     UserModule,
     AuthModule,
+    BoxModule,
   ],
 })
 export class BootstrapModule {}
