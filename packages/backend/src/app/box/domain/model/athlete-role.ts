@@ -2,7 +2,7 @@ import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 
 export enum AthleteRolesEnum {
   ADMIN = 'ADMIN',
-  KITCHEN = 'KITCHEN',
+  BASIC = 'BASIC',
 }
 
 export class AthleteRole extends ValueObject<{
@@ -16,6 +16,10 @@ export class AthleteRole extends ValueObject<{
     return new AthleteRole({
       value: AthleteRolesEnum[role],
     });
+  }
+
+  public static admin(): AthleteRole {
+    return new AthleteRole({ value: AthleteRolesEnum[AthleteRolesEnum.ADMIN] });
   }
 
   get value(): AthleteRolesEnum {

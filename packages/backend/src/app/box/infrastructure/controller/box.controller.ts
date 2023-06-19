@@ -19,9 +19,13 @@ export class BoxController {
     @Body(new ValidationPipe())
     createBoxDTO: {
       name: string;
+      userId: string;
     },
   ) {
-    const createdBoxResult = await this.boxService.createBox(createBoxDTO.name);
+    const createdBoxResult = await this.boxService.createBox(
+      createBoxDTO.name,
+      createBoxDTO.userId,
+    );
 
     createdBoxResult.mapErr<Error>(err => {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);

@@ -8,6 +8,7 @@ import { CreateBoxCommand } from './create-box.command';
 import { Box } from '../../domain/model/box';
 import { BoxRepository } from '../../domain/service/box.repository';
 import { BoxName } from '../../domain/model/box-name';
+import { UserId } from '../../../user';
 
 @CommandHandler(CreateBoxCommand)
 export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
@@ -17,7 +18,7 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
   ) {}
 
   async execute(command: CreateBoxCommand): Promise<Result<null, DomainError>> {
-    const box = Box.add(BoxName.from(command.name));
+    const box = Box.add(BoxName.from(command.name), UserId.from(command.userId));
 
     await this.boxRepository.save(box);
 

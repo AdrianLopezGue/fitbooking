@@ -5,7 +5,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CommandHandlers, QueryHandlers } from '../application';
 import { Box } from '../domain/model/box';
 import { eventTransformers } from './event-transformer/event-transformer';
-import { ProjectionHandlers, BOX_PROJECTION, BoxSchema } from './projection';
+import {
+  ProjectionHandlers,
+  BOX_PROJECTION,
+  BoxSchema,
+  ATHLETE_PROJECTION,
+  AthleteSchema,
+} from './projection';
 import { BoxController } from './controller/box.controller';
 import { BoxService } from './service/box.service';
 
@@ -18,6 +24,10 @@ import { BoxService } from './service/box.service';
       {
         name: BOX_PROJECTION,
         schema: BoxSchema,
+      },
+      {
+        name: ATHLETE_PROJECTION,
+        schema: AthleteSchema,
       },
     ]),
   ],

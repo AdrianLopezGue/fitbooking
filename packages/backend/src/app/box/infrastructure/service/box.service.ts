@@ -7,9 +7,9 @@ import { CreateBoxCommand } from '../../application/commands/create-box.command'
 export class BoxService {
   constructor(private readonly commandBus: CommandBus) {}
 
-  async createBox(name: string): Promise<Result<null, Error>> {
+  async createBox(name: string, userId: string): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new CreateBoxCommand(name),
+      new CreateBoxCommand(name, userId),
     );
   }
 }
