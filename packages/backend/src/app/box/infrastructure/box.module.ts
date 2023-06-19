@@ -15,12 +15,13 @@ import {
 import { BoxController } from './controller/box.controller';
 import { BoxService } from './service/box.service';
 import { BoxProviders } from './box.provider';
+import { User } from '../../user/domain/model/user';
 
 @Module({
   controllers: [BoxController],
   imports: [
     CqrsModule,
-    EventStoreModule.forFeature([Box], eventTransformers),
+    EventStoreModule.forFeature([Box, User], eventTransformers),
     MongooseModule.forFeature([
       {
         name: BOX_PROJECTION,

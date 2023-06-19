@@ -8,6 +8,9 @@ export class AthleteDocument {
   _id: string;
 
   @Prop({ required: true })
+  email: string;
+
+  @Prop({ required: true })
   userId: string;
 
   @Prop({ required: true })

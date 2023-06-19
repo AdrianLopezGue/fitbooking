@@ -7,6 +7,7 @@ import { UserId } from '../../../user';
 import { AthleteId } from './athlete-id';
 import { AdminAthleteWasCreatedEvent } from '../event/admin-athlete-was-created.event';
 import { AthleteRole } from './athlete-role';
+import { UserEmail } from '../../../user/domain/model/user-email';
 
 export class Box extends AggregateRoot {
   private _id!: BoxId;
@@ -20,7 +21,7 @@ export class Box extends AggregateRoot {
     this._athletes = athletes;
   }
 
-  public static add(name: BoxName, userId: UserId): Box {
+  public static add(name: BoxName, userId: UserId, email: UserEmail): Box {
     const box = new Box();
     const boxId = BoxId.generate().value;
 
@@ -28,6 +29,7 @@ export class Box extends AggregateRoot {
 
     const adminAthleteWasCreated = new AdminAthleteWasCreatedEvent(
       AthleteId.generate().value,
+      email.value,
       userId.value,
       boxId,
       AthleteRole.admin().value,
@@ -48,6 +50,7 @@ export class Box extends AggregateRoot {
   private onAdminAthleteWasCreatedEvent(event: AdminAthleteWasCreatedEvent): void {
     const adminAthlete = new Athlete(
       AthleteId.from(event.id),
+      UserEmail.from(event.email),
       UserId.from(event.userId),
       AthleteRole.admin(),
       BoxId.from(event.boxId),

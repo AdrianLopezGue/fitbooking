@@ -3,16 +3,25 @@ import { AthleteId } from './athlete-id';
 import { UserId } from '../../../user';
 import { AthleteRole } from './athlete-role';
 import { BoxId } from '../../../box/domain/model/box-id';
+import { UserEmail } from '../../../user/domain/model/user-email';
 
 export class Athlete extends AggregateRoot {
   private _id!: AthleteId;
+  private _email!: UserEmail;
   private _userId!: UserId;
   private _role!: AthleteRole;
   private _boxId!: BoxId;
 
-  constructor(id?: AthleteId, userId?: UserId, role?: AthleteRole, boxId?: BoxId) {
+  constructor(
+    id?: AthleteId,
+    email?: UserEmail,
+    userId?: UserId,
+    role?: AthleteRole,
+    boxId?: BoxId,
+  ) {
     super();
     this._id = id;
+    this._email = email;
     this._userId = userId;
     this._role = role;
     this._boxId = boxId;
@@ -24,6 +33,10 @@ export class Athlete extends AggregateRoot {
 
   get id(): AthleteId {
     return this._id;
+  }
+
+  get email(): UserEmail {
+    return this._email;
   }
 
   get userId(): UserId {

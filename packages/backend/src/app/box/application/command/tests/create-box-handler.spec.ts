@@ -1,17 +1,21 @@
 import { InMemoryBoxRepository } from '../../../infrastructure/repository/in-memory-box.repository';
+import { InMemoryUserRepository } from '../../../../user/infrastructure/repository/in-memory-user.repository';
 import { CreateBoxCommand } from '../create-box.command';
 import { CreateBoxHandler } from '../create-box.handler';
 import { AthleteRolesEnum } from '../../../domain/model/athlete-role';
-import { UserId } from '../../../../user/domain/model/user-id';
+import { UserBuilder } from '../../../../test/user.builder';
 
 describe('Create box handler', () => {
   it('should create a box', async () => {
+    const user = new UserBuilder().build();
     const boxRepository = new InMemoryBoxRepository([]);
-    const bookSeatHandler = new CreateBoxHandler(boxRepository);
+    const userRepository = new InMemoryUserRepository([user]);
+    const bookSeatHandler = new CreateBoxHandler(boxRepository, userRepository);
     const boxName = 'Box Name';
-    const userId = UserId.generate().value;
 
-    const result = await bookSeatHandler.execute(new CreateBoxCommand(boxName, userId));
+    const result = await bookSeatHandler.execute(
+      new CreateBoxCommand(boxName, user.id.value),
+    );
 
     expect(result.isOk()).toBe(true);
 
@@ -20,17 +24,18 @@ describe('Create box handler', () => {
     expect(boxsFound[0].name.value).toBe(boxName);
     expect(boxsFound[0].athletes).toHaveLength(1);
     expect(boxsFound[0].athletes[0].role.value).toBe(AthleteRolesEnum.ADMIN);
-    expect(boxsFound[0].athletes[0].userId.value).toBe(userId);
+    expect(boxsFound[0].athletes[0].userId.value).toBe(user.id.value);
   });
 
   it('should should throw error if name is empty', async () => {
+    const user = new UserBuilder().build();
     const boxRepository = new InMemoryBoxRepository([]);
-    const bookSeatHandler = new CreateBoxHandler(boxRepository);
+    const userRepository = new InMemoryUserRepository([user]);
+    const bookSeatHandler = new CreateBoxHandler(boxRepository, userRepository);
     const emptyBoxName = '';
-    const userId = UserId.generate().value;
 
     await expect(
-      bookSeatHandler.execute(new CreateBoxCommand(emptyBoxName, userId)),
+      bookSeatHandler.execute(new CreateBoxCommand(emptyBoxName, user.id.value)),
     ).rejects.toThrow(Error);
   });
 });

@@ -9,6 +9,10 @@ export class CreateAdminAthleteDTO {
 
   @ApiProperty()
   @IsNotEmpty()
+  readonly email: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   @IsUUID()
   readonly userId: string;
 
