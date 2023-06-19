@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, ICommand, IQuery, QueryBus } from '@nestjs/cqrs';
 import { Result } from 'neverthrow';
-import { CreateSessionCommand } from '../../application/commands/create-session.command';
+import { CreateSessionCommand } from '../../application/command/create-session.command';
 import { SessionDTO } from '../../application/service/session-finder.service';
 import { GetSessionByIdQuery } from '../../application/query/get-session-by-id.query';
-import { BookSeatCommand } from '../../application/commands/book-seat.command';
-import { CancelSeatCommand } from '../../application/commands/cancel-seat.command';
+import { BookSeatCommand } from '../../application/command/book-seat.command';
+import { CancelSeatCommand } from '../../application/command/cancel-seat.command';
 import { GetSessionsByDateQuery } from '../../application/query/get-sessions-by-date.query';
 
 @Injectable()
