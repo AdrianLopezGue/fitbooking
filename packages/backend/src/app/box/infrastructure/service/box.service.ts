@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, ICommand } from '@nestjs/cqrs';
 import { Result } from 'neverthrow';
-import { CreateBoxCommand } from '../../application/commands/create-box.command';
+import { CreateBoxCommand } from '../../application/command/create-box.command';
 
 @Injectable()
 export class BoxService {

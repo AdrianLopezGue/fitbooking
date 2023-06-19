@@ -1,4 +1,4 @@
-import { CreateBoxHandler } from './commands/create-box.handler';
+import { CreateBoxHandler } from './command/create-box.handler';
 
 export const CommandHandlers = [CreateBoxHandler];
 
