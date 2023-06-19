@@ -1,13 +1,16 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   ValidationPipe,
 } from '@nestjs/common';
 import { BoxService } from '../service/box.service';
+import { BoxDTO } from '../../application/service/box-finder.service';
 
 @Controller('box')
 export class BoxController {
@@ -30,5 +33,10 @@ export class BoxController {
     createdBoxResult.mapErr<Error>(err => {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     });
+  }
+
+  @Get(':id')
+  async getById(@Param() params: { id: string }): Promise<BoxDTO | undefined> {
+    return await this.boxService.getBoxById(params.id);
   }
 }

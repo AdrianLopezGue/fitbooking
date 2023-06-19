@@ -14,6 +14,7 @@ import {
 } from './projection';
 import { BoxController } from './controller/box.controller';
 import { BoxService } from './service/box.service';
+import { BoxProviders } from './box.provider';
 
 @Module({
   controllers: [BoxController],
@@ -31,6 +32,12 @@ import { BoxService } from './service/box.service';
       },
     ]),
   ],
-  providers: [...CommandHandlers, ...QueryHandlers, ...ProjectionHandlers, BoxService],
+  providers: [
+    ...CommandHandlers,
+    ...QueryHandlers,
+    ...ProjectionHandlers,
+    ...BoxProviders,
+    BoxService,
+  ],
 })
 export class BoxModule {}
