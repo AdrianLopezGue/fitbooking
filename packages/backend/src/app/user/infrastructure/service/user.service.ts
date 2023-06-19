@@ -3,7 +3,7 @@ import { CommandBus, ICommand, IQuery, QueryBus } from '@nestjs/cqrs';
 import { Result } from 'neverthrow';
 import { UserDTO } from '../../application/service/user-finder.service';
 import { GetUserByIdQuery } from '../../application/query/get-user-by-id.query';
-import { CreateUserCommand } from '../../application/commands/create-user.command';
+import { CreateUserCommand } from '../../application/command/create-user.command';
 
 @Injectable()
 export class UserService {
