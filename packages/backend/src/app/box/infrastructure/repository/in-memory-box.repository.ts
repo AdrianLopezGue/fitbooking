@@ -1,6 +1,6 @@
 import { Box } from '../../domain/model/box';
 import { BoxId } from '../../domain/model/box-id';
-import { BoxRepository } from '../../domain/services/box.repository';
+import { BoxRepository } from '../../domain/service/box.repository';
 
 export class InMemoryBoxRepository implements BoxRepository {
   constructor(public boxs: Box[] = []) {}

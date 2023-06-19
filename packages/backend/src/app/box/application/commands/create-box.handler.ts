@@ -6,7 +6,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Result, ok } from 'neverthrow';
 import { CreateBoxCommand } from './create-box.command';
 import { Box } from '../../domain/model/box';
-import { BoxRepository } from '../../domain/services/box.repository';
+import { BoxRepository } from '../../domain/service/box.repository';
 import { BoxName } from '../../domain/model/box-name';
 
 @CommandHandler(CreateBoxCommand)
