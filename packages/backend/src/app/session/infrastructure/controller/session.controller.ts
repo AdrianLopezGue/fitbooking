@@ -42,12 +42,12 @@ export class SessionController {
   @Put('book/:id')
   @HttpCode(200)
   async bookSeat(
-    @Body(new ValidationPipe()) bookSeatDTO: { userId: string },
+    @Body(new ValidationPipe()) bookSeatDTO: { athleteId: string },
     @Param() params: { id: string },
   ) {
     const bookSeatResult = await this.sessionService.bookSeat(
       params.id,
-      bookSeatDTO.userId,
+      bookSeatDTO.athleteId,
     );
 
     bookSeatResult.mapErr<Error>(err => {
@@ -58,12 +58,12 @@ export class SessionController {
   @Put('cancel/:id')
   @HttpCode(200)
   async cancelSeat(
-    @Body(new ValidationPipe()) cancelSeatSessionDTO: { userId: string },
+    @Body(new ValidationPipe()) cancelSeatSessionDTO: { athleteId: string },
     @Param() params: { id: string },
   ) {
     const cancelSeatResult = await this.sessionService.cancelSeat(
       params.id,
-      cancelSeatSessionDTO.userId,
+      cancelSeatSessionDTO.athleteId,
     );
 
     cancelSeatResult.mapErr<Error>(err => {

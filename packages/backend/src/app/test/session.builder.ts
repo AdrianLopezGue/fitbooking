@@ -1,9 +1,8 @@
-import { UserId } from '../user';
-
 import { Session } from '../session/domain/model/session';
 import { SessionId } from '../session/domain/model/session-id';
 import { SessionName } from '../session/domain/model/session-name';
 import { SessionMaxCapacity } from '../session/domain/model/session-max-capacity';
+import { AthleteId } from '../box/domain/model/athlete-id';
 
 export class SessionBuilder {
   public id: string;
@@ -22,7 +21,7 @@ export class SessionBuilder {
     return new Session(
       SessionId.from(this.id),
       SessionName.from(this.name),
-      this.assistants.map(assistant => UserId.from(assistant)),
+      this.assistants.map(assistant => AthleteId.from(assistant)),
       SessionMaxCapacity.from(this.maxCapacity),
     );
   }
@@ -32,7 +31,7 @@ export class SessionBuilder {
     return this;
   }
 
-  withAssistants(assistants: UserId[]) {
+  withAssistants(assistants: AthleteId[]) {
     this.assistants = assistants.map(assistant => assistant.value);
     return this;
   }

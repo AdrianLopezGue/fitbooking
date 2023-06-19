@@ -7,9 +7,9 @@ import {
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Session } from '../../domain/model/session';
-import { UserId } from '../../../user';
 import { SessionId } from '../../domain/model/session-id';
 import { SessionNotFound } from '../../domain/exception/session-not-found.error';
+import { AthleteId } from '../../../box/domain/model/athlete-id';
 
 @CommandHandler(BookSeatCommand)
 export class BookSeatHandler implements ICommandHandler<BookSeatCommand> {
@@ -20,7 +20,7 @@ export class BookSeatHandler implements ICommandHandler<BookSeatCommand> {
 
   async execute(command: BookSeatCommand): Promise<Result<void, DomainError>> {
     const sessionId = SessionId.from(command.id);
-    const assistantId = UserId.from(command.userId);
+    const assistantId = AthleteId.from(command.athleteId);
 
     const session = await this.sessionRepository.find(sessionId);
 

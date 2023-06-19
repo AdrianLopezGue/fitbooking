@@ -6,10 +6,10 @@ import {
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Session } from '../../domain/model/session';
-import { UserId } from '../../../user';
 import { SessionId } from '../../domain/model/session-id';
 import { CancelSeatCommand } from './cancel-seat.command';
 import { SessionNotFound } from '../../domain/exception/session-not-found.error';
+import { AthleteId } from '../../../box/domain/model/athlete-id';
 
 @CommandHandler(CancelSeatCommand)
 export class CancelSeatHandler implements ICommandHandler<CancelSeatCommand> {
@@ -20,7 +20,7 @@ export class CancelSeatHandler implements ICommandHandler<CancelSeatCommand> {
 
   async execute(command: CancelSeatCommand): Promise<Result<void, DomainError>> {
     const sessionId = SessionId.from(command.id);
-    const assistantId = UserId.from(command.userId);
+    const assistantId = AthleteId.from(command.athleteId);
 
     const session = await this.sessionRepository.find(sessionId);
 

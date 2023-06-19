@@ -5,20 +5,20 @@ import { CancelSeatCommand } from '../cancel-seat.command';
 
 import { InMemorySessionRepository } from '../../../infrastructure';
 
-import { UserId } from '../../../../user';
 import { SessionId } from '../../../domain/model/session-id';
+import { AthleteId } from '../../../../box/domain/model/athlete-id';
 
 describe('Cancel seat command', () => {
   it('should cancel a booked seat which belongs to a session', async () => {
-    const userId = UserId.generate();
+    const athleteId = AthleteId.generate();
     const session = new SessionBuilder()
-      .withAssistants([userId, UserId.generate()])
+      .withAssistants([athleteId, AthleteId.generate()])
       .build();
     const sessionRepository = new InMemorySessionRepository([session]);
     const cancelSeatHandler = new CancelSeatHandler(sessionRepository);
 
     const result = await cancelSeatHandler.execute(
-      new CancelSeatCommand(session.id.value, userId.value),
+      new CancelSeatCommand(session.id.value, athleteId.value),
     );
 
     expect(result.isOk()).toBe(true);
@@ -28,7 +28,7 @@ describe('Cancel seat command', () => {
   });
 
   it('should return error if user does not have a seat booked in session', async () => {
-    const session = new SessionBuilder().withAssistants([UserId.generate()]).build();
+    const session = new SessionBuilder().withAssistants([AthleteId.generate()]).build();
     const sessionRepository = new InMemorySessionRepository([session]);
     const cancelSeatHandler = new CancelSeatHandler(sessionRepository);
 
@@ -44,7 +44,7 @@ describe('Cancel seat command', () => {
     const cancelSeatHandler = new CancelSeatHandler(sessionRepository);
 
     const result = await cancelSeatHandler.execute(
-      new CancelSeatCommand(SessionId.generate().value, UserId.generate().value),
+      new CancelSeatCommand(SessionId.generate().value, AthleteId.generate().value),
     );
 
     expect(result.isErr()).toBe(true);

@@ -25,15 +25,15 @@ export class SessionService {
     );
   }
 
-  async bookSeat(id: string, userId: string): Promise<Result<null, Error>> {
+  async bookSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new BookSeatCommand(id, userId),
+      new BookSeatCommand(id, athleteId),
     );
   }
 
-  async cancelSeat(id: string, userId: string): Promise<Result<null, Error>> {
+  async cancelSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new CancelSeatCommand(id, userId),
+      new CancelSeatCommand(id, athleteId),
     );
   }
 

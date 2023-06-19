@@ -1,6 +1,5 @@
 import { AggregateRoot, DomainError } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Result, err, ok } from 'neverthrow';
-import { UserId } from '../../../user';
 import { SessionSeatWasBookedEvent } from '../event/session-seat-was-booked.event';
 import { SessionId } from './session-id';
 import { SessionWasCreatedEvent } from '../event/session-was-created.event';
@@ -10,18 +9,19 @@ import { SessionSeatWasCancelledEvent } from '../event/session-seat-was-cancelle
 import { AssistantNotFound } from '../exception/assistant-not-found.error';
 import { SessionName } from './session-name';
 import { SessionMaxCapacity } from './session-max-capacity';
+import { AthleteId } from '../../../box/domain/model/athlete-id';
 
 export class Session extends AggregateRoot {
   private _id!: SessionId;
   private _name!: SessionName;
   private _maxCapacity!: SessionMaxCapacity;
-  private _assistants!: UserId[];
+  private _assistants!: AthleteId[];
   private _date!: Date;
 
   constructor(
     id?: SessionId,
     name?: SessionName,
-    assistants?: UserId[],
+    assistants?: AthleteId[],
     maxCapacity?: SessionMaxCapacity,
     date?: Date,
   ) {
@@ -56,7 +56,7 @@ export class Session extends AggregateRoot {
     this._id = SessionId.from(event.id);
     this._name = SessionName.from(event.name);
     this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
-    this._assistants = event.assistants.map(assistant => UserId.from(assistant));
+    this._assistants = event.assistants.map(assistant => AthleteId.from(assistant));
     this._date = event.date;
   }
 
@@ -67,7 +67,7 @@ export class Session extends AggregateRoot {
   get name(): SessionName {
     return this._name;
   }
-  get assistants(): UserId[] {
+  get assistants(): AthleteId[] {
     return this._assistants;
   }
 
@@ -84,7 +84,7 @@ export class Session extends AggregateRoot {
   }
 
   book(
-    assistant: UserId,
+    assistant: AthleteId,
   ): Result<Session, AssistantAlreadyConfirmed | SessionWithoutAvailableSeats> {
     if (this.assistants.filter(a => a.value == assistant.value).length) {
       return err(AssistantAlreadyConfirmed.with(this.id.value, assistant.value));
@@ -99,10 +99,10 @@ export class Session extends AggregateRoot {
   }
 
   private onSessionSeatWasBookedEvent(event: SessionSeatWasBookedEvent): void {
-    this._assistants.push(UserId.from(event.assistant));
+    this._assistants.push(AthleteId.from(event.assistant));
   }
 
-  cancel(assistant: UserId): Result<Session, DomainError> {
+  cancel(assistant: AthleteId): Result<Session, DomainError> {
     if (!this.assistants.map(a => a.value).includes(assistant.value)) {
       return err(
         new AssistantNotFound('Cannot cancel a book if assistant did not booked'),
