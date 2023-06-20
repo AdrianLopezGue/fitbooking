@@ -8,7 +8,7 @@ import { AthleteId } from './athlete-id';
 import { AdminAthleteWasCreatedEvent } from '../event/admin-athlete-was-created.event';
 import { AthleteRole } from './athlete-role';
 import { UserEmail } from '../../../user/domain/model/user-email';
-import { AthleteWasInvitedEvent } from '../event/athlete-was-inivted.event';
+import { AthleteWasInvitedEvent } from '../event/athlete-was-invited.event';
 import { Result, err, ok } from 'neverthrow';
 import { AthleteAlreadyExistingError } from '../error/athlete-already-existing.error';
 

@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { ATHLETE_PROJECTION, AthleteDocument } from './athlete.schema';
-import { AthleteWasInvitedEvent } from '../../domain/event/athlete-was-inivted.event';
+import { AthleteWasInvitedEvent } from '../../domain/event/athlete-was-invited.event';
 
 @EventsHandler(AthleteWasInvitedEvent)
 export class AthleteWasInvitedProjection

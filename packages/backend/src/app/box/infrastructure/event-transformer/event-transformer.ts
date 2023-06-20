@@ -3,7 +3,7 @@ import { CreateBoxDTO } from './dtos/create-box.dto';
 import { BoxWasCreatedEvent } from '../../domain/event/box-was-created.event';
 import { AdminAthleteWasCreatedEvent } from '../../domain/event/admin-athlete-was-created.event';
 import { CreateAdminAthleteDTO } from './dtos/create-admin-athlete.dto';
-import { AthleteWasInvitedEvent } from '../../domain/event/athlete-was-inivted.event';
+import { AthleteWasInvitedEvent } from '../../domain/event/athlete-was-invited.event';
 import { InviteAthleteDTO } from './dtos/invite-athlete.dto';
 
 export const eventTransformers = {
