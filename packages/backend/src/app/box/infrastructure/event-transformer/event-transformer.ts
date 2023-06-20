@@ -3,6 +3,8 @@ import { CreateBoxDTO } from './dtos/create-box.dto';
 import { BoxWasCreatedEvent } from '../../domain/event/box-was-created.event';
 import { AdminAthleteWasCreatedEvent } from '../../domain/event/admin-athlete-was-created.event';
 import { CreateAdminAthleteDTO } from './dtos/create-admin-athlete.dto';
+import { AthleteWasInvitedEvent } from '../../domain/event/athlete-was-inivted.event';
+import { InviteAthleteDTO } from './dtos/invite-athlete.dto';
 
 export const eventTransformers = {
   BoxWasCreatedEvent: (event: Event<CreateBoxDTO>) =>
@@ -12,6 +14,14 @@ export const eventTransformers = {
       event.aggregateId,
       event.payload.email,
       event.payload.userId,
+      event.payload.boxId,
+      event.payload.role,
+    ),
+
+  AthleteWasInvitedEvent: (event: Event<InviteAthleteDTO>) =>
+    new AthleteWasInvitedEvent(
+      event.aggregateId,
+      event.payload.email,
       event.payload.boxId,
       event.payload.role,
     ),

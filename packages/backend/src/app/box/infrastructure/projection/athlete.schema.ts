@@ -10,7 +10,7 @@ export class AthleteDocument {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   userId: string;
 
   @Prop({ required: true })

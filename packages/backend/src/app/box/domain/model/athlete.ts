@@ -8,7 +8,7 @@ import { UserEmail } from '../../../user/domain/model/user-email';
 export class Athlete extends AggregateRoot {
   private _id!: AthleteId;
   private _email!: UserEmail;
-  private _userId!: UserId;
+  private _userId?: UserId;
   private _role!: AthleteRole;
   private _boxId!: BoxId;
 
@@ -25,6 +25,15 @@ export class Athlete extends AggregateRoot {
     this._userId = userId;
     this._role = role;
     this._boxId = boxId;
+  }
+
+  public static fromBoxInvitation(
+    id: AthleteId,
+    email: UserEmail,
+    role: AthleteRole,
+    boxId: BoxId,
+  ) {
+    return new Athlete(id, email, undefined, role, boxId);
   }
 
   aggregateId(): string {

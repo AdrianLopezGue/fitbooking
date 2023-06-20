@@ -1,4 +1,4 @@
-import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
+import { AggregateRoot, DomainError } from '@aulasoftwarelibre/nestjs-eventstore';
 import { BoxId } from './box-id';
 import { BoxName } from './box-name';
 import { BoxWasCreatedEvent } from '../event/box-was-created.event';
@@ -8,6 +8,9 @@ import { AthleteId } from './athlete-id';
 import { AdminAthleteWasCreatedEvent } from '../event/admin-athlete-was-created.event';
 import { AthleteRole } from './athlete-role';
 import { UserEmail } from '../../../user/domain/model/user-email';
+import { AthleteWasInvitedEvent } from '../event/athlete-was-inivted.event';
+import { Result, err, ok } from 'neverthrow';
+import { AthleteAlreadyExistingError } from '../error/athlete-already-existing.error';
 
 export class Box extends AggregateRoot {
   private _id!: BoxId;
@@ -53,10 +56,37 @@ export class Box extends AggregateRoot {
       UserEmail.from(event.email),
       UserId.from(event.userId),
       AthleteRole.admin(),
-      BoxId.from(event.boxId),
+      this.id,
     );
 
     this._athletes = [...this.athletes, adminAthlete];
+  }
+
+  public addAthlete(email: UserEmail): Result<null, AthleteAlreadyExistingError> {
+    if (this.athletes.find(a => a.email.equals(email))) {
+      return err(AthleteAlreadyExistingError.withEmail(email.value));
+    }
+
+    const athleteWasInvited = new AthleteWasInvitedEvent(
+      AthleteId.generate().value,
+      email.value,
+      this.id.value,
+      AthleteRole.basic().value,
+    );
+
+    this.apply(athleteWasInvited);
+    return ok(null);
+  }
+
+  private onAthleteWasInvitedEvent(event: AthleteWasInvitedEvent) {
+    const athlete = Athlete.fromBoxInvitation(
+      AthleteId.from(event.id),
+      UserEmail.from(event.email),
+      AthleteRole.from(event.role),
+      this.id,
+    );
+
+    this._athletes = [...this.athletes, athlete];
   }
 
   aggregateId(): string {

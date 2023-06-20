@@ -35,6 +35,24 @@ export class BoxController {
     });
   }
 
+  @Post(':id/invite')
+  @HttpCode(200)
+  async inviteAthlete(
+    @Param() params: { id: string },
+    @Body(new ValidationPipe())
+    inviteAthleteDTO: {
+      email: string;
+    },
+  ) {
+    const athleteInvited = await this.boxService.inviteAthlete(
+      params.id,
+      inviteAthleteDTO.email,
+    );
+    athleteInvited.mapErr<Error>(err => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
+  }
+
   @Get(':id')
   async getById(@Param() params: { id: string }): Promise<BoxDTO | undefined> {
     return await this.boxService.getBoxById(params.id);

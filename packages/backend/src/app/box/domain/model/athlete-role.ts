@@ -22,6 +22,10 @@ export class AthleteRole extends ValueObject<{
     return new AthleteRole({ value: AthleteRolesEnum[AthleteRolesEnum.ADMIN] });
   }
 
+  public static basic(): AthleteRole {
+    return new AthleteRole({ value: AthleteRolesEnum[AthleteRolesEnum.BASIC] });
+  }
+
   get value(): AthleteRolesEnum {
     return this.props.value;
   }
