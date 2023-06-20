@@ -12,6 +12,7 @@ export const eventTransformers = {
   AdminAthleteWasCreatedEvent: (event: Event<CreateAdminAthleteDTO>) =>
     new AdminAthleteWasCreatedEvent(
       event.aggregateId,
+      event.payload.athleteId,
       event.payload.email,
       event.payload.userId,
       event.payload.boxId,
@@ -21,6 +22,7 @@ export const eventTransformers = {
   AthleteWasInvitedEvent: (event: Event<InviteAthleteDTO>) =>
     new AthleteWasInvitedEvent(
       event.aggregateId,
+      event.payload.athleteId,
       event.payload.email,
       event.payload.boxId,
       event.payload.role,

@@ -5,7 +5,7 @@ export class CreateAdminAthleteDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsUUID()
-  readonly _id: string;
+  readonly athleteId: string;
 
   @ApiProperty()
   @IsNotEmpty()

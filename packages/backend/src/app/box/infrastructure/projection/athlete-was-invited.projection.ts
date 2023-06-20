@@ -16,7 +16,7 @@ export class AthleteWasInvitedProjection
 
   async handle(event: AthleteWasInvitedEvent) {
     const athlete = new this.athleteProjection({
-      _id: event.aggregateId,
+      _id: event.athleteId,
       ...event.payload,
     });
     await athlete.save();
