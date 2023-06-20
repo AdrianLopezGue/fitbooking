@@ -20,7 +20,7 @@ export class InviteAthleteHandler implements ICommandHandler<InviteAthleteComman
     const box = await this.boxRepository.find(BoxId.from(command.boxId));
 
     if (!box) {
-      return err(new Error());
+      return err(new Error("Box not found"));
     }
 
     const res = box.addAthlete(UserEmail.from(command.email));

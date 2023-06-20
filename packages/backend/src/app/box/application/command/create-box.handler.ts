@@ -25,7 +25,7 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
     const user = await this.userRepository.find(UserId.from(command.userId));
 
     if (!user) {
-      return err(new Error());
+      return err(new Error("User not found"));
     }
 
     const box = Box.add(BoxName.from(command.name), user.id, user.email);
