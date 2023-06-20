@@ -1,11 +1,10 @@
-import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
 import { AthleteId } from './athlete-id';
 import { UserId } from '../../../user';
 import { AthleteRole } from './athlete-role';
 import { BoxId } from '../../../box/domain/model/box-id';
 import { UserEmail } from '../../../user/domain/model/user-email';
 
-export class Athlete extends AggregateRoot {
+export class Athlete {
   private _id!: AthleteId;
   private _email!: UserEmail;
   private _userId?: UserId;
@@ -19,7 +18,6 @@ export class Athlete extends AggregateRoot {
     role?: AthleteRole,
     boxId?: BoxId,
   ) {
-    super();
     this._id = id;
     this._email = email;
     this._userId = userId;
@@ -34,10 +32,6 @@ export class Athlete extends AggregateRoot {
     boxId: BoxId,
   ) {
     return new Athlete(id, email, undefined, role, boxId);
-  }
-
-  aggregateId(): string {
-    return this._id.value;
   }
 
   get id(): AthleteId {
