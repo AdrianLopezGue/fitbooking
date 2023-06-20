@@ -1,4 +1,5 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
+import { InvalidUserNameError } from '../error/invalid-username.error';
 
 export class UserName extends ValueObject<{ value: string }> {
   protected readonly name: string;
@@ -10,7 +11,7 @@ export class UserName extends ValueObject<{ value: string }> {
 
   public static from(name: string): UserName {
     if (!name) {
-      throw new Error('User name should not be empty');
+      throw InvalidUserNameError.causeIsEmpty();
     }
 
     return new UserName({ value: name });

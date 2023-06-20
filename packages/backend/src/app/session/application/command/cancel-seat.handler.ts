@@ -8,7 +8,7 @@ import {
 import { Session } from '../../domain/model/session';
 import { SessionId } from '../../domain/model/session-id';
 import { CancelSeatCommand } from './cancel-seat.command';
-import { SessionNotFound } from '../../domain/exception/session-not-found.error';
+import { SessionNotFound } from '../../domain/error/session-not-found.error';
 import { AthleteId } from '../../../box/domain/model/athlete-id';
 
 @CommandHandler(CancelSeatCommand)

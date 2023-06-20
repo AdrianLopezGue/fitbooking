@@ -67,6 +67,7 @@ describe('MongoBoxFinder', () => {
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
+        email: 'athlete@mail.com',
         userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
         role: AthleteRolesEnum.ADMIN,
         boxId,
@@ -84,11 +85,11 @@ describe('MongoBoxFinder', () => {
     });
 
     it('should return undefined if box with given id is not found', async () => {
-        const boxId = '572d1fed-8521-49f5-b6cb-767bd13b161e';
-  
-        const result = await boxFinder.find(boxId);
-  
-        expect(result).not.toBeDefined();
-      });
+      const boxId = '572d1fed-8521-49f5-b6cb-767bd13b161e';
+
+      const result = await boxFinder.find(boxId);
+
+      expect(result).not.toBeDefined();
+    });
   });
 });

@@ -1,4 +1,5 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
+import { InvalidPasswordError } from '../error/invalid-password.error';
 
 export class Password extends ValueObject<{
   value: string;
@@ -12,7 +13,7 @@ export class Password extends ValueObject<{
 
   public static from(name: string): Password {
     if (name.length < 8) {
-      throw new Error('Password too short');
+      throw InvalidPasswordError.causeIsTooShort(name);
     }
 
     return new Password({ value: name });

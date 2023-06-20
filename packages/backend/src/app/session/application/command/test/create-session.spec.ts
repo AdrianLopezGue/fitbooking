@@ -20,7 +20,7 @@ describe('Create session handler', () => {
     expect(sessionsFound[0].maxCapacity.value).toBe(1);
     expect(sessionsFound[0].assistants).toHaveLength(0);
     expect(sessionsFound[0].name.value).toBe(sessionName);
-    expect(sessionsFound[0].date).toBe(sessionDate);
+    expect(sessionsFound[0].date).toStrictEqual(sessionDate);
   });
 
   it('should should throw error if capacity is negative', async () => {
