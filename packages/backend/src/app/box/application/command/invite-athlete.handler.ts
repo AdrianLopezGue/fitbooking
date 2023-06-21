@@ -9,6 +9,7 @@ import { BoxRepository } from '../../domain/service/box.repository';
 import { Result, err, ok } from 'neverthrow';
 import { BoxId } from '../../domain/model/box-id';
 import { UserEmail } from '../../../user/domain/model/user-email';
+import { BoxNotFoundError } from '../../domain/error/box-not-found.error';
 
 @CommandHandler(InviteAthleteCommand)
 export class InviteAthleteHandler implements ICommandHandler<InviteAthleteCommand> {
@@ -20,7 +21,7 @@ export class InviteAthleteHandler implements ICommandHandler<InviteAthleteComman
     const box = await this.boxRepository.find(BoxId.from(command.boxId));
 
     if (!box) {
-      return err(new Error("Box not found"));
+      return err(BoxNotFoundError.causeBoxDoesNotExist());
     }
 
     const res = box.addAthlete(UserEmail.from(command.email));
