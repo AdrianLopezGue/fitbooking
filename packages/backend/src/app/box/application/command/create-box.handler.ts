@@ -11,6 +11,7 @@ import { BoxName } from '../../domain/model/box-name';
 import { UserId } from '../../../user';
 import { UserRepository } from '../../../user/domain/service/user.repository';
 import { User } from '../../../user/domain/model/user';
+import { UserNotFoundError } from '../../../user/domain/error/user-not-found.error';
 
 @CommandHandler(CreateBoxCommand)
 export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
@@ -25,7 +26,7 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
     const user = await this.userRepository.find(UserId.from(command.userId));
 
     if (!user) {
-      return err(new Error("User not found"));
+      return err(UserNotFoundError.causeUserDoesNotExist());
     }
 
     const box = Box.add(BoxName.from(command.name), user.id, user.email);
