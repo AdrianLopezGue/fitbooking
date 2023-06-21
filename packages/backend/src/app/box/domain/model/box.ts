@@ -11,6 +11,9 @@ import { UserEmail } from '../../../user/domain/model/user-email';
 import { AthleteWasInvitedEvent } from '../event/athlete-was-invited.event';
 import { Result, err, ok } from 'neverthrow';
 import { AthleteAlreadyExistingError } from '../error/athlete-already-existing.error';
+import { InvitationWasAcceptedEvent } from '../event/invitation-was-accepted.event';
+import { PendingAthleteNotFoundError } from '../error/pending-athlete-not-found.error';
+import { AthleteIsAlreadyConfirmedError } from '../error/athlete-already-confirmed.error';
 
 export class Box extends AggregateRoot {
   private _id!: BoxId;
@@ -89,6 +92,47 @@ export class Box extends AggregateRoot {
     );
 
     this._athletes = [...this.athletes, athlete];
+  }
+
+  public acceptInvitation(
+    email: UserEmail,
+    userId: UserId,
+  ): Result<null, PendingAthleteNotFoundError> {
+    const pendingAthlete = this._athletes.find(athlete => athlete.email.equals(email));
+
+    if (!pendingAthlete) {
+      return err(PendingAthleteNotFoundError.withEmail(email.value));
+    }
+
+    if (pendingAthlete.isConfirmed()) {
+      return err(
+        AthleteIsAlreadyConfirmedError.causeIsConfirmed(pendingAthlete.id.value),
+      );
+    }
+
+    const invitationWasAccepted = new InvitationWasAcceptedEvent(
+      this.id.value,
+      pendingAthlete.id.value,
+      pendingAthlete.email.value,
+      userId.value,
+      this.id.value,
+      pendingAthlete.role.value,
+    );
+
+    this.apply(invitationWasAccepted);
+    return ok(null);
+  }
+
+  private onInvitationWasAcceptedEvent(event: InvitationWasAcceptedEvent) {
+    const filteredAthletes = this._athletes.filter(
+      athlete => athlete.email.value !== event.email,
+    );
+    const athleteWhoAccepted = this._athletes.find(
+      athlete => athlete.email.value === event.email,
+    );
+    athleteWhoAccepted.acceptInvitation(UserId.from(event.userId));
+
+    this._athletes = [...filteredAthletes, athleteWhoAccepted];
   }
 
   aggregateId(): string {

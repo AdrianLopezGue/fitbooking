@@ -34,6 +34,14 @@ export class Athlete {
     return new Athlete(id, email, undefined, role, boxId);
   }
 
+  public acceptInvitation(userId: UserId) {
+    this._userId = userId;
+  }
+
+  public isConfirmed() {
+    return Boolean(this.userId);
+  }
+
   get id(): AthleteId {
     return this._id;
   }
