@@ -13,6 +13,7 @@ import { Password } from '../../domain/model/password';
 import { USER_SECURITY, UserSecurity } from '../service/user-security.service';
 import { Inject } from '@nestjs/common';
 import { USER_FINDER, UserFinder } from '../service/user-finder.service';
+import { UserAlreadyExistsError } from '../../domain/error/user-already-exists.error';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
@@ -29,7 +30,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     const userExists = await this.userFinder.findByEmail(command.email);
 
     if (userExists) {
-      return err(new Error('User with given email already exists'));
+      return err(UserAlreadyExistsError.causeUserAlreadyExists(command.email));
     }
 
     const encodePassword = await this.userSecurity.encodePassword(command.password);
