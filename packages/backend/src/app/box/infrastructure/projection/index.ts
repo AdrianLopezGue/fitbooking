@@ -1,3 +1,4 @@
+import { InvitationWasAcceptedEventProjection } from './accept-invitation.projection';
 import { AdminAthleteWasCreatedProjection } from './admin-athlete-was-created.projection';
 import { AthleteWasInvitedProjection } from './athlete-was-invited.projection';
 import { BoxWasCreatedProjection } from './box-was-created.projection';
@@ -8,4 +9,5 @@ export const ProjectionHandlers = [
   BoxWasCreatedProjection,
   AdminAthleteWasCreatedProjection,
   AthleteWasInvitedProjection,
+  InvitationWasAcceptedEventProjection,
 ];

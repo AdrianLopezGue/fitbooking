@@ -16,6 +16,7 @@ import { BoxController } from './controller/box.controller';
 import { BoxService } from './service/box.service';
 import { BoxProviders } from './box.provider';
 import { User } from '../../user/domain/model/user';
+import { USER_PROJECTION, UserSchema } from '../../user/infrastructure/projection';
 
 @Module({
   controllers: [BoxController],
@@ -30,6 +31,10 @@ import { User } from '../../user/domain/model/user';
       {
         name: ATHLETE_PROJECTION,
         schema: AthleteSchema,
+      },
+      {
+        name: USER_PROJECTION,
+        schema: UserSchema,
       },
     ]),
   ],

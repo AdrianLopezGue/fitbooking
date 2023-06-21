@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   ValidationPipe,
 } from '@nestjs/common';
 import { BoxService } from '../service/box.service';
@@ -35,7 +36,7 @@ export class BoxController {
     });
   }
 
-  @Post(':id/invite')
+  @Put(':id/invite')
   @HttpCode(200)
   async inviteAthlete(
     @Param() params: { id: string },
@@ -49,6 +50,25 @@ export class BoxController {
       inviteAthleteDTO.email,
     );
     athleteInvited.mapErr<Error>(err => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
+  }
+
+  @Put(':id/accept')
+  @HttpCode(200)
+  async acceptInvitation(
+    @Param() params: { id: string },
+    @Body(new ValidationPipe())
+    acceptInvitationDTO: {
+      email: string;
+    },
+  ) {
+    const athleteConfirmed = await this.boxService.acceptInvitation(
+      params.id,
+      acceptInvitationDTO.email,
+    );
+
+    athleteConfirmed.mapErr<Error>(err => {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     });
   }
