@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
 import Session from '../Session';
 
-export const TrainingDay = () => {
+const TrainingDay = () => {
   const [assistants, setAssistants] = useState<string[]>([]);
   const [maxCapacity, setMaxCapacity] = useState(0);
   const [name, setName] = useState('');
@@ -67,4 +67,4 @@ export const TrainingDay = () => {
   );
 };
 
-export default TrainingDay;
+export { TrainingDay };
