@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException, HttpCode } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 
@@ -7,6 +7,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post()
+  @HttpCode(200)
   async login(
     @Body() loginDTO: { email: string; password: string },
   ): Promise<{ access_token: string }> {
