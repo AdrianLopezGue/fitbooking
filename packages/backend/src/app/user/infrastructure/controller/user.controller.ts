@@ -11,12 +11,14 @@ import {
 } from '@nestjs/common';
 import { UserDTO } from '../../application/service/user-finder.service';
 import { UserService } from '../service/user.service';
+import { Public } from '../../../auth/public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @Public()
   @HttpCode(201)
   async create(
     @Body(new ValidationPipe())
