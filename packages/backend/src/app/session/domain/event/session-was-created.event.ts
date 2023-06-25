@@ -1,6 +1,13 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
 
-export class SessionWasCreatedEvent extends Event {
+type Payload = {
+  name: string;
+  assistants: string[];
+  maxCapacity: number;
+  date: Date;
+};
+
+export class SessionWasCreatedEvent extends Event<Payload> {
   constructor(
     public readonly id: string,
     public readonly name: string,

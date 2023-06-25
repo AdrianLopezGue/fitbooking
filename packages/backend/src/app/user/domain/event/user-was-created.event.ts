@@ -1,6 +1,12 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
 
-export class UserWasCreatedEvent extends Event {
+type Payload = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export class UserWasCreatedEvent extends Event<Payload> {
   constructor(
     public readonly id: string,
     public readonly name: string,
