@@ -1,4 +1,8 @@
+import cookie from 'cookie';
 import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Button,
   Container,
@@ -11,12 +15,11 @@ import {
   Subtitle,
   Title,
 } from '../Layout/styles';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const showToast = (message: string) =>
     toast.error(message, {
       position: 'bottom-center',
@@ -37,6 +40,13 @@ const Login = () => {
       .then(data => {
         if (data.statusCode && data.statusCode !== 200) {
           showToast(data.message);
+        } else {
+          document.cookie = cookie.serialize('fitbooking.token', data.access_token, {
+            path: '/login',
+            maxAge: 3600,
+          });
+
+          navigate('/');
         }
       })
       .catch(error => showToast(error));
