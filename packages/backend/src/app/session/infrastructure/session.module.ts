@@ -11,6 +11,9 @@ import { SessionProviders } from './session.provider';
 import { ProjectionHandlers, SESSION_PROJECTION, SessionSchema } from './projection';
 import { WebsocketSessionGateway } from './websocket/session.gateway';
 import { EventsHandlers } from './event-handler';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '../../auth/auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [SessionController],
@@ -25,6 +28,7 @@ import { EventsHandlers } from './event-handler';
     ]),
   ],
   providers: [
+    JwtService,
     ...CommandHandlers,
     ...EventsHandlers,
     ...QueryHandlers,
@@ -32,6 +36,10 @@ import { EventsHandlers } from './event-handler';
     ...SessionProviders,
     WebsocketSessionGateway,
     SessionService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class SessionModule {}
