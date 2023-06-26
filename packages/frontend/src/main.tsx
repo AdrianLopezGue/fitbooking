@@ -2,15 +2,16 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import App from './app/app';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Login } from './app/pages/auth/Login';
 import { Registration } from './app/pages/auth/Register';
-import FontStyles from './app/styles/fontStyles';
+import { TrainingDay } from './app/pages/training-day/Layout';
+import { Fonts, theme } from './app/styles/fontStyles';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: '/:boxId/sessions',
+    element: <TrainingDay></TrainingDay>,
   },
   {
     path: '/login',
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <FontStyles />
-    <RouterProvider router={router} />
+    <ChakraProvider theme={theme}>
+      <Fonts />
+      <RouterProvider router={router} />
+    </ChakraProvider>
   </StrictMode>,
 );

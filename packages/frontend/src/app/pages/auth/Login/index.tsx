@@ -1,20 +1,19 @@
+import {
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Image,
+  Input,
+  Link,
+  Stack,
+} from '@chakra-ui/react';
 import Cookies from 'js-cookie';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-  Button,
-  Container,
-  Form,
-  FormContainer,
-  Image,
-  ImageContainer,
-  Input,
-  InputTitle,
-  Subtitle,
-  Title,
-} from '../Layout/styles';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -51,43 +50,60 @@ const Login = () => {
 
           document.cookie = cookie;
 
-          navigate('/');
+          navigate('/b7c2881b-eafb-4be9-bf4e-99b1c1723f04/sessions');
         }
       })
       .catch(error => showToast(error));
   };
 
   return (
-    <>
-      <Container>
-        <FormContainer>
-          <Form onSubmit={handleSubmit}>
-            <Title>Welcome back!</Title>
-            <Subtitle>Enter your credentials to access your account</Subtitle>
-            <InputTitle>Email address</InputTitle>
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              onChange={e => setEmail(e.target.value)}
-            />
-            <InputTitle>Password</InputTitle>
-            <Input
-              type="password"
-              placeholder="Enter your Password"
-              onChange={e => setPassword(e.target.value)}
-            />
-            <Button type="submit">Login</Button>
-          </Form>
-        </FormContainer>
-        <ImageContainer>
-          <Image
-            src="https://as2.ftcdn.net/v2/jpg/03/71/58/33/1000_F_371583368_cIMTyJZ40MiiSRryPND2GX8hcgIDYvO1.jpg"
-            alt="Athletes doing a wod in a crossfit box"
-          />
-        </ImageContainer>
-      </Container>
-      <ToastContainer />
-    </>
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex p={8} flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={4} w={'full'} maxW={'md'}>
+          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+          <form onSubmit={handleSubmit}>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                onChange={e => setEmail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Enter your Password"
+                onChange={e => setPassword(e.target.value)}
+              />
+            </FormControl>
+            <Stack spacing={6}>
+              <Stack
+                direction={{ base: 'column', sm: 'row' }}
+                align={'start'}
+                justify={'space-between'}
+              >
+                <Checkbox>Remember me</Checkbox>
+                <Link color={'blue.500'}>Forgot password?</Link>
+              </Stack>
+              <Button colorScheme={'blue'} variant={'solid'} type="submit">
+                Sign in
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={'Login Image'}
+          objectFit={'cover'}
+          src={
+            'https://as2.ftcdn.net/v2/jpg/03/71/58/33/1000_F_371583368_cIMTyJZ40MiiSRryPND2GX8hcgIDYvO1.jpg'
+          }
+        />
+      </Flex>
+    </Stack>
   );
 };
 

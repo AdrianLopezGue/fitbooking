@@ -1,16 +1,17 @@
-import { FormEvent, useState } from 'react';
 import {
   Button,
-  Container,
-  Form,
-  FormContainer,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
   Image,
-  ImageContainer,
   Input,
-  InputTitle,
-  Title,
-} from '../Layout/styles';
-import { ToastContainer, toast } from 'react-toastify';
+  Link,
+  Stack,
+} from '@chakra-ui/react';
+import { FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
@@ -43,41 +44,61 @@ const Registration = () => {
   };
 
   return (
-    <>
-      <Container>
-        <FormContainer>
-          <Form onSubmit={handleSubmit}>
-            <Title>Get Started Now</Title>
-            <InputTitle>Name</InputTitle>
-            <Input
-              type="text"
-              placeholder="Enter your name"
-              onChange={e => setName(e.target.value)}
-            />
-            <InputTitle>Email address</InputTitle>
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              onChange={e => setEmail(e.target.value)}
-            />
-            <InputTitle>Password</InputTitle>
-            <Input
-              type="password"
-              placeholder="Enter your Password"
-              onChange={e => setPassword(e.target.value)}
-            />
-            <Button type="submit">Signup</Button>
-          </Form>
-        </FormContainer>
-        <ImageContainer>
-          <Image
-            src="https://cutewallpaper.org/21/crossfit-wallpaper/Wallpaper-Fitness-Gym-Crossfit-images-for-desktop-section-.jpg"
-            alt="Athletes doing a wod in a crossfit box"
-          />
-        </ImageContainer>
-      </Container>
-      <ToastContainer />
-    </>
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex p={8} flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={4} w={'full'} maxW={'md'}>
+          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+          <form onSubmit={handleSubmit}>
+            <FormControl id="Name">
+              <FormLabel>Name</FormLabel>
+              <Input
+                type="name"
+                placeholder="Enter your name"
+                onChange={e => setName(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                onChange={e => setEmail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Enter your Password"
+                onChange={e => setPassword(e.target.value)}
+              />
+            </FormControl>
+            <Stack spacing={6}>
+              <Stack
+                direction={{ base: 'column', sm: 'row' }}
+                align={'start'}
+                justify={'space-between'}
+              >
+                <Checkbox>Remember me</Checkbox>
+                <Link color={'blue.500'}>Forgot password?</Link>
+              </Stack>
+              <Button colorScheme={'blue'} variant={'solid'} type="submit">
+                Sign up
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={'Register Image'}
+          objectFit={'cover'}
+          src={
+            'https://cutewallpaper.org/21/crossfit-wallpaper/Wallpaper-Fitness-Gym-Crossfit-images-for-desktop-section-.jpg'
+          }
+        />
+      </Flex>
+    </Stack>
   );
 };
 
