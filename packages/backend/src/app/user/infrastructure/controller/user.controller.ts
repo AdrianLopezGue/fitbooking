@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserDTO } from '../../application/service/user-finder.service';
@@ -42,5 +43,11 @@ export class UserController {
   @Get(':id')
   async getById(@Param() params: { id: string }): Promise<UserDTO | undefined> {
     return await this.userService.getUserById(params.id);
+  }
+
+  @Get()
+  async getByEmail(@Query('email') email: string): Promise<UserDTO | undefined> {
+    const response = await this.userService.getUserByEmail(email);
+    return response;
   }
 }

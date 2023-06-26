@@ -4,6 +4,7 @@ import { Result } from 'neverthrow';
 import { UserDTO } from '../../application/service/user-finder.service';
 import { GetUserByIdQuery } from '../../application/query/get-user-by-id.query';
 import { CreateUserCommand } from '../../application/command/create-user.command';
+import { GetUserByEmailQuery } from '../../application/query/get-user-by-email.query';
 
 @Injectable()
 export class UserService {
@@ -24,5 +25,9 @@ export class UserService {
 
   async getUserById(id: string): Promise<UserDTO> {
     return this.queryBus.execute<IQuery, UserDTO>(new GetUserByIdQuery(id));
+  }
+
+  async getUserByEmail(email: string): Promise<UserDTO> {
+    return this.queryBus.execute<IQuery, UserDTO>(new GetUserByEmailQuery(email));
   }
 }
