@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import Session from '../Session';
 import SidebarWithHeader from '../SidebarWithHeader';
+import { UserContext } from '../../../contexts/userContext';
 
 type SessionDTO = {
   assistants: string[];
@@ -15,22 +15,21 @@ const TrainingDay = () => {
   const socketRef = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const { boxId } = useParams();
+  const { token, user } = useContext(UserContext);
 
   useEffect(() => {
-    const cookieParsed = Cookies.get('fitbooking.token');
     const today = new Date();
     const formattedDate = `${today.getFullYear()}-${
       today.getMonth() + 1
     }-${today.getDate()}`;
-    console.log(cookieParsed, boxId);
 
     fetch(`http://localhost:3333/api/sessions?date=${formattedDate}&boxId=${boxId}`, {
-      headers: { Authorization: `Bearer ${cookieParsed}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
       .then(res => setSessions(res))
       .catch(err => console.error(err));
-  }, [boxId]);
+  }, [token, boxId]);
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -69,7 +68,7 @@ const TrainingDay = () => {
   }, []);
 
   return (
-    <SidebarWithHeader>
+    <SidebarWithHeader userName={user.name}>
       {sessions.length
         ? sessions.map((session, index) => (
             <Session

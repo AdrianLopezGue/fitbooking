@@ -10,15 +10,18 @@ import {
   Link,
   Stack,
 } from '@chakra-ui/react';
-import Cookies from 'js-cookie';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import userActions from '../../../actions/userActions';
+import { UserContext } from '../../../contexts/userContext';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const { setToken, token, setUser } = useContext(UserContext);
   const showToast = (message: string) =>
     toast.error(message, {
       position: 'bottom-center',
@@ -27,31 +30,27 @@ const Login = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    fetch('http://localhost:3333/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then(data => data.json())
-      .then(data => {
-        if (data.statusCode && data.statusCode !== 200) {
-          showToast(data.message);
-        } else {
-          const cookie = Cookies.set('fitbooking.token', data.access_token, {
-            expires: 1000000000000,
-          });
-
-          if (!cookie) {
-            return;
-          }
-
-          document.cookie = cookie;
-
-          navigate('/b7c2881b-eafb-4be9-bf4e-99b1c1723f04/sessions');
+    userActions
+      .login(email, password)
+      .then(response => {
+        if (response.error) {
+          showToast(response.error);
+          return;
         }
+
+        setToken(response);
+      })
+      .catch(error => showToast(error));
+
+    if (!token) {
+      return;
+    }
+
+    userActions
+      .getByEmail(email, token)
+      .then(data => {
+        setUser(data);
+        navigate('/b7c2881b-eafb-4be9-bf4e-99b1c1723f04/sessions');
       })
       .catch(error => showToast(error));
   };
@@ -103,6 +102,7 @@ const Login = () => {
           }
         />
       </Flex>
+      <ToastContainer />
     </Stack>
   );
 };

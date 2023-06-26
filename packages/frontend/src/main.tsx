@@ -7,6 +7,7 @@ import { Login } from './app/pages/auth/Login';
 import { Registration } from './app/pages/auth/Register';
 import { TrainingDay } from './app/pages/training-day/Layout';
 import { Fonts, theme } from './app/styles/fontStyles';
+import { UserProvider } from '../src/app/contexts/userContext';
 
 const router = createBrowserRouter([
   {
@@ -26,9 +27,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <ChakraProvider theme={theme}>
-      <Fonts />
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <UserProvider>
+      <ChakraProvider theme={theme}>
+        <Fonts />
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </UserProvider>
   </StrictMode>,
 );
