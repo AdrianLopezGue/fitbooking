@@ -1,21 +1,34 @@
-import { useEffect, useState, useRef } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 import Session from '../Session';
 
+type SessionDTO = {
+  assistants: string[];
+  maxCapacity: number;
+  name: string;
+};
+
 const TrainingDay = () => {
-  const [assistants, setAssistants] = useState<string[]>([]);
-  const [maxCapacity, setMaxCapacity] = useState(0);
-  const [name, setName] = useState('');
   const socketRef = useRef<Socket>();
+  const [sessions, setSessions] = useState<SessionDTO[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3333/api/sessions/ef6f99ff-aae9-4831-a619-979f4d971be0')
+    const cookieParsed = Cookies.get('fitbooking.token');
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}-${
+      today.getMonth() + 1
+    }-${today.getDate()}`;
+    console.log(cookieParsed, formattedDate);
+
+    fetch(
+      `http://localhost:3333/api/sessions?date=${formattedDate}&boxId=b7c2881b-eafb-4be9-bf4e-99b1c1723f04`,
+      {
+        headers: { Authorization: `Bearer ${cookieParsed}` },
+      },
+    )
       .then(res => res.json())
-      .then(res => {
-        setAssistants(res.assistants);
-        setMaxCapacity(res.maxCapacity);
-        setName(res.name);
-      })
+      .then(res => setSessions(res))
       .catch(err => console.error(err));
   }, []);
 
@@ -35,15 +48,15 @@ const TrainingDay = () => {
         console.log('Disconnected');
       });
 
-      socketRef.current.on('classReserved', data =>
-        setAssistants([...assistants, data.assistantRegistered]),
-      );
+      // socketRef.current.on('classReserved', data =>
+      //   setAssistants([...assistants, data.assistantRegistered]),
+      // );
 
       socketRef.current.on('classCancelled', data => {
         console.log(data);
-        setAssistants(
-          assistants.filter(assistant => assistant !== data.assistantRegistered),
-        );
+        // setAssistants(
+        //   assistants.filter(assistant => assistant !== data.assistantRegistered),
+        // );
       });
     }
 
@@ -53,16 +66,21 @@ const TrainingDay = () => {
         socketRef.current = undefined;
       }
     };
-  }, [assistants]);
+  }, []);
 
   return (
     <>
-      <ol>
-        {assistants.map((a, key) => (
-          <li key={key}>{a}</li>
-        ))}
-      </ol>
-      <Session name={name} maxCapacity={maxCapacity} assistants={assistants}></Session>
+      {sessions.length
+        ? sessions.map((session, index) => (
+            <Session
+              key={index}
+              name={session.name}
+              maxCapacity={session.maxCapacity}
+              assistants={session.assistants}
+            />
+          ))
+        : undefined}{' '}
+      {/* Utiliza null en lugar de undefined */}
     </>
   );
 };

@@ -24,12 +24,14 @@ export class SessionController {
     @Body(new ValidationPipe())
     createSessionDTO: {
       name: string;
+      boxId: string;
       maxCapacity: number;
       date: Date;
     },
   ) {
     const createdSessionResult = await this.sessionService.createSession(
       createSessionDTO.name,
+      createSessionDTO.boxId,
       createSessionDTO.maxCapacity,
       createSessionDTO.date,
     );
@@ -77,7 +79,10 @@ export class SessionController {
   }
 
   @Get()
-  async getByDate(@Query('date') date: Date): Promise<SessionDTO[] | undefined> {
-    return await this.sessionService.getSessionsByDate(date);
+  async getByDateAndBox(
+    @Query('date') date: Date,
+    @Query('boxId') boxId: string,
+  ): Promise<SessionDTO[] | undefined> {
+    return await this.sessionService.getSessionsByDateAndBox(date, boxId);
   }
 }

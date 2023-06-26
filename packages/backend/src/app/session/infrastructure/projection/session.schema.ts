@@ -10,6 +10,9 @@ export class SessionDocument {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true })
+  boxId: string;
+
   @Prop({ required: true, type: [String] })
   assistants: string[];
 

@@ -19,7 +19,7 @@ export class MongoSessionFinder implements SessionFinder {
     return this.sessionProjection.findById(id).exec();
   }
 
-  findByDate(date: Date): Promise<SessionDTO[] | undefined> {
-    return this.sessionProjection.find({ date }).exec();
+  findByDateAndBox(date: Date, boxId: string): Promise<SessionDTO[] | undefined> {
+    return this.sessionProjection.find({ date, boxId }).exec();
   }
 }

@@ -8,9 +8,10 @@ describe('Create session handler', () => {
     const bookSeatHandler = new CreateSessionHandler(sessionRepository);
     const sessionName = 'Session Name';
     const sessionDate = new Date();
+    const boxId = 'd5b3881b-f5e6-4868-856e-b6c056e02cdc';
 
     const result = await bookSeatHandler.execute(
-      new CreateSessionCommand(sessionName, 1, sessionDate),
+      new CreateSessionCommand(sessionName, boxId, 1, sessionDate),
     );
 
     expect(result.isOk()).toBe(true);
@@ -20,6 +21,7 @@ describe('Create session handler', () => {
     expect(sessionsFound[0].maxCapacity.value).toBe(1);
     expect(sessionsFound[0].assistants).toHaveLength(0);
     expect(sessionsFound[0].name.value).toBe(sessionName);
+    expect(sessionsFound[0].boxId.value).toBe(boxId);
     expect(sessionsFound[0].date).toStrictEqual(sessionDate);
   });
 
@@ -28,9 +30,12 @@ describe('Create session handler', () => {
     const bookSeatHandler = new CreateSessionHandler(sessionRepository);
     const sessionName = 'Session Name';
     const sessionDate = new Date();
+    const boxId = 'd5b3881b-f5e6-4868-856e-b6c056e02cdc';
 
     await expect(
-      bookSeatHandler.execute(new CreateSessionCommand(sessionName, -1, sessionDate)),
+      bookSeatHandler.execute(
+        new CreateSessionCommand(sessionName, boxId, -1, sessionDate),
+      ),
     ).rejects.toThrow(Error);
   });
 
@@ -39,9 +44,12 @@ describe('Create session handler', () => {
     const bookSeatHandler = new CreateSessionHandler(sessionRepository);
     const emptySessionName = '';
     const sessionDate = new Date();
+    const boxId = 'd5b3881b-f5e6-4868-856e-b6c056e02cdc';
 
     await expect(
-      bookSeatHandler.execute(new CreateSessionCommand(emptySessionName, 1, sessionDate)),
+      bookSeatHandler.execute(
+        new CreateSessionCommand(emptySessionName, boxId, 1, sessionDate),
+      ),
     ).rejects.toThrow(Error);
   });
 });

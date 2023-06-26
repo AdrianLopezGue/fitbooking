@@ -10,10 +10,12 @@ import { AssistantNotFound } from '../error/assistant-not-found.error';
 import { SessionName } from './session-name';
 import { SessionMaxCapacity } from './session-max-capacity';
 import { AthleteId } from '../../../box/domain/model/athlete-id';
+import { BoxId } from '../../../box/domain/model/box-id';
 
 export class Session extends AggregateRoot {
   private _id!: SessionId;
   private _name!: SessionName;
+  private _boxId!: BoxId;
   private _maxCapacity!: SessionMaxCapacity;
   private _assistants!: AthleteId[];
   private _date!: Date;
@@ -21,6 +23,7 @@ export class Session extends AggregateRoot {
   constructor(
     id?: SessionId,
     name?: SessionName,
+    boxId?: BoxId,
     assistants?: AthleteId[],
     maxCapacity?: SessionMaxCapacity,
     date?: Date,
@@ -28,6 +31,7 @@ export class Session extends AggregateRoot {
     super();
     this._id = id;
     this._name = name;
+    this._boxId = boxId;
     this._maxCapacity = maxCapacity;
     this._assistants = assistants;
     this._date = date;
@@ -35,6 +39,7 @@ export class Session extends AggregateRoot {
 
   public static add(
     name: SessionName,
+    boxId: BoxId,
     maxCapacity: SessionMaxCapacity,
     date: Date,
   ): Session {
@@ -43,6 +48,7 @@ export class Session extends AggregateRoot {
     const event = new SessionWasCreatedEvent(
       SessionId.generate().value,
       name.value,
+      boxId.value,
       [],
       maxCapacity.value,
       date,
@@ -55,6 +61,7 @@ export class Session extends AggregateRoot {
   private onSessionWasCreatedEvent(event: SessionWasCreatedEvent): void {
     this._id = SessionId.from(event.id);
     this._name = SessionName.from(event.name);
+    this._boxId = BoxId.from(event.boxId);
     this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
     this._assistants = event.assistants.map(assistant => AthleteId.from(assistant));
     this._date = event.date;
@@ -67,6 +74,11 @@ export class Session extends AggregateRoot {
   get name(): SessionName {
     return this._name;
   }
+
+  get boxId(): BoxId {
+    return this._boxId;
+  }
+
   get assistants(): AthleteId[] {
     return this._assistants;
   }

@@ -15,6 +15,7 @@ export const eventTransformers = {
     new SessionWasCreatedEvent(
       event.aggregateId,
       event.payload.name,
+      event.payload.boxId,
       event.payload.assistants,
       event.payload.maxCapacity,
       event.payload.date,

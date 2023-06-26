@@ -9,6 +9,7 @@ import { SessionRepository } from '../../domain/service/session.repository';
 import { CreateSessionCommand } from './create-session.command';
 import { SessionName } from '../../domain/model/session-name';
 import { SessionMaxCapacity } from '../../domain/model/session-max-capacity';
+import { BoxId } from '../../../box/domain/model/box-id';
 
 @CommandHandler(CreateSessionCommand)
 export class CreateSessionHandler implements ICommandHandler<CreateSessionCommand> {
@@ -20,6 +21,7 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
   async execute(command: CreateSessionCommand): Promise<Result<null, DomainError>> {
     const session = Session.add(
       SessionName.from(command.name),
+      BoxId.from(command.boxId),
       SessionMaxCapacity.from(command.maxCapacity),
       command.date,
     );

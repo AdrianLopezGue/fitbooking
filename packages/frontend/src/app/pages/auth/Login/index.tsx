@@ -1,4 +1,4 @@
-import cookie from 'cookie';
+import Cookies from 'js-cookie';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -41,10 +41,15 @@ const Login = () => {
         if (data.statusCode && data.statusCode !== 200) {
           showToast(data.message);
         } else {
-          document.cookie = cookie.serialize('fitbooking.token', data.access_token, {
-            path: '/login',
-            maxAge: 3600,
+          const cookie = Cookies.set('fitbooking.token', data.access_token, {
+            expires: 1000000000000,
           });
+
+          if (!cookie) {
+            return;
+          }
+
+          document.cookie = cookie;
 
           navigate('/');
         }

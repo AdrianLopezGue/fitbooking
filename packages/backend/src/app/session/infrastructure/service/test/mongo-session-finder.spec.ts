@@ -47,8 +47,9 @@ describe('MongoSessionFinder', () => {
     it('should return sessions that match the given id', async () => {
       const sessionId = '572d1fed-8521-49f5-b6cb-767bd13b161e';
       const session1: SessionDocument = {
-        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        _id: sessionId,
         name: 'Session name 1',
+        boxId: 'a780873d-4bd2-44c7-b4f4-434781b2ee2b',
         assistants: [],
         maxCapacity: 1,
         date: new Date('2023-06-17'),
@@ -56,6 +57,7 @@ describe('MongoSessionFinder', () => {
       const session2: SessionDocument = {
         _id: 'ca014231-72db-4c32-adc1-c744a2e3b3a6',
         name: 'Session name 2',
+        boxId: '2712bd5c-6d28-4346-982b-27272ae6934f',
         assistants: [],
         maxCapacity: 1,
         date: new Date('2023-06-18'),
@@ -68,28 +70,29 @@ describe('MongoSessionFinder', () => {
       expect(result).toBeDefined();
     });
 
-    it('should return an empty array if no sessions match the given date', async () => {
-      const date = new Date('2023-06-17');
+    it('should return undefined if id does not exist', async () => {
+      const result = await sessionFinder.find('2712bd5c-6d28-4346-982b-27272ae6934f');
 
-      const result = await sessionFinder.findByDate(date);
-
-      expect(result).toHaveLength(0);
+      expect(result).toBeNull();
     });
   });
 
   describe('findByDate', () => {
     it('should return sessions that match the given date', async () => {
       const date = new Date('2023-06-17');
+      const boxId = 'a780873d-4bd2-44c7-b4f4-434781b2ee2b';
       const session1: SessionDocument = {
-        _id: 'session1',
-        name: 'Session name',
+        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        name: 'Session name 1',
+        boxId,
         assistants: [],
         maxCapacity: 1,
-        date: new Date('2023-06-17'),
+        date,
       };
       const session2: SessionDocument = {
-        _id: 'session2',
-        name: 'Session name',
+        _id: 'ca014231-72db-4c32-adc1-c744a2e3b3a6',
+        name: 'Session name 2',
+        boxId: '2712bd5c-6d28-4346-982b-27272ae6934f',
         assistants: [],
         maxCapacity: 1,
         date: new Date('2023-06-18'),
@@ -97,17 +100,20 @@ describe('MongoSessionFinder', () => {
 
       await sessionProjectionModel.create([session1, session2]);
 
-      const result = await sessionFinder.findByDate(date);
+      const result = await sessionFinder.findByDateAndBox(date, boxId);
 
       expect(result).toHaveLength(1);
-      expect(result[0]._id).toEqual('session1');
+      expect(result[0]._id).toEqual(session1._id);
       expect(result[0].date).toEqual(date);
     });
 
     it('should return an empty array if no sessions match the given date', async () => {
       const date = new Date('2023-06-17');
 
-      const result = await sessionFinder.findByDate(date);
+      const result = await sessionFinder.findByDateAndBox(
+        date,
+        'a780873d-4bd2-44c7-b4f4-434781b2ee2b',
+      );
 
       expect(result).toHaveLength(0);
     });

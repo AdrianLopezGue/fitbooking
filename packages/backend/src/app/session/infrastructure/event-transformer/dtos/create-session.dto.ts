@@ -13,6 +13,10 @@ export class CreateSessionDTO {
 
   @ApiProperty()
   @IsNotEmpty()
+  readonly boxId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   readonly maxCapacity: number;
 
   @ApiProperty()
