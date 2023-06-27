@@ -50,7 +50,7 @@ const Login = () => {
       .getByEmail(email, token)
       .then(data => {
         setUser(data);
-        navigate('/b7c2881b-eafb-4be9-bf4e-99b1c1723f04/sessions');
+        navigate('/boxes');
       })
       .catch(error => showToast(error));
   };
