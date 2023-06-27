@@ -12,6 +12,12 @@ export type BoxDTO = {
   athletes: AthleteDTO[];
 };
 
+export type BoxListDTO = {
+  _id: string;
+  name: string;
+}[];
+
 export interface BoxFinder {
   find(id: string): Promise<BoxDTO | undefined>;
+  findByEmail(email: string): Promise<BoxListDTO>;
 }

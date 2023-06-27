@@ -63,7 +63,7 @@ describe('MongoBoxFinder', () => {
       const boxId = '572d1fed-8521-49f5-b6cb-767bd13b161e';
       const box: BoxDocument = {
         _id: boxId,
-        name: 'Session name 1',
+        name: 'Box name 1',
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
@@ -90,6 +90,55 @@ describe('MongoBoxFinder', () => {
       const result = await boxFinder.find(boxId);
 
       expect(result).not.toBeDefined();
+    });
+  });
+
+  describe('find by email', () => {
+    it('should return box that match the given id', async () => {
+      const email = 'athlete@mail.com';
+      const box: BoxDocument = {
+        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        name: 'Box name 1',
+      };
+      const box2: BoxDocument = {
+        _id: '9c48980c-c64a-4489-928c-c58eb3939098',
+        name: 'Box name 2',
+      };
+      const box3: BoxDocument = {
+        _id: 'e1adb755-d562-474f-82cc-bc855e38ed12',
+        name: 'Box name 3',
+      };
+      const athlete: AthleteDocument = {
+        _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
+        email,
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box._id,
+      };
+      const athlete2: AthleteDocument = {
+        _id: '6838e775-fb42-4aa4-b91f-138f94c75c95',
+        email,
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box2._id,
+      };
+      const anotherAthlete: AthleteDocument = {
+        _id: '91a8e08f-cf65-4f73-841b-c2fb7705e04b',
+        email: 'another@email.com',
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box2._id,
+      };
+
+      await Promise.all([
+        boxProjectionModel.create([box, box2, box3]),
+        athleteProjectionModel.create([athlete, athlete2, anotherAthlete]),
+      ]);
+
+      const result = await boxFinder.findByEmail(athlete.email);
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(2);
     });
   });
 });

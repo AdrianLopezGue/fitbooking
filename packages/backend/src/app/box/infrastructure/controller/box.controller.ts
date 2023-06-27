@@ -8,10 +8,11 @@ import {
   Param,
   Post,
   Put,
+  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { BoxService } from '../service/box.service';
-import { BoxDTO } from '../../application/service/box-finder.service';
+import { BoxDTO, BoxListDTO } from '../../application/service/box-finder.service';
 
 @Controller('box')
 export class BoxController {
@@ -76,5 +77,10 @@ export class BoxController {
   @Get(':id')
   async getById(@Param() params: { id: string }): Promise<BoxDTO | undefined> {
     return await this.boxService.getBoxById(params.id);
+  }
+
+  @Get()
+  async getByEmail(@Query('email') email: string): Promise<BoxListDTO> {
+    return await this.boxService.getBoxesByEmail(email);
   }
 }

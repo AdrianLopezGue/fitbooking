@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { BoxFinder, BoxDTO } from '../../application/service/box-finder.service';
+import {
+  BoxFinder,
+  BoxDTO,
+  BoxListDTO,
+} from '../../application/service/box-finder.service';
 import {
   ATHLETE_PROJECTION,
   AthleteDocument,
@@ -41,5 +45,24 @@ export class MongoBoxFinder implements BoxFinder {
         role,
       })),
     };
+  }
+
+  async findByEmail(email: string): Promise<BoxListDTO> {
+    const atheletesProjection = await this.athleteProjection.find({ email }).exec();
+
+    if (!atheletesProjection) {
+      return [];
+    }
+
+    const boxesIds = atheletesProjection.map(projection => projection.boxId);
+
+    const boxProjections = await this.boxProjection
+      .find({ _id: { $in: boxesIds } })
+      .exec();
+
+    return boxProjections.map(projection => ({
+      _id: projection._id,
+      name: projection.name,
+    }));
   }
 }
