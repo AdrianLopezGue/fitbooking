@@ -287,7 +287,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: '#',
   },
   {
-    label: 'Boxes',
-    href: 'boxes',
+    label: 'Details',
+    href: '#',
   },
 ];

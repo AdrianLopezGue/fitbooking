@@ -8,11 +8,16 @@ import { Registration } from './app/pages/auth/Register';
 import { TrainingDay } from './app/pages/training-day/Layout';
 import { Fonts, theme } from './app/styles/fontStyles';
 import { UserProvider } from '../src/app/contexts/userContext';
+import { BoxList } from './app/pages/box-list/Layout';
 
 const router = createBrowserRouter([
   {
     path: '/:boxId/sessions',
     element: <TrainingDay></TrainingDay>,
+  },
+  {
+    path: '/boxes',
+    element: <BoxList></BoxList>,
   },
   {
     path: '/login',
