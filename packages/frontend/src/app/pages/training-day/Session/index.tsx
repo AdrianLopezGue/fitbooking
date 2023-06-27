@@ -1,12 +1,10 @@
-import {
-  Avatar,
-  ClassContainer,
-  ClassHeader,
-  EmptyGridItem,
-  GridContainer,
-  GridItem,
-} from './styles';
-import { SessionProps } from './types';
+import { Avatar, Box, Grid, GridItem, Text } from '@chakra-ui/react';
+
+export type SessionProps = {
+  name: string;
+  maxCapacity: number;
+  assistants: string[];
+};
 
 const Session = ({ name, maxCapacity, assistants }: SessionProps) => {
   const renderGrid = () => {
@@ -23,12 +21,12 @@ const Session = ({ name, maxCapacity, assistants }: SessionProps) => {
 
         gridItems.push(
           isEmpty ? (
-            <EmptyGridItem key={index} />
+            <GridItem w="100%" h="10" key={index} bg="green.500" />
           ) : (
-            <GridItem key={index}>
+            <GridItem w="100%" h="10" key={index}>
               <Avatar
                 src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                alt="Avatar"
+                boxSize={40}
               />
             </GridItem>
           ),
@@ -40,11 +38,14 @@ const Session = ({ name, maxCapacity, assistants }: SessionProps) => {
   };
 
   return (
-    <ClassContainer>
-      <ClassHeader>{name}</ClassHeader>
-      <GridContainer>{renderGrid()}</GridContainer>
-      <p>Capacity: {maxCapacity}</p>
-    </ClassContainer>
+    <Box w="400px" borderWidth="1px" p={4} m={2}>
+      <Text as="h2" fontSize="xl" fontWeight="bold" mb={0}>
+        {name}
+      </Text>
+      <Grid templateColumns="repeat(5, 1fr)" gap={4} mt={4}>
+        {renderGrid()}
+      </Grid>
+    </Box>
   );
 };
 

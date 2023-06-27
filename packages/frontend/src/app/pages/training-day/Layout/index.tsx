@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
-import Session from '../Session';
-import SidebarWithHeader from '../SidebarWithHeader';
 import { UserContext } from '../../../contexts/userContext';
+import Sidebar from '../Navbar';
+import Session from '../Session';
+import { Flex } from '@chakra-ui/react';
 
 type SessionDTO = {
   assistants: string[];
@@ -68,19 +69,22 @@ const TrainingDay = () => {
   }, []);
 
   return (
-    <SidebarWithHeader userName={user.name}>
-      {sessions.length
-        ? sessions.map((session, index) => (
-            <Session
-              key={index}
-              name={session.name}
-              maxCapacity={session.maxCapacity}
-              assistants={session.assistants}
-            />
-          ))
-        : undefined}{' '}
-      {}
-    </SidebarWithHeader>
+    <>
+      <Sidebar userName={user.name} />
+      <Flex p={8} align={'center'} flexDirection={'column'}>
+        {sessions.length
+          ? sessions.map((session, index) => (
+              <Session
+                key={index}
+                name={session.name}
+                maxCapacity={session.maxCapacity}
+                assistants={session.assistants}
+              />
+            ))
+          : undefined}{' '}
+        {}
+      </Flex>
+    </>
   );
 };
 
