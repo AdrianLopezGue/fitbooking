@@ -10,7 +10,7 @@ import {
   Link,
   Stack,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,19 +41,19 @@ const Login = () => {
         setToken(response);
       })
       .catch(error => showToast(error));
-
-    if (!token) {
-      return;
-    }
-
-    userActions
-      .getByEmail(email, token)
-      .then(data => {
-        setUser(data);
-        navigate('/boxes');
-      })
-      .catch(error => showToast(error));
   };
+
+  useEffect(() => {
+    if (token) {
+      userActions
+        .getByEmail(email, token)
+        .then(data => {
+          setUser(data);
+          navigate('/boxes');
+        })
+        .catch(error => showToast(error));
+    }
+  }, [token, email, navigate, setUser]);
 
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>

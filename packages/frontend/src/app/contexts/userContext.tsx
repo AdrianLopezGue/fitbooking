@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useState, useEffect } from 'react';
 
 type UserDTO = {
   _id: string;
@@ -24,8 +24,21 @@ type UserProviderProps = {
 };
 
 const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState({ _id: '', name: '', email: '', password: '' });
-  const [token, setToken] = useState('');
+  const [user, setUser] = useState<UserDTO>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser
+      ? JSON.parse(storedUser)
+      : { _id: '', name: '', email: '', password: '' };
+  });
+  const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
+
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
+
+  useEffect(() => {
+    localStorage.setItem('token', token);
+  }, [token]);
 
   return (
     <UserContext.Provider
