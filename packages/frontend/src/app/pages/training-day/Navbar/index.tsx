@@ -35,6 +35,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 type SidebarProps = {
   userName: string;
+  role: string;
 };
 
 export default function Sidebar(props: SidebarProps) {
@@ -101,7 +102,7 @@ export default function Sidebar(props: SidebarProps) {
               >
                 <Text fontSize="sm">{props.userName}</Text>
                 <Text fontSize="xs" color="gray.600">
-                  Admin
+                  {props.role}
                 </Text>
               </VStack>
               <Box display={{ base: 'none', md: 'flex' }}>

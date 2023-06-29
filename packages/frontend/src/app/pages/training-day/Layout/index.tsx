@@ -1,10 +1,11 @@
+import { Flex } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
+import { AthleteContext } from '../../../contexts/athleteContext';
 import { UserContext } from '../../../contexts/userContext';
 import Sidebar from '../Navbar';
 import Session from '../Session';
-import { Flex } from '@chakra-ui/react';
 
 type SessionDTO = {
   assistants: string[];
@@ -17,6 +18,7 @@ const TrainingDay = () => {
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const { boxId } = useParams();
   const { token, user } = useContext(UserContext);
+  const { athlete } = useContext(AthleteContext);
 
   useEffect(() => {
     const today = new Date();
@@ -70,7 +72,7 @@ const TrainingDay = () => {
 
   return (
     <>
-      <Sidebar userName={user.name} />
+      <Sidebar userName={user.name} role={athlete.role} />
       <Flex p={8} align={'center'} flexDirection={'column'}>
         {sessions.length
           ? sessions.map((session, index) => (
