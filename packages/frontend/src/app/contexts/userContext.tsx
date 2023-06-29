@@ -25,7 +25,7 @@ type UserProviderProps = {
 
 const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<UserDTO>(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('logged_user');
     return storedUser
       ? JSON.parse(storedUser)
       : { _id: '', name: '', email: '', password: '' };
@@ -33,7 +33,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('logged_user', JSON.stringify(user));
   }, [user]);
 
   useEffect(() => {

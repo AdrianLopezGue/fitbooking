@@ -1,35 +1,13 @@
 import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { Login } from './app/pages/auth/Login';
-import { Registration } from './app/pages/auth/Register';
-import { TrainingDay } from './app/pages/training-day/Layout';
-import { Fonts, theme } from './app/styles/fontStyles';
+import { createRoot } from 'react-dom/client';
 import { UserProvider } from '../src/app/contexts/userContext';
-import { BoxList } from './app/pages/box-list/Layout';
+import { Fonts, theme } from './app/styles/fontStyles';
+import { router } from './app/routes/router';
 
-const router = createBrowserRouter([
-  {
-    path: '/:boxId/sessions',
-    element: <TrainingDay></TrainingDay>,
-  },
-  {
-    path: '/boxes',
-    element: <BoxList></BoxList>,
-  },
-  {
-    path: '/login',
-    element: <Login></Login>,
-  },
-  {
-    path: '/register',
-    element: <Registration></Registration>,
-  },
-]);
-
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
     <UserProvider>
