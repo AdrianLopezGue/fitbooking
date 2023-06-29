@@ -8,8 +8,15 @@ export class SessionSeatWasCancelledHandler
 {
   constructor(private readonly websocketGateway: WebsocketSessionGateway) {}
   async handle(event: SessionSeatWasCancelledEvent) {
-    this.websocketGateway.server.emit('classCancelled', {
-      assistantRegistered: event.assistant,
-    });
+    const clients = this.websocketGateway.server.sockets.adapter.rooms.get(event.id);
+
+    if (clients) {
+      clients.forEach(clientId => {
+        this.websocketGateway.server.to(clientId).emit('classCancelled', {
+          sessionId: event.id,
+          assistantCancelled: event.assistant,
+        });
+      });
+    }
   }
 }

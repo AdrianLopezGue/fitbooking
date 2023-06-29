@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type SessionDTO = {
+  _id: string;
   assistants: string[];
   maxCapacity: number;
   name: string;
@@ -38,7 +39,12 @@ const TrainingDay = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io('http://localhost:8080');
+      const formattedDate = `${selectedDate.getFullYear()}-${
+        selectedDate.getMonth() + 1
+      }-${selectedDate.getDate()}`;
+      socketRef.current = io('http://localhost:8080', {
+        query: { boxId, athleteId: athlete._id, date: formattedDate },
+      });
 
       socketRef.current.on('connect', () => {
         console.log('Connected');
@@ -52,15 +58,39 @@ const TrainingDay = () => {
         console.log('Disconnected');
       });
 
-      // socketRef.current.on('classReserved', data =>
-      //   setAssistants([...assistants, data.assistantRegistered]),
-      // );
+      socketRef.current.on('classReserved', data => {
+        setSessions(prevSessions => {
+          const updatedSessions = [...prevSessions];
+          const sessionIndex = updatedSessions.findIndex(
+            session => session._id === data.sessionId,
+          );
+          if (sessionIndex !== -1) {
+            const updatedSession = { ...updatedSessions[sessionIndex] };
+            updatedSession.assistants = [
+              ...updatedSession.assistants,
+              data.assistantRegistered,
+            ];
+            updatedSessions[sessionIndex] = updatedSession;
+          }
+          return updatedSessions;
+        });
+      });
 
       socketRef.current.on('classCancelled', data => {
-        console.log(data);
-        // setAssistants(
-        //   assistants.filter(assistant => assistant !== data.assistantRegistered),
-        // );
+        setSessions(prevSessions => {
+          const updatedSessions = [...prevSessions];
+          const sessionIndex = updatedSessions.findIndex(
+            session => session._id === data.sessionId,
+          );
+          if (sessionIndex !== -1) {
+            const updatedSession = { ...updatedSessions[sessionIndex] };
+            updatedSession.assistants = updatedSession.assistants.filter(
+              assistant => assistant !== data.assistantCancelled,
+            );
+            updatedSessions[sessionIndex] = updatedSession;
+          }
+          return updatedSessions;
+        });
       });
     }
 
@@ -70,7 +100,7 @@ const TrainingDay = () => {
         socketRef.current = undefined;
       }
     };
-  }, []);
+  }, [athlete._id, boxId, selectedDate, sessions]);
 
   return (
     <>

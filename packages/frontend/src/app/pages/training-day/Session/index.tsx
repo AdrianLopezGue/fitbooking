@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, GridItem, Text } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
 
 export type SessionProps = {
   name: string;
@@ -20,16 +20,25 @@ const Session = ({ name, maxCapacity, assistants }: SessionProps) => {
         const isEmpty = index >= assistants.length;
 
         gridItems.push(
-          isEmpty ? (
-            <GridItem w="100%" h="10" key={index} bg="green.500" />
-          ) : (
-            <GridItem w="100%" h="10" key={index}>
-              <Avatar
-                src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                boxSize={40}
+          <GridItem
+            w="16"
+            h="16"
+            key={index}
+            bg={isEmpty ? 'green.500' : 'transparent'}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {!isEmpty && (
+              <Box
+                w="100%"
+                h="100%"
+                bgImage={`url(https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50)`}
+                bgSize="cover"
+                bgPosition="center"
               />
-            </GridItem>
-          ),
+            )}
+          </GridItem>,
         );
       }
     }
@@ -38,7 +47,7 @@ const Session = ({ name, maxCapacity, assistants }: SessionProps) => {
   };
 
   return (
-    <Box w="400px" borderWidth="1px" p={4} m={2}>
+    <Box maxW="maxContentWidth" borderWidth="1px" p={5} m={2}>
       <Text as="h2" fontSize="xl" fontWeight="bold" mb={0}>
         {name}
       </Text>

@@ -8,8 +8,15 @@ export class SessionSeatWasBookedHandler
 {
   constructor(private readonly websocketGateway: WebsocketSessionGateway) {}
   async handle(event: SessionSeatWasBookedEvent) {
-    this.websocketGateway.server.emit('classReserved', {
-      assistantRegistered: event.assistant,
-    });
+    const clients = this.websocketGateway.server.sockets.adapter.rooms.get(event.id);
+
+    if (clients) {
+      clients.forEach(clientId => {
+        this.websocketGateway.server.to(clientId).emit('classReserved', {
+          sessionId: event.id,
+          assistantRegistered: event.assistant,
+        });
+      });
+    }
   }
 }

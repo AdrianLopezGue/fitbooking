@@ -13,14 +13,26 @@ import Sidebar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
 import { AthleteContext } from '../../../contexts/athleteContext';
 
+type BoxListDTO = {
+  _id: string;
+  name: string;
+}[];
+
+type AthleteDTO = {
+  _id: string;
+  userId: string;
+  role: string;
+};
+
 type BoxDTO = {
   _id: string;
   name: string;
+  athletes: AthleteDTO[];
 };
 
 const BoxList = () => {
   const navigate = useNavigate();
-  const [boxes, setBoxes] = useState<BoxDTO[]>([]);
+  const [boxes, setBoxes] = useState<BoxListDTO>([]);
   const { token, user } = useContext(UserContext);
   const { setAthlete } = useContext(AthleteContext);
 
@@ -40,8 +52,14 @@ const BoxList = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
-      .then(res => {
-        setAthlete({ _id: res.athletes[0]._id, role: res.athletes[0].role });
+      .then((res: BoxDTO) => {
+        const athleteFound = res.athletes.find(athlete => athlete.userId === user._id);
+
+        if (!athleteFound) {
+          return;
+        }
+
+        setAthlete({ _id: athleteFound._id, role: athleteFound.role });
         navigate(`/${boxId}/sessions`);
       })
       .catch(err => console.error(err));
