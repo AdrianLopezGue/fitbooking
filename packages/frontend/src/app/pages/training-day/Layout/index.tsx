@@ -6,6 +6,8 @@ import { AthleteContext } from '../../../contexts/athleteContext';
 import { UserContext } from '../../../contexts/userContext';
 import Sidebar from '../Navbar';
 import Session from '../Session';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 type SessionDTO = {
   assistants: string[];
@@ -16,15 +18,15 @@ type SessionDTO = {
 const TrainingDay = () => {
   const socketRef = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const { boxId } = useParams();
   const { token, user } = useContext(UserContext);
   const { athlete } = useContext(AthleteContext);
 
   useEffect(() => {
-    const today = new Date();
-    const formattedDate = `${today.getFullYear()}-${
-      today.getMonth() + 1
-    }-${today.getDate()}`;
+    const formattedDate = `${selectedDate.getFullYear()}-${
+      selectedDate.getMonth() + 1
+    }-${selectedDate.getDate()}`;
 
     fetch(`http://localhost:3333/api/sessions?date=${formattedDate}&boxId=${boxId}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +34,7 @@ const TrainingDay = () => {
       .then(res => res.json())
       .then(res => setSessions(res))
       .catch(err => console.error(err));
-  }, [token, boxId]);
+  }, [selectedDate, token, boxId]);
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -74,6 +76,15 @@ const TrainingDay = () => {
     <>
       <Sidebar userName={user.name} role={athlete.role} />
       <Flex p={8} align={'center'} flexDirection={'column'}>
+        <DatePicker
+          selected={selectedDate}
+          onChange={date => {
+            if (date) {
+              setSelectedDate(date);
+            }
+          }}
+          inline
+        />
         {sessions.length
           ? sessions.map((session, index) => (
               <Session
