@@ -10,38 +10,11 @@ import {
   Link,
   Stack,
 } from '@chakra-ui/react';
-import { FormEvent, useState } from 'react';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRegisterPage } from './register.controller';
 
-const Registration = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const showToast = (message: string) =>
-    toast.error(message, {
-      position: 'bottom-center',
-      theme: 'dark',
-    });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    fetch('http://localhost:3333/api/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password }),
-    })
-      .then(data => data.json())
-      .then(data => {
-        if (data.status !== 201) {
-          showToast(data.message);
-        }
-      })
-      .catch(error => showToast(error));
-  };
+const Register = () => {
+  const { handleSubmit, form } = useRegisterPage();
 
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
@@ -52,25 +25,25 @@ const Registration = () => {
             <FormControl id="Name">
               <FormLabel>Name</FormLabel>
               <Input
+                {...form.register('name')}
                 type="name"
                 placeholder="Enter your name"
-                onChange={e => setName(e.target.value)}
               />
             </FormControl>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input
+                {...form.register('email')}
                 type="email"
                 placeholder="Enter your email"
-                onChange={e => setEmail(e.target.value)}
               />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <Input
+                {...form.register('password')}
                 type="password"
                 placeholder="Enter your Password"
-                onChange={e => setPassword(e.target.value)}
               />
             </FormControl>
             <Stack spacing={6}>
@@ -82,7 +55,12 @@ const Registration = () => {
                 <Checkbox>Remember me</Checkbox>
                 <Link color={'blue.500'}>Forgot password?</Link>
               </Stack>
-              <Button colorScheme={'blue'} variant={'solid'} type="submit">
+              <Button
+                colorScheme={'blue'}
+                variant={'solid'}
+                type="submit"
+                isLoading={form.formState.isSubmitting}
+              >
                 Sign up
               </Button>
             </Stack>
@@ -102,4 +80,4 @@ const Registration = () => {
   );
 };
 
-export { Registration };
+export { Register };
