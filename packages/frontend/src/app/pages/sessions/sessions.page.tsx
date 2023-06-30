@@ -6,7 +6,7 @@ import Session from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 
 const TrainingDay = () => {
-  const { user, selectedDate, setSelectedDate, athlete, sessions } = useSessionPage();
+  const { user, selectedDate, handleSelectedDate, athlete, sessions } = useSessionPage();
 
   return (
     <>
@@ -16,7 +16,7 @@ const TrainingDay = () => {
           selected={selectedDate}
           onChange={date => {
             if (date) {
-              setSelectedDate(date);
+              handleSelectedDate(date);
             }
           }}
           inline

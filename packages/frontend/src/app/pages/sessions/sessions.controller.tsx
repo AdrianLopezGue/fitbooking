@@ -32,7 +32,7 @@ export const useSessionPage = () => {
         selectedDate.getMonth() + 1
       }-${selectedDate.getDate()}`;
       socketRef.current = io('http://localhost:8080', {
-        query: { boxId, athleteId: athlete._id, date: formattedDate },
+        query: { boxId, date: formattedDate },
       });
 
       socketRef.current.on('connect', () => {
@@ -89,11 +89,25 @@ export const useSessionPage = () => {
         socketRef.current = undefined;
       }
     };
-  }, [athlete._id, boxId, selectedDate, sessions]);
+  }, [boxId, selectedDate, sessions]);
+
+  const handleSelectedDate = (date: Date) => {
+    setSelectedDate(date);
+    const formattedDate = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}`;
+
+    if (socketRef.current) {
+      socketRef.current.emit('dateChanged', {
+        boxId,
+        date: formattedDate,
+      });
+    }
+  };
 
   return {
     selectedDate,
-    setSelectedDate,
+    handleSelectedDate,
     user,
     athlete,
     sessions,

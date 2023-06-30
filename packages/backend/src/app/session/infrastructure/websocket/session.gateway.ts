@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { IQuery, QueryBus } from '@nestjs/cqrs';
 import {
   ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
@@ -27,22 +29,42 @@ export class WebsocketSessionGateway implements OnGatewayConnection, OnGatewayDi
   @WebSocketServer()
   server: Server;
 
-  private reservations: Map<string, string[]> = new Map<string, string[]>();
+  private sessions: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private readonly queryBus: QueryBus) {}
 
   async handleConnection(@ConnectedSocket() client: Socket) {
-    const { date, boxId, athleteId } = client.handshake.query as Query;
+    const { date, boxId } = client.handshake.query as Query;
     const dateParsed = Date.parse(date);
     const sessions = await this.queryBus.execute<IQuery, SessionDTO[]>(
       new GetSessionsByDateAndBoxQuery(new Date(dateParsed), boxId),
     );
-    this.reservations[athleteId] = sessions.map(session => session._id);
+    this.sessions[client.id] = sessions.map(session => session._id);
 
     sessions.forEach(session => client.join(session._id));
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    console.log(`Client disconnected: ${client.id}`, this.reservations);
+    console.log(`Client disconnected: ${client.id}`, this.sessions);
+    this.sessions.delete(client.id);
+  }
+
+  @SubscribeMessage('dateChanged')
+  async reserveSession(
+    @MessageBody()
+    { boxId, date }: { boxId: string; athleteId: string; date: string },
+    @ConnectedSocket() client: Socket,
+  ): Promise<void> {
+    if (this.sessions.has(client.id)) {
+      this.sessions.get(client.id).forEach(session => client.leave(session));
+      const dateParsed = Date.parse(date);
+      const sessions = await this.queryBus.execute<IQuery, SessionDTO[]>(
+        new GetSessionsByDateAndBoxQuery(new Date(dateParsed), boxId),
+      );
+
+      this.sessions[client.id] = sessions.map(session => session._id);
+
+      sessions.forEach(session => client.join(session._id));
+    }
   }
 }
