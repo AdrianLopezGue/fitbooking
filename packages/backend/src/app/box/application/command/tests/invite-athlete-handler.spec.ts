@@ -21,10 +21,10 @@ describe('Invite athlete handler', () => {
 
     expect(result.isOk()).toBe(true);
 
-    const boxsFound = await boxRepository.findAll();
-    expect(boxsFound).toHaveLength(1);
-    expect(boxsFound[0].athletes).toHaveLength(1);
-    expect(boxsFound[0].athletes[0].email.value).toBe(user.email.value);
+    const boxesFound = await boxRepository.findAll();
+    expect(boxesFound).toHaveLength(1);
+    expect(boxesFound[0].athletes).toHaveLength(1);
+    expect(boxesFound[0].athletes[0].email.value).toBe(user.email.value);
   });
 
   it('should return error if box is not found', async () => {
