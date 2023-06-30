@@ -1,9 +1,9 @@
+import { UserDTO } from '@fitbooking/contracts';
 import { Injectable } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { GetUserByEmailQuery } from '../user/application/query/get-user-by-email.query';
-import { UserDTO } from '../user/application/service/user-finder.service';
 
 @Injectable()
 export class AuthService {

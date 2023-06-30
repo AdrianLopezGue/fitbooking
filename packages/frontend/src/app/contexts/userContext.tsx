@@ -1,11 +1,5 @@
-import React, { ReactNode, createContext, useState, useEffect } from 'react';
-
-type UserDTO = {
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-};
+import { UserDTO } from '@fitbooking/contracts';
+import React, { ReactNode, createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext<{
   user: UserDTO;

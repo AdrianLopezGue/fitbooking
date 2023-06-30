@@ -1,3 +1,4 @@
+import { UserDTO } from '@fitbooking/contracts';
 import {
   Body,
   Controller,
@@ -10,9 +11,8 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserDTO } from '../../application/service/user-finder.service';
-import { UserService } from '../service/user.service';
 import { Public } from '../../../auth/public.decorator';
+import { UserService } from '../service/user.service';
 
 @Controller('user')
 export class UserController {

@@ -1,4 +1,5 @@
-import { UserDTO, UserFinder } from '../../application/service/user-finder.service';
+import { UserDTO } from '@fitbooking/contracts';
+import { UserFinder } from '../../application/service/user-finder.service';
 import { User } from '../../domain/model/user';
 
 export class InMemoryUserFinder implements UserFinder {

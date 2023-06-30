@@ -1,10 +1,10 @@
+import { UserDTO } from '@fitbooking/contracts';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, ICommand, IQuery, QueryBus } from '@nestjs/cqrs';
 import { Result } from 'neverthrow';
-import { UserDTO } from '../../application/service/user-finder.service';
-import { GetUserByIdQuery } from '../../application/query/get-user-by-id.query';
 import { CreateUserCommand } from '../../application/command/create-user.command';
 import { GetUserByEmailQuery } from '../../application/query/get-user-by-email.query';
+import { GetUserByIdQuery } from '../../application/query/get-user-by-id.query';
 
 @Injectable()
 export class UserService {
