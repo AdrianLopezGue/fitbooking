@@ -2,9 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import { PrivateRoute } from './privateRoute';
 import { TrainingDay } from '../pages/training-day/Layout';
 import { BoxList } from '../pages/box-list/Layout';
-import { Login } from '../pages/auth/Login';
 import { Registration } from '../pages/auth/Register';
 import { AthleteProvider } from '../contexts/athleteContext';
+import { loginRoute } from '../pages/auth/Login/login.route';
 
 export const router = createBrowserRouter([
   {
@@ -27,10 +27,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  {
-    path: '/login',
-    element: <Login></Login>,
-  },
+  loginRoute,
   {
     path: '/register',
     element: <Registration></Registration>,

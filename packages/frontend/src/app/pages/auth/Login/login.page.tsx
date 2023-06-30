@@ -10,50 +10,12 @@ import {
   Link,
   Stack,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import userActions from '../../../actions/userActions';
-import { UserContext } from '../../../contexts/userContext';
+import { useLoginPage } from './login.controller';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { setToken, token, setUser } = useContext(UserContext);
-  const showToast = (message: string) =>
-    toast.error(message, {
-      position: 'bottom-center',
-      theme: 'dark',
-    });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    userActions
-      .login(email, password)
-      .then(response => {
-        if (response.error) {
-          showToast(response.error);
-          return;
-        }
-
-        setToken(response);
-      })
-      .catch(error => showToast(error));
-  };
-
-  useEffect(() => {
-    if (token) {
-      userActions
-        .getByEmail(email, token)
-        .then(data => {
-          setUser(data);
-          navigate('/boxes');
-        })
-        .catch(error => showToast(error));
-    }
-  }, [token, email, navigate, setUser]);
+  const { handleSubmit, form } = useLoginPage();
 
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
@@ -62,19 +24,21 @@ const Login = () => {
           <Heading fontSize={'2xl'}>Sign in to your account</Heading>
           <form onSubmit={handleSubmit}>
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel htmlFor="email">Email address</FormLabel>
               <Input
-                type="email"
+                {...form.register('email')}
+                id="email"
+                type="text"
                 placeholder="Enter your email"
-                onChange={e => setEmail(e.target.value)}
               />
             </FormControl>
             <FormControl id="password">
-              <FormLabel>Password</FormLabel>
+              <FormLabel htmlFor="password">Password</FormLabel>
               <Input
+                {...form.register('password')}
+                id="password"
                 type="password"
                 placeholder="Enter your Password"
-                onChange={e => setPassword(e.target.value)}
               />
             </FormControl>
             <Stack spacing={6}>
@@ -86,7 +50,12 @@ const Login = () => {
                 <Checkbox>Remember me</Checkbox>
                 <Link color={'blue.500'}>Forgot password?</Link>
               </Stack>
-              <Button colorScheme={'blue'} variant={'solid'} type="submit">
+              <Button
+                colorScheme={'blue'}
+                variant={'solid'}
+                type="submit"
+                isLoading={form.formState.isSubmitting}
+              >
                 Sign in
               </Button>
             </Stack>
