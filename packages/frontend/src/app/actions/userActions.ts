@@ -28,11 +28,7 @@ export default {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
-      const data = await res.json();
-      console.log(data);
-
-      return data;
+      return await res.json();
     } catch (error) {
       console.log(error);
       throw error;
