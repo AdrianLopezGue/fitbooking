@@ -1,20 +1,10 @@
-import {
-  Button,
-  Card,
-  CardFooter,
-  CardHeader,
-  Flex,
-  Grid,
-  Heading,
-} from '@chakra-ui/react';
 import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AthleteContext } from '../../../contexts/athleteContext';
-import { UserContext } from '../../../contexts/userContext';
-import Sidebar from '../Navbar';
+import { UserContext } from '../../contexts/userContext';
+import { AthleteContext } from '../../contexts/athleteContext';
 
-const BoxList = () => {
+export const useBoxListPage = () => {
   const navigate = useNavigate();
   const [boxes, setBoxes] = useState<BoxListDTO>([]);
   const { token, user } = useContext(UserContext);
@@ -53,27 +43,5 @@ const BoxList = () => {
       .catch(err => console.error(err));
   };
 
-  return (
-    <>
-      <Sidebar userName={user.name} />
-      <Flex p={8} align={'center'} justifyContent="center">
-        <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="800px">
-          {boxes.length
-            ? boxes.map(box => (
-                <Card key={box._id}>
-                  <CardHeader>
-                    <Heading size="md">{box.name}</Heading>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button onClick={() => handleClick(box._id)}>Enter</Button>
-                  </CardFooter>
-                </Card>
-              ))
-            : undefined}
-        </Grid>
-      </Flex>
-    </>
-  );
+  return { handleClick, boxes };
 };
-
-export { BoxList };

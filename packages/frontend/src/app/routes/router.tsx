@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { PrivateRoute } from './privateRoute';
 import { TrainingDay } from '../pages/training-day/Layout';
-import { BoxList } from '../pages/box-list/Layout';
 import { AthleteProvider } from '../contexts/athleteContext';
 import { loginRoute } from '../pages/auth/Login/login.route';
 import { registerRoute } from '../pages/auth/Register/register.route';
+import { boxListRoute } from '../pages/box-list/box-list.route';
 
 export const router = createBrowserRouter([
   {
@@ -17,16 +17,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  {
-    path: '/boxes',
-    element: (
-      <PrivateRoute>
-        <AthleteProvider>
-          <BoxList></BoxList>
-        </AthleteProvider>
-      </PrivateRoute>
-    ),
-  },
+  boxListRoute,
   loginRoute,
   registerRoute,
 ]);
