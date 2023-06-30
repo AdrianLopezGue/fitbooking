@@ -1,22 +1,18 @@
+import { AthleteDTO } from '@fitbooking/contracts';
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
-
-type AthleteDTO = {
-  _id: string;
-  role: string;
-};
 
 export const AthleteContext = createContext<{
   athlete: AthleteDTO;
   setAthlete: React.Dispatch<React.SetStateAction<AthleteDTO>>;
 }>({
-  athlete: { _id: '', role: '' },
+  athlete: { _id: '', userId: '', role: '' },
   setAthlete: () => undefined,
 });
 
 const AthleteProvider = ({ children }: { children: ReactNode }) => {
   const [athlete, setAthlete] = useState<AthleteDTO>(() => {
     const storedAthlete = localStorage.getItem('athlete');
-    return storedAthlete ? JSON.parse(storedAthlete) : { _id: '', role: '' };
+    return storedAthlete ? JSON.parse(storedAthlete) : { _id: '', userId: '', role: '' };
   });
 
   useEffect(() => {

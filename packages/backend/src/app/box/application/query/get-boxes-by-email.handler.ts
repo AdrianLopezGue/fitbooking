@@ -1,7 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
-import { BoxFinder, BoxListDTO, BOX_FINDER } from '../service/box-finder.service';
+import { BoxListDTO } from '@fitbooking/contracts';
+import { BOX_FINDER, BoxFinder } from '../service/box-finder.service';
 import { GetBoxesByEmailQuery } from './get-boxes-by-email.query';
 
 @QueryHandler(GetBoxesByEmailQuery)

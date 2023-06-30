@@ -1,11 +1,11 @@
+import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, ICommand, IQuery, QueryBus } from '@nestjs/cqrs';
 import { Result } from 'neverthrow';
-import { CreateBoxCommand } from '../../application/command/create-box.command';
-import { BoxDTO, BoxListDTO } from '../../application/service/box-finder.service';
-import { GetBoxByIdQuery } from '../../application/query/get-box-by-id.query';
-import { InviteAthleteCommand } from '../../application/command/invite-athlete.command';
 import { AcceptInvitationCommand } from '../../application/command/accept-invitation.command';
+import { CreateBoxCommand } from '../../application/command/create-box.command';
+import { InviteAthleteCommand } from '../../application/command/invite-athlete.command';
+import { GetBoxByIdQuery } from '../../application/query/get-box-by-id.query';
 import { GetBoxesByEmailQuery } from '../../application/query/get-boxes-by-email.query';
 
 @Injectable()

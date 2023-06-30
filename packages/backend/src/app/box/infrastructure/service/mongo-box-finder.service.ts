@@ -2,11 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import {
-  BoxFinder,
-  BoxDTO,
-  BoxListDTO,
-} from '../../application/service/box-finder.service';
+import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
+import { BoxFinder } from '../../application/service/box-finder.service';
 import {
   ATHLETE_PROJECTION,
   AthleteDocument,

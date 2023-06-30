@@ -7,28 +7,12 @@ import {
   Grid,
   Heading,
 } from '@chakra-ui/react';
+import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AthleteContext } from '../../../contexts/athleteContext';
 import { UserContext } from '../../../contexts/userContext';
 import Sidebar from '../Navbar';
-
-type BoxListDTO = {
-  _id: string;
-  name: string;
-}[];
-
-type AthleteDTO = {
-  _id: string;
-  userId: string;
-  role: string;
-};
-
-type BoxDTO = {
-  _id: string;
-  name: string;
-  athletes: AthleteDTO[];
-};
 
 const BoxList = () => {
   const navigate = useNavigate();
@@ -59,7 +43,11 @@ const BoxList = () => {
           return;
         }
 
-        setAthlete({ _id: athleteFound._id, role: athleteFound.role });
+        setAthlete({
+          _id: athleteFound._id,
+          userId: athleteFound.userId,
+          role: athleteFound.role,
+        });
         navigate(`/${boxId}/sessions`);
       })
       .catch(err => console.error(err));

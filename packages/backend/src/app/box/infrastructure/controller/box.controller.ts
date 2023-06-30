@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { BoxService } from '../service/box.service';
-import { BoxDTO, BoxListDTO } from '../../application/service/box-finder.service';
+import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 
 @Controller('box')
 export class BoxController {

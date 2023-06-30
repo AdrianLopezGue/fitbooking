@@ -1,7 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
-import { BoxFinder, BoxDTO, BOX_FINDER } from '../service/box-finder.service';
+import { BoxDTO } from '@fitbooking/contracts';
+import { BOX_FINDER, BoxFinder } from '../service/box-finder.service';
 import { GetBoxByIdQuery } from './get-box-by-id.query';
 
 @QueryHandler(GetBoxByIdQuery)
