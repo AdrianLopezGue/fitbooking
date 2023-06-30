@@ -4,14 +4,14 @@ import {
   CardFooter,
   CardHeader,
   Flex,
+  Grid,
   Heading,
-  SimpleGrid,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../contexts/userContext';
-import Sidebar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
 import { AthleteContext } from '../../../contexts/athleteContext';
+import { UserContext } from '../../../contexts/userContext';
+import Sidebar from '../Navbar';
 
 type BoxListDTO = {
   _id: string;
@@ -68,11 +68,11 @@ const BoxList = () => {
   return (
     <>
       <Sidebar userName={user.name} />
-      <Flex p={8} align={'center'} flexDirection={'column'}>
-        <SimpleGrid spacing={4} templateColumns="repeat(auto-fill, minmax(200px, 1fr))">
+      <Flex p={8} align={'center'} justifyContent="center">
+        <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="800px">
           {boxes.length
             ? boxes.map(box => (
-                <Card>
+                <Card key={box._id}>
                   <CardHeader>
                     <Heading size="md">{box.name}</Heading>
                   </CardHeader>
@@ -82,7 +82,7 @@ const BoxList = () => {
                 </Card>
               ))
             : undefined}
-        </SimpleGrid>
+        </Grid>
       </Flex>
     </>
   );
