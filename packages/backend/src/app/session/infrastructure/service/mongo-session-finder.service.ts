@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import {
-  SessionDTO,
-  SessionFinder,
-} from '../../application/service/session-finder.service';
+import { SessionFinder } from '../../application/service/session-finder.service';
 import { SESSION_PROJECTION, SessionDocument } from '../projection/session.schema';
+import { SessionDTO } from '@fitbooking/contracts';
 
 @Injectable()
 export class MongoSessionFinder implements SessionFinder {

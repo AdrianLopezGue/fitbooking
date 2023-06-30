@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { SessionService } from '../service/session.service';
-import { SessionDTO } from '../../application/service/session-finder.service';
+import { SessionDTO } from '@fitbooking/contracts';
 
 @Controller('sessions')
 export class SessionController {

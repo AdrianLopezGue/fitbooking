@@ -1,12 +1,6 @@
-export const SESSION_FINDER = 'SESSION_FINDER';
+import { SessionDTO } from '@fitbooking/contracts';
 
-export type SessionDTO = {
-  _id: string;
-  name: string;
-  assistants: string[];
-  maxCapacity: number;
-  date: Date;
-};
+export const SESSION_FINDER = 'SESSION_FINDER';
 
 export interface SessionFinder {
   find(id: string): Promise<SessionDTO | undefined>;

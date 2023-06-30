@@ -8,8 +8,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { SessionDTO } from '../../application/service/session-finder.service';
 import { GetSessionsByDateAndBoxQuery } from '../../application/query/get-sessions-by-date-and-box.query';
+import { SessionDTO } from '@fitbooking/contracts';
 
 type Query = {
   date: string;

@@ -8,13 +8,7 @@ import Sidebar from '../Navbar';
 import Session from '../Session';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-type SessionDTO = {
-  _id: string;
-  assistants: string[];
-  maxCapacity: number;
-  name: string;
-};
+import { SessionDTO } from '@fitbooking/contracts';
 
 const TrainingDay = () => {
   const socketRef = useRef<Socket>();
