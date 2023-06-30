@@ -1,4 +1,4 @@
-import { TrainingDay } from './pages/training-day/Layout/index';
+import { TrainingDay } from './pages/sessions/Layout/index';
 
 export function App() {
   return <TrainingDay></TrainingDay>;

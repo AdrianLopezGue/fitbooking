@@ -1,16 +1,11 @@
-import { Flex } from '@chakra-ui/react';
+import { SessionDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
-import { AthleteContext } from '../../../contexts/athleteContext';
-import { UserContext } from '../../../contexts/userContext';
-import Sidebar from '../Navbar';
-import Session from '../Session';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { SessionDTO } from '@fitbooking/contracts';
+import { UserContext } from '../../contexts/userContext';
+import { AthleteContext } from '../../contexts/athleteContext';
 
-const TrainingDay = () => {
+export const useSessionPage = () => {
   const socketRef = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -96,33 +91,11 @@ const TrainingDay = () => {
     };
   }, [athlete._id, boxId, selectedDate, sessions]);
 
-  return (
-    <>
-      <Sidebar userName={user.name} role={athlete.role} />
-      <Flex p={8} align={'center'} flexDirection={'column'}>
-        <DatePicker
-          selected={selectedDate}
-          onChange={date => {
-            if (date) {
-              setSelectedDate(date);
-            }
-          }}
-          inline
-        />
-        {sessions.length
-          ? sessions.map((session, index) => (
-              <Session
-                key={index}
-                name={session.name}
-                maxCapacity={session.maxCapacity}
-                assistants={session.assistants}
-              />
-            ))
-          : undefined}{' '}
-        {}
-      </Flex>
-    </>
-  );
+  return {
+    selectedDate,
+    setSelectedDate,
+    user,
+    athlete,
+    sessions,
+  };
 };
-
-export { TrainingDay };
