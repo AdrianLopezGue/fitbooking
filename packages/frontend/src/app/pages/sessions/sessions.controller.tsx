@@ -9,6 +9,7 @@ export const useSessionPage = () => {
   const socketRef = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [calendarIsShown, showCalendar] = useState(false);
   const { boxId } = useParams();
   const { token, user } = useContext(UserContext);
   const { athlete } = useContext(AthleteContext);
@@ -105,9 +106,19 @@ export const useSessionPage = () => {
     }
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('eS-ES', {
+      day: '2-digit',
+      month: '2-digit',
+    });
+  };
+
   return {
     selectedDate,
     handleSelectedDate,
+    calendarIsShown,
+    showCalendar,
+    formatDate,
     user,
     athlete,
     sessions,
