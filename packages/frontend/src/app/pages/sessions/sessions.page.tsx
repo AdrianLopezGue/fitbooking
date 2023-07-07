@@ -63,18 +63,21 @@ const TrainingDay = () => {
               {formatDate(tomorrow)}
             </Button>
           </Flex>
-          {sessions.length
-            ? sessions.map((session, index) => (
-                <Session
-                  key={index}
-                  name={session.name}
-                  maxCapacity={session.maxCapacity}
-                  assistants={session.assistants}
-                  date={session.date.toString()}
-                />
-              ))
-            : undefined}{' '}
-          {}
+          <Flex flexDirection="column" gap={4}>
+            {sessions.length
+              ? sessions.map((session, index) => (
+                  <Session
+                    key={index}
+                    id={session._id}
+                    name={session.name}
+                    maxCapacity={session.maxCapacity}
+                    assistants={session.assistants}
+                    date={session.date.toString()}
+                  />
+                ))
+              : undefined}{' '}
+            {}
+          </Flex>
         </Box>
       </Flex>
     </>
