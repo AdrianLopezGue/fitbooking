@@ -1,8 +1,8 @@
 import { Box, Text } from '@chakra-ui/react';
-import { BookSeatButton } from './book-seat-button.component';
-import { CancelSeatButton } from './cancel-seat-button.component';
+import { BookSeatButton } from '../buttons/book-seat-button.component';
+import { CancelSeatButton } from '../buttons/cancel-seat-button.component';
 import { CoachImage } from './coach-image.component';
-import { FinishedButton } from './finished-session-button.component';
+import { FinishedSessionButton } from '../buttons/finished-session-button.component';
 import { useSessionComponent } from './session.controller';
 import { AssistantsGrid } from './assistants-grid.component';
 
@@ -34,7 +34,7 @@ const Session = ({ id, name, maxCapacity, assistants, date }: SessionProps) => {
       </Box>
       <AssistantsGrid maxCapacity={maxCapacity} assistants={assistants} />
       {hasPassed ? (
-        <FinishedButton />
+        <FinishedSessionButton />
       ) : isTraining ? (
         <CancelSeatButton onClick={() => handleCanceled()} />
       ) : (

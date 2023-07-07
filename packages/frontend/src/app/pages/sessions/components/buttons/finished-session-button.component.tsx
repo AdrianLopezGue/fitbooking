@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react';
 
-const FinishedButton = () => {
+const FinishedSessionButton = () => {
   return (
     <Button colorScheme={'teal'} color={'white'} isDisabled={true}>
       Finished
@@ -8,4 +8,4 @@ const FinishedButton = () => {
   );
 };
 
-export { FinishedButton };
+export { FinishedSessionButton };

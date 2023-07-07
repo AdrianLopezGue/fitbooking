@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-			"@fitbooking/contracts": ["libs/contracts/src/index.ts"],
-		}
+      "@fitbooking/contracts": ["libs/contracts/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
