@@ -2,7 +2,7 @@ import { Sidebar } from './navbar.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Components/Sessions/Navbar/Sidebar',
+  title: 'Components/Sessions/Navbar/Navbar',
   component: Sidebar,
 } as Meta<typeof Sidebar>;
 
