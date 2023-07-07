@@ -2,7 +2,7 @@ import { FinishedSessionButton } from './finished-session-button.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Sessions/Components/Buttons/FinishedSessionButton',
+  title: 'Components/Sessions/Buttons/FinishedSessionButton',
   component: FinishedSessionButton,
 } as Meta<typeof FinishedSessionButton>;
 

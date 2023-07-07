@@ -2,7 +2,7 @@ import { BookSeatButton } from './book-seat-button.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Sessions/Components/Buttons/BookSeatButton',
+  title: 'Components/Sessions/Buttons/BookSeatButton',
   component: BookSeatButton,
   argTypes: { onClick: { action: 'book' } },
 } as Meta<typeof BookSeatButton>;
