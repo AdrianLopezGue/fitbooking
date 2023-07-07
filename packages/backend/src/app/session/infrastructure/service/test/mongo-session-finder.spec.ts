@@ -117,5 +117,33 @@ describe('MongoSessionFinder', () => {
 
       expect(result).toHaveLength(0);
     });
+
+    it('should return sessions from given date', async () => {
+      const date = new Date('2023-7-7');
+      const boxId = 'a780873d-4bd2-44c7-b4f4-434781b2ee2b';
+      const sessionInSameDate: SessionDocument = {
+        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        name: 'Session name 1',
+        boxId,
+        assistants: [],
+        maxCapacity: 1,
+        date: new Date('2023-07-07T06:56:17.126Z'),
+      };
+      const session2: SessionDocument = {
+        _id: 'ca014231-72db-4c32-adc1-c744a2e3b3a6',
+        name: 'Session name 2',
+        boxId: '2712bd5c-6d28-4346-982b-27272ae6934f',
+        assistants: [],
+        maxCapacity: 1,
+        date: new Date('2023-06-18'),
+      };
+
+      await sessionProjectionModel.create([sessionInSameDate, session2]);
+
+      const result = await sessionFinder.findByDateAndBox(date, boxId);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]._id).toEqual(sessionInSameDate._id);
+    });
   });
 });

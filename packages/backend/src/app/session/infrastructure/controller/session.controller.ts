@@ -80,9 +80,10 @@ export class SessionController {
 
   @Get()
   async getByDateAndBox(
-    @Query('date') date: Date,
+    @Query('date') date: string,
     @Query('boxId') boxId: string,
   ): Promise<SessionDTO[] | undefined> {
-    return await this.sessionService.getSessionsByDateAndBox(date, boxId);
+    const parsedDate = new Date(date);
+    return await this.sessionService.getSessionsByDateAndBox(parsedDate, boxId);
   }
 }
