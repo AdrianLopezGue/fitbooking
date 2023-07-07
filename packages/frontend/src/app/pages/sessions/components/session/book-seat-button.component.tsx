@@ -7,7 +7,7 @@ const BookSeatButton = ({
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <Button colorScheme={'red'} color={'white'} onClick={onClick}>
+    <Button colorScheme={'teal'} color={'white'} onClick={onClick}>
       Train
     </Button>
   );
