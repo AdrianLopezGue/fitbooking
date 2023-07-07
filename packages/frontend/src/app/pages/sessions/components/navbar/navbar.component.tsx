@@ -38,7 +38,7 @@ type SidebarProps = {
   role: string;
 };
 
-export default function Sidebar(props: SidebarProps) {
+const Sidebar = (props: SidebarProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
 
@@ -127,7 +127,7 @@ export default function Sidebar(props: SidebarProps) {
       </Collapse>
     </Box>
   );
-}
+};
 
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
@@ -292,3 +292,5 @@ const NAV_ITEMS: Array<NavItem> = [
     href: 'boxes',
   },
 ];
+
+export { Sidebar };

@@ -1,5 +1,5 @@
 import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
-import Sidebar from './components/navbar/navbar.component';
+import { Sidebar } from './components/navbar/navbar.component';
 import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
