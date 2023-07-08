@@ -3,7 +3,7 @@ import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
 import { Calendar } from './components/calendar/calendar.component';
-import { Navbar } from './components/navbar/navbar.component';
+import { SidebarWithHeader } from './components/sidebar/sidebar.component';
 
 const TrainingDay = () => {
   const {
@@ -26,8 +26,7 @@ const TrainingDay = () => {
   yesterday.setDate(selectedDate.getDate() - 1);
 
   return (
-    <>
-      <Navbar userName={user.name} role={athlete.role} boxId={boxId} />
+    <SidebarWithHeader boxId={boxId} userName={user.name} role={athlete.role}>
       <Flex p={4} align={'center'} flexDirection={'column'}>
         <Box flex="row" width={'500px'}>
           {calendarIsShown ? (
@@ -81,7 +80,7 @@ const TrainingDay = () => {
           </Flex>
         </Box>
       </Flex>
-    </>
+    </SidebarWithHeader>
   );
 };
 
