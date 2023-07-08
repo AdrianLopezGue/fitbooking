@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { useBoxListPage } from './box-list.controller';
 import { BoxCard } from './components/box-card/box-card.component';
-import Sidebar from './components/navbar/navbar.component';
+import { NavBar } from './components/navbar/navbar.component';
 
 const BoxList = () => {
   const { user } = useContext(UserContext);
@@ -11,7 +11,7 @@ const BoxList = () => {
 
   return (
     <>
-      <Sidebar userName={user.name} />
+      <NavBar userName={user.name} />
       <Flex p={8} align={'center'} justifyContent="center">
         <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="70%">
           {boxes.length

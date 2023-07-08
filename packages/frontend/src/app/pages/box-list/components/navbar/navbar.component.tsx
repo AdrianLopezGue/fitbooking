@@ -20,11 +20,11 @@ import {
 } from '@chakra-ui/react';
 import { FiChevronDown } from 'react-icons/fi';
 
-type SidebarProps = {
+type NavBarProps = {
   userName: string;
 };
 
-export default function Sidebar(props: SidebarProps) {
+export const NavBar = (props: NavBarProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen } = useDisclosure();
 
@@ -93,7 +93,7 @@ export default function Sidebar(props: SidebarProps) {
       </Collapse>
     </Box>
   );
-}
+};
 
 const DesktopNav = () => {
   return <Stack direction={'row'} spacing={4}></Stack>;
