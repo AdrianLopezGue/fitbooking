@@ -1,11 +1,18 @@
 import { UserDTO } from '@fitbooking/contracts';
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 
 export const UserContext = createContext<{
   user: UserDTO;
-  setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
+  setUser: Dispatch<SetStateAction<UserDTO>>;
   token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
+  setToken: Dispatch<SetStateAction<string>>;
 }>({
   user: { _id: '', name: '', email: '', password: '' },
   setUser: () => undefined,

@@ -1,9 +1,16 @@
 import { AthleteDTO } from '@fitbooking/contracts';
-import React, { ReactNode, createContext, useState, useEffect } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 
 export const AthleteContext = createContext<{
   athlete: AthleteDTO;
-  setAthlete: React.Dispatch<React.SetStateAction<AthleteDTO>>;
+  setAthlete: Dispatch<SetStateAction<AthleteDTO>>;
 }>({
   athlete: { _id: '', userId: '', role: '' },
   setAthlete: () => undefined,
