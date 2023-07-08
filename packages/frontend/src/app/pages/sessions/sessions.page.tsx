@@ -1,4 +1,4 @@
-import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import { Button, Flex, IconButton } from '@chakra-ui/react';
 import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
