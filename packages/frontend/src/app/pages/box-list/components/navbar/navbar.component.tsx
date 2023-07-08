@@ -14,7 +14,6 @@ import {
   Stack,
   Text,
   VStack,
-  useBreakpointValue,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -43,11 +42,7 @@ export default function Sidebar(props: SidebarProps) {
         align={'center'}
       >
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}
-          >
+          <Text mx="4" fontSize="2xl" fontWeight="bold">
             Fitbooking
           </Text>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
