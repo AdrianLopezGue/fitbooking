@@ -5,6 +5,7 @@ import io, { Socket } from 'socket.io-client';
 import { UserContext } from '../../contexts/userContext';
 import { AthleteContext } from '../../contexts/athleteContext';
 import { boxActions } from '../../actions/boxActions';
+import { sessionActions } from '../../actions/sessionActions';
 
 export const useSessionPage = () => {
   const socketRef = useRef<Socket>();
@@ -28,10 +29,8 @@ export const useSessionPage = () => {
       selectedDate.getMonth() + 1
     }-${selectedDate.getDate()}`;
 
-    fetch(`http://localhost:3333/api/sessions?date=${formattedDate}&boxId=${boxId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
+    sessionActions
+      .findSessionsByDateAndBox(formattedDate, boxId || '', token)
       .then(res => setSessions(res))
       .catch(err => console.error(err));
   }, [selectedDate, token, boxId]);

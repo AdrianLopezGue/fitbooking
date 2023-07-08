@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/userContext';
 import { AthleteContext } from '../../contexts/athleteContext';
+import { boxActions } from '../../actions/boxActions';
 
 export const useBoxListPage = () => {
   const navigate = useNavigate();
@@ -11,10 +12,8 @@ export const useBoxListPage = () => {
   const { setAthlete } = useContext(AthleteContext);
 
   useEffect(() => {
-    fetch(`http://localhost:3333/api/box?email=${user.email}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
+    boxActions
+      .findBoxByEmail(user.email, token)
       .then(res => {
         setBoxes(res);
       })
@@ -22,10 +21,8 @@ export const useBoxListPage = () => {
   }, [user.email, token]);
 
   const handleClick = (boxId: string) => {
-    fetch(`http://localhost:3333/api/box/${boxId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
+    boxActions
+      .findBoxById(boxId, token)
       .then((res: BoxDTO) => {
         const athleteFound = res.athletes.find(athlete => athlete.userId === user._id);
 

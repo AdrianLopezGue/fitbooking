@@ -44,7 +44,24 @@ const cancelSeat = async (sessionId: string, athleteId: string, token: string) =
   }
 };
 
+const findSessionsByDateAndBox = async (date: string, boxId: string, token: string) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3333/api/sessions?date=${date}&boxId=${boxId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    return res.json();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const sessionActions = {
   bookSeat,
   cancelSeat,
+  findSessionsByDateAndBox,
 };
