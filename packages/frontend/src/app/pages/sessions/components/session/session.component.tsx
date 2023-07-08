@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { BookSeatButton } from '../buttons/book-seat-button.component';
 import { CancelSeatButton } from '../buttons/cancel-seat-button.component';
 import { CoachImage } from './coach-image.component';
@@ -19,19 +19,19 @@ const Session = ({ id, name, maxCapacity, assistants, date }: SessionProps) => {
 
   return (
     <Box borderWidth="1px" borderColor="teal" borderRadius="md" p={4}>
-      <Box display="flex" alignItems="center">
-        <Box display="flex" flexGrow="1" alignItems="center">
+      <Flex alignItems="center">
+        <Flex flexGrow="1" alignItems="center">
           <CoachImage
             imageUrl={'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'}
           />
           <Text as="h2" fontSize="xl" fontWeight="bold" ml={4}>
             {name}
           </Text>
-        </Box>
+        </Flex>
         <Text as="h2" fontSize="xl" fontWeight="bold">
           {`${hours}:${minutes}`}
         </Text>
-      </Box>
+      </Flex>
       <AssistantsGrid maxCapacity={maxCapacity} assistants={assistants} />
       {hasPassed ? (
         <FinishedSessionButton />

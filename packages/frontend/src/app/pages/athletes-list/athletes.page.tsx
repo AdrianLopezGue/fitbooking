@@ -42,7 +42,7 @@ const DataTable = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <Box flex="row" width={'70%'}>
+    <Flex flexDirection={'column'} width={'70%'}>
       <Input
         placeholder="Buscar por email"
         value={searchEmail}
@@ -80,7 +80,7 @@ const DataTable = () => {
           ),
         )}
       </HStack>
-    </Box>
+    </Flex>
   );
 };
 

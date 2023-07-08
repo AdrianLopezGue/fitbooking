@@ -34,7 +34,7 @@ const TrainingDay = () => {
       boxName={boxName}
     >
       <Flex p={4} align={'center'} flexDirection={'column'}>
-        <Box flex="row" width={'500px'}>
+        <Flex flexDirection={'column'} width={'500px'}>
           {calendarIsShown ? (
             <Calendar
               month={currentMonth}
@@ -84,7 +84,7 @@ const TrainingDay = () => {
               : undefined}{' '}
             {}
           </Flex>
-        </Box>
+        </Flex>
       </Flex>
     </SidebarWithHeader>
   );
