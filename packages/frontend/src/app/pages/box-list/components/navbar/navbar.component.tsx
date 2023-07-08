@@ -48,7 +48,7 @@ export default function Sidebar(props: SidebarProps) {
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}
           >
-            Logo
+            Fitbooking
           </Text>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
