@@ -122,5 +122,6 @@ export const useSessionPage = () => {
     user,
     athlete,
     sessions,
+    boxId: boxId || '',
   };
 };

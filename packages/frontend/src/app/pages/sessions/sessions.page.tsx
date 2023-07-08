@@ -15,6 +15,7 @@ const TrainingDay = () => {
     handleSelectedDate,
     athlete,
     sessions,
+    boxId,
   } = useSessionPage();
   const currentMonth = selectedDate.getMonth() + 1;
   const currentYear = selectedDate.getFullYear();
@@ -26,7 +27,7 @@ const TrainingDay = () => {
 
   return (
     <>
-      <Navbar userName={user.name} role={athlete.role} />
+      <Navbar userName={user.name} role={athlete.role} boxId={boxId} />
       <Flex p={4} align={'center'} flexDirection={'column'}>
         <Box flex="row" width={'500px'}>
           {calendarIsShown ? (
