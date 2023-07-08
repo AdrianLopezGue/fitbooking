@@ -4,15 +4,24 @@ import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import { UserContext } from '../../contexts/userContext';
 import { AthleteContext } from '../../contexts/athleteContext';
+import { boxActions } from '../../actions/boxActions';
 
 export const useSessionPage = () => {
   const socketRef = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [calendarIsShown, showCalendar] = useState(false);
+  const [boxName, setBoxName] = useState('');
   const { boxId } = useParams();
   const { token, user } = useContext(UserContext);
   const { athlete } = useContext(AthleteContext);
+
+  useEffect(() => {
+    boxActions
+      .findBoxById(boxId || '', token)
+      .then(res => setBoxName(res.name))
+      .catch(err => console.error(err));
+  });
 
   useEffect(() => {
     const formattedDate = `${selectedDate.getFullYear()}-${
@@ -123,5 +132,6 @@ export const useSessionPage = () => {
     athlete,
     sessions,
     boxId: boxId || '',
+    boxName,
   };
 };

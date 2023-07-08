@@ -24,7 +24,6 @@ const athletesData = [
     email: 'atleta1@example.com',
     joinedAt: '2022-01-01',
   },
-  // Aquí puedes agregar más datos de atletas
 ];
 
 const DataTable = () => {
@@ -32,19 +31,14 @@ const DataTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Filtrar los atletas por email
   const filteredAthletes = athletesData.filter(athlete =>
     athlete.email.toLowerCase().includes(searchEmail.toLowerCase()),
   );
 
-  // Calcular el índice del último elemento en la página
   const indexOfLastItem = currentPage * itemsPerPage;
-  // Calcular el índice del primer elemento en la página
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // Obtener los atletas de la página actual
   const currentAthletes = filteredAthletes.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Cambiar de página
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
@@ -91,10 +85,15 @@ const DataTable = () => {
 };
 
 const AthletesList = () => {
-  const { user, athlete, boxId } = useAthletesList();
+  const { user, athlete, boxId, boxName } = useAthletesList();
 
   return (
-    <SidebarWithHeader boxId={boxId} userName={user.name} role={athlete.role}>
+    <SidebarWithHeader
+      boxId={boxId}
+      userName={user.name}
+      role={athlete.role}
+      boxName={boxName}
+    >
       <Flex p={4} align={'center'} flexDirection={'column'}>
         <DataTable />
       </Flex>

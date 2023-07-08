@@ -54,11 +54,13 @@ const getLinkItems = (boxId: string, role: string) => {
 export function SidebarWithHeader({
   children,
   boxId,
+  boxName,
   userName,
   role,
 }: {
   children: ReactNode;
   boxId: string;
+  boxName: string;
   userName: string;
   role: string;
 }) {
@@ -67,6 +69,7 @@ export function SidebarWithHeader({
     <Box minH="100vh" bg={useColorModeValue('white', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
+        boxName={boxName}
         boxId={boxId}
         role={role}
         display={{ base: 'none', md: 'block' }}
@@ -81,7 +84,7 @@ export function SidebarWithHeader({
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} boxId={boxId} role={role} />
+          <SidebarContent onClose={onClose} boxName={boxName} boxId={boxId} role={role} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -96,10 +99,11 @@ export function SidebarWithHeader({
 interface SidebarProps extends BoxProps {
   onClose: () => void;
   boxId: string;
+  boxName: string;
   role: string;
 }
 
-const SidebarContent = ({ onClose, boxId, role, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarProps) => {
   const linkItems = getLinkItems(boxId, role);
   return (
     <Box
@@ -112,10 +116,13 @@ const SidebarContent = ({ onClose, boxId, role, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontWeight="bold">
-          Fitbooking
-        </Text>
+      <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
+        <Flex flexDirection={'column'}>
+          <Text fontSize="2xl" fontWeight="bold">
+            Fitbooking
+          </Text>
+          <Text fontSize="small">{boxName}</Text>
+        </Flex>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {linkItems.map(link => (
@@ -143,7 +150,7 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
+          bg: 'teal',
           color: 'white',
         }}
         {...rest}
@@ -151,7 +158,7 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
         {icon && (
           <Icon
             mr="4"
-            fontSize="16"
+            fontSize="24"
             _groupHover={{
               color: 'white',
             }}
