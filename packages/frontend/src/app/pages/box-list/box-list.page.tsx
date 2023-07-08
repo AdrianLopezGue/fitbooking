@@ -1,15 +1,8 @@
-import {
-  Button,
-  Card,
-  CardFooter,
-  CardHeader,
-  Flex,
-  Grid,
-  Heading,
-} from '@chakra-ui/react';
+import { Flex, Grid } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { useBoxListPage } from './box-list.controller';
+import { BoxCard } from './components/box-card/box-card.component';
 import Sidebar from './components/navbar/navbar.component';
 
 const BoxList = () => {
@@ -20,17 +13,14 @@ const BoxList = () => {
     <>
       <Sidebar userName={user.name} />
       <Flex p={8} align={'center'} justifyContent="center">
-        <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="800px">
+        <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="70%">
           {boxes.length
             ? boxes.map(box => (
-                <Card key={box._id}>
-                  <CardHeader>
-                    <Heading size="md">{box.name}</Heading>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button onClick={() => handleClick(box._id)}>Enter</Button>
-                  </CardFooter>
-                </Card>
+                <BoxCard
+                  id={box._id}
+                  name={box.name}
+                  handleClick={() => handleClick(box._id)}
+                />
               ))
             : undefined}
         </Grid>
