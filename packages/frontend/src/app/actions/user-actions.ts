@@ -1,6 +1,8 @@
+import { enviroment } from "../../enviroment";
+
 const login = async (email: string, password: string) => {
   try {
-    const result = await fetch('http://localhost:3333/api/login', {
+    const result = await fetch(`${enviroment.API_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -22,7 +24,7 @@ const login = async (email: string, password: string) => {
 
 const getByEmail = async (email: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/user?email=${email}`, {
+    const result = await fetch(`${enviroment.API_URL}/user?email=${email}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -37,7 +39,7 @@ const getByEmail = async (email: string, token: string) => {
 
 const register = async (name: string, email: string, password: string) => {
   try {
-    const result = await fetch('http://localhost:3333/api/user', {
+    const result = await fetch(`${enviroment.API_URL}/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

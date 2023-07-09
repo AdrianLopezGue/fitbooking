@@ -1,6 +1,8 @@
+import { enviroment } from '../../enviroment';
+
 const findBoxById = async (boxId: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/box/${boxId}`, {
+    const result = await fetch(`${enviroment.API_URL}/box/${boxId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -19,7 +21,7 @@ const findBoxById = async (boxId: string, token: string) => {
 
 const findBoxByEmail = async (email: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/box?email=${email}`, {
+    const result = await fetch(`${enviroment.API_URL}/box?email=${email}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -32,7 +34,7 @@ const findBoxByEmail = async (email: string, token: string) => {
 
 const findAthletesByBox = async (boxId: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/box/${boxId}/athletes`, {
+    const result = await fetch(`${enviroment.API_URL}/box/${boxId}/athletes`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -56,7 +58,7 @@ const createBox = async (
   token: string,
 ) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/box`, {
+    const result = await fetch(`${enviroment.API_URL}/box`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ name, location, userId }),

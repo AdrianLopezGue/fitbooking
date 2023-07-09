@@ -1,6 +1,8 @@
+import { enviroment } from '../../enviroment';
+
 const bookSeat = async (sessionId: string, athleteId: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/sessions/book/${sessionId}`, {
+    const result = await fetch(`${enviroment.API_URL}/sessions/book/${sessionId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -23,7 +25,7 @@ const bookSeat = async (sessionId: string, athleteId: string, token: string) => 
 
 const cancelSeat = async (sessionId: string, athleteId: string, token: string) => {
   try {
-    const result = await fetch(`http://localhost:3333/api/sessions/cancel/${sessionId}`, {
+    const result = await fetch(`${enviroment.API_URL}/sessions/cancel/${sessionId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +49,7 @@ const cancelSeat = async (sessionId: string, athleteId: string, token: string) =
 const findSessionsByDateAndBox = async (date: string, boxId: string, token: string) => {
   try {
     const result = await fetch(
-      `http://localhost:3333/api/sessions?date=${date}&boxId=${boxId}`,
+      `${enviroment.API_URL}/sessions?date=${date}&boxId=${boxId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       },
