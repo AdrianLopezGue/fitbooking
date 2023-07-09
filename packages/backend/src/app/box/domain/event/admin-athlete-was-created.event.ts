@@ -6,6 +6,8 @@ type Payload = {
   userId: string;
   boxId: string;
   role: string;
+  acceptedAt: Date;
+  invitedAt: Date;
 };
 
 export class AdminAthleteWasCreatedEvent extends Event<Payload> {
@@ -16,6 +18,8 @@ export class AdminAthleteWasCreatedEvent extends Event<Payload> {
     public readonly userId: string,
     public readonly boxId: string,
     public readonly role: string,
+    public readonly acceptedAt: Date,
+    public readonly invitedAt: Date,
   ) {
     super(id, {
       athleteId,
@@ -23,6 +27,8 @@ export class AdminAthleteWasCreatedEvent extends Event<Payload> {
       userId,
       boxId,
       role,
+      acceptedAt,
+      invitedAt,
     });
   }
 }

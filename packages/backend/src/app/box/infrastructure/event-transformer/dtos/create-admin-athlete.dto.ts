@@ -24,4 +24,10 @@ export class CreateAdminAthleteDTO {
   @IsNotEmpty()
   @IsUUID()
   readonly boxId: string;
+
+  @ApiProperty()
+  readonly acceptedAt: Date;
+
+  @ApiProperty()
+  readonly invitedAt: Date;
 }

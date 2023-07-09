@@ -13,6 +13,15 @@ export class AthleteDocument {
   @Prop({ required: false })
   userId: string;
 
+  @Prop({ required: false })
+  name: string;
+
+  @Prop({ required: false })
+  acceptedAt: Date;
+
+  @Prop({ required: false })
+  invitedAt: Date;
+
   @Prop({ required: true })
   role: string;
 

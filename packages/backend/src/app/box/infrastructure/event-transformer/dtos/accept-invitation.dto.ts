@@ -24,4 +24,7 @@ export class AcceptInvitationDTO {
   @IsNotEmpty()
   @IsUUID()
   readonly boxId: string;
+
+  @ApiProperty()
+  readonly acceptedAt: Date;
 }

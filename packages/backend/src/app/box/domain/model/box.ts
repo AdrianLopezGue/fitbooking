@@ -52,6 +52,8 @@ export class Box extends AggregateRoot {
       userId.value,
       boxId.value,
       AthleteRole.admin().value,
+      new Date(),
+      new Date(),
     );
 
     box.apply(boxWasCreatedEvent);
@@ -90,6 +92,7 @@ export class Box extends AggregateRoot {
       email.value,
       this.id.value,
       AthleteRole.basic().value,
+      new Date(),
     );
 
     this.apply(athleteWasInvited);
@@ -130,6 +133,7 @@ export class Box extends AggregateRoot {
       userId.value,
       this.id.value,
       pendingAthlete.role.value,
+      new Date(),
     );
 
     this.apply(invitationWasAccepted);

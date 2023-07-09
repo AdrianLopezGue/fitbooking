@@ -19,6 +19,8 @@ export const eventTransformers = {
       event.payload.userId,
       event.payload.boxId,
       event.payload.role,
+      event.payload.acceptedAt,
+      event.payload.invitedAt,
     ),
   AthleteWasInvitedEvent: (event: Event<InviteAthleteDTO>) =>
     new AthleteWasInvitedEvent(
@@ -27,6 +29,7 @@ export const eventTransformers = {
       event.payload.email,
       event.payload.boxId,
       event.payload.role,
+      event.payload.invitedAt,
     ),
   InvitationWasAcceptedEvent: (event: Event<AcceptInvitationDTO>) =>
     new InvitationWasAcceptedEvent(
@@ -36,5 +39,6 @@ export const eventTransformers = {
       event.payload.userId,
       event.payload.boxId,
       event.payload.role,
+      event.payload.acceptedAt,
     ),
 };

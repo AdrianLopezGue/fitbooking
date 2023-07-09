@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { BoxService } from '../service/box.service';
-import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
+import { AthleteListDTO, BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 
 @Controller('box')
 export class BoxController {
@@ -84,5 +84,10 @@ export class BoxController {
   @Get()
   async getByEmail(@Query('email') email: string): Promise<BoxListDTO> {
     return await this.boxService.getBoxesByEmail(email);
+  }
+
+  @Get(':id/athletes')
+  async getAthletesByBoxId(@Param() parameters: { id: string }): Promise<AthleteListDTO> {
+    return await this.boxService.getAthletesByBox(parameters.id);
   }
 }

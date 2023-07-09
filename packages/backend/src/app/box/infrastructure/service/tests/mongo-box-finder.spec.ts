@@ -70,7 +70,10 @@ describe('MongoBoxFinder', () => {
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
+        name: 'Athlete name',
         email: 'athlete@mail.com',
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
         userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
         role: AthleteRolesEnum.ADMIN,
         boxId,
@@ -116,21 +119,30 @@ describe('MongoBoxFinder', () => {
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
+        name: 'Athlete name',
         email,
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
         userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
         role: AthleteRolesEnum.ADMIN,
         boxId: box._id,
       };
       const athlete2: AthleteDocument = {
         _id: '6838e775-fb42-4aa4-b91f-138f94c75c95',
+        name: 'Athlete 2 name',
         email,
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
         userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
         role: AthleteRolesEnum.ADMIN,
         boxId: box2._id,
       };
       const anotherAthlete: AthleteDocument = {
         _id: '91a8e08f-cf65-4f73-841b-c2fb7705e04b',
+        name: 'Athlete 3 name',
         email: 'another@email.com',
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
         userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
         role: AthleteRolesEnum.ADMIN,
         boxId: box2._id,
@@ -145,6 +157,67 @@ describe('MongoBoxFinder', () => {
 
       expect(result).toBeDefined();
       expect(result).toHaveLength(2);
+    });
+  });
+
+  describe('find athletes by box', () => {
+    it('should return atheletes that match the given box id', async () => {
+      const email = 'athlete@mail.com';
+      const box: BoxDocument = {
+        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        name: 'Box name 1',
+        location: 'Spain',
+      };
+      const box2: BoxDocument = {
+        _id: '9c48980c-c64a-4489-928c-c58eb3939098',
+        name: 'Box name 2',
+        location: 'Spain',
+      };
+      const box3: BoxDocument = {
+        _id: 'e1adb755-d562-474f-82cc-bc855e38ed12',
+        name: 'Box name 3',
+        location: 'Spain',
+      };
+      const athlete: AthleteDocument = {
+        _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
+        name: 'Athlete name',
+        email,
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box._id,
+      };
+      const athlete2: AthleteDocument = {
+        _id: '6838e775-fb42-4aa4-b91f-138f94c75c95',
+        name: 'Athlete 2 name',
+        email,
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box2._id,
+      };
+      const anotherAthlete: AthleteDocument = {
+        _id: '91a8e08f-cf65-4f73-841b-c2fb7705e04b',
+        name: 'Athlete 3 name',
+        email: 'another@email.com',
+        acceptedAt: new Date(),
+        invitedAt: new Date(),
+        userId: 'd0681555-0e88-470e-b351-bed8c2bc5941',
+        role: AthleteRolesEnum.ADMIN,
+        boxId: box2._id,
+      };
+
+      await Promise.all([
+        boxProjectionModel.create([box, box2, box3]),
+        athleteProjectionModel.create([athlete, athlete2, anotherAthlete]),
+      ]);
+
+      const result = await boxFinder.findAthletesByBox(box._id);
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(1);
     });
   });
 });

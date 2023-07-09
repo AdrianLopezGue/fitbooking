@@ -19,4 +19,7 @@ export class InviteAthleteDTO {
   @IsNotEmpty()
   @IsUUID()
   readonly boxId: string;
+
+  @ApiProperty()
+  readonly invitedAt: Date;
 }
