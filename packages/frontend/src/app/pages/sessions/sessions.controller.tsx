@@ -22,7 +22,7 @@ export const useSessionPage = () => {
       .findBoxById(boxId || '', token)
       .then(result => setBoxName(result.name))
       .catch(error => console.error(error));
-  });
+  }, [boxId, token]);
 
   useEffect(() => {
     const formattedDate = `${selectedDate.getFullYear()}-${
