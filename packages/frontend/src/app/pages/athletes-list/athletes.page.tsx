@@ -12,7 +12,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { SidebarWithHeader } from '../sessions/components/sidebar/sidebar.component';
+import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
 import { useAthletesList } from './athletes.controller';
 
 const athletesData = [

@@ -3,7 +3,7 @@ import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
 import { Calendar } from './components/calendar/calendar.component';
-import { SidebarWithHeader } from './components/sidebar/sidebar.component';
+import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
 
 const TrainingDay = () => {
   const {

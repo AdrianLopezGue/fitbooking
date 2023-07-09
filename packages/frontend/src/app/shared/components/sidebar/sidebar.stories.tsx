@@ -2,7 +2,7 @@ import { SidebarWithHeader } from './sidebar.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Components/Sessions/Sidebar/SidebarWithHeader',
+  title: 'Components/Shared/Sidebar/SidebarWithHeader',
   component: SidebarWithHeader,
 } as Meta<typeof SidebarWithHeader>;
 

@@ -118,7 +118,7 @@ const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarPrope
     >
       <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
         <Flex flexDirection={'column'}>
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize="2xl" fontWeight="bold" color="teal">
             Fitbooking
           </Text>
           <Text fontSize="small">{boxName}</Text>
