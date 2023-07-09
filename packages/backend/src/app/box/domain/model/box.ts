@@ -14,24 +14,36 @@ import { AthleteAlreadyExistingError } from '../error/athlete-already-existing.e
 import { InvitationWasAcceptedEvent } from '../event/invitation-was-accepted.event';
 import { PendingAthleteNotFoundError } from '../error/pending-athlete-not-found.error';
 import { AthleteIsAlreadyConfirmedError } from '../error/athlete-already-confirmed.error';
+import { BoxLocation } from './box-location';
 
 export class Box extends AggregateRoot {
   private _id!: BoxId;
   private _name!: BoxName;
   private _athletes!: Athlete[];
+  private _location!: BoxLocation;
 
-  constructor(id?: BoxId, name?: BoxName, athletes?: Athlete[]) {
+  constructor(id?: BoxId, name?: BoxName, athletes?: Athlete[], location?: BoxLocation) {
     super();
     this._id = id;
     this._name = name;
     this._athletes = athletes;
+    this._location = location;
   }
 
-  public static add(name: BoxName, userId: UserId, email: UserEmail): Box {
+  public static add(
+    name: BoxName,
+    location: BoxLocation,
+    userId: UserId,
+    email: UserEmail,
+  ): Box {
     const box = new Box();
     const boxId = BoxId.generate();
 
-    const boxWasCreatedEvent = new BoxWasCreatedEvent(boxId.value, name.value);
+    const boxWasCreatedEvent = new BoxWasCreatedEvent(
+      boxId.value,
+      name.value,
+      location.value,
+    );
 
     const adminAthleteWasCreated = new AdminAthleteWasCreatedEvent(
       boxId.value,
@@ -52,6 +64,7 @@ export class Box extends AggregateRoot {
     this._id = BoxId.from(event.id);
     this._name = BoxName.from(event.payload.name);
     this._athletes = [];
+    this._location = BoxLocation.from(event.payload.location);
   }
 
   private onAdminAthleteWasCreatedEvent(event: AdminAthleteWasCreatedEvent): void {
@@ -149,5 +162,9 @@ export class Box extends AggregateRoot {
 
   get athletes(): Athlete[] {
     return this._athletes;
+  }
+
+  get location(): BoxLocation {
+    return this._location;
   }
 }

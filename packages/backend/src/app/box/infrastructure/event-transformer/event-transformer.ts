@@ -10,7 +10,7 @@ import { AcceptInvitationDTO } from './dtos/accept-invitation.dto';
 
 export const eventTransformers = {
   BoxWasCreatedEvent: (event: Event<CreateBoxDTO>) =>
-    new BoxWasCreatedEvent(event.aggregateId, event.payload.name),
+    new BoxWasCreatedEvent(event.aggregateId, event.payload.name, event.payload.location),
   AdminAthleteWasCreatedEvent: (event: Event<CreateAdminAthleteDTO>) =>
     new AdminAthleteWasCreatedEvent(
       event.aggregateId,

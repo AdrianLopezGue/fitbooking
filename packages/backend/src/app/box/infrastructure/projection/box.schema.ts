@@ -9,6 +9,9 @@ export class BoxDocument {
 
   @Prop({ required: true })
   name: string;
+
+  @Prop({ required: true })
+  location: string;
 }
 
 export const BoxSchema = SchemaFactory.createForClass(BoxDocument);

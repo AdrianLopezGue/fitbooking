@@ -40,7 +40,9 @@ describe('MongoBoxFinder', () => {
     }).compile();
 
     boxFinder = moduleReference.get<MongoBoxFinder>(MongoBoxFinder);
-    boxProjectionModel = moduleReference.get<Model<BoxDocument>>(getModelToken(BOX_PROJECTION));
+    boxProjectionModel = moduleReference.get<Model<BoxDocument>>(
+      getModelToken(BOX_PROJECTION),
+    );
     athleteProjectionModel = moduleReference.get<Model<AthleteDocument>>(
       getModelToken(ATHLETE_PROJECTION),
     );
@@ -64,6 +66,7 @@ describe('MongoBoxFinder', () => {
       const box: BoxDocument = {
         _id: boxId,
         name: 'Box name 1',
+        location: 'Spain',
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',
@@ -99,14 +102,17 @@ describe('MongoBoxFinder', () => {
       const box: BoxDocument = {
         _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
         name: 'Box name 1',
+        location: 'Spain',
       };
       const box2: BoxDocument = {
         _id: '9c48980c-c64a-4489-928c-c58eb3939098',
         name: 'Box name 2',
+        location: 'Spain',
       };
       const box3: BoxDocument = {
         _id: 'e1adb755-d562-474f-82cc-bc855e38ed12',
         name: 'Box name 3',
+        location: 'Spain',
       };
       const athlete: AthleteDocument = {
         _id: '470ec39f-91af-48a0-9bd4-f8fce48e79d4',

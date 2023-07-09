@@ -4,4 +4,5 @@ export type BoxDTO = {
   _id: string;
   name: string;
   athletes: AthleteDTO[];
+  location: string;
 };

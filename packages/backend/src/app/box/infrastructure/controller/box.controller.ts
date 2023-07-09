@@ -24,11 +24,13 @@ export class BoxController {
     @Body(new ValidationPipe())
     createBoxDTO: {
       name: string;
+      location: string;
       userId: string;
     },
   ) {
     const createdBoxResult = await this.boxService.createBox(
       createBoxDTO.name,
+      createBoxDTO.location,
       createBoxDTO.userId,
     );
 

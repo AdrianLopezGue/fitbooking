@@ -10,4 +10,8 @@ export class CreateBoxDTO {
   @ApiProperty()
   @IsNotEmpty()
   readonly name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly location: string;
 }

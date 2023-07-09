@@ -15,9 +15,13 @@ export class BoxService {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createBox(name: string, userId: string): Promise<Result<null, Error>> {
+  async createBox(
+    name: string,
+    location: string,
+    userId: string,
+  ): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
-      new CreateBoxCommand(name, userId),
+      new CreateBoxCommand(name, location, userId),
     );
   }
 

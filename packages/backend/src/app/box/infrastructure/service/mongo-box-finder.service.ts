@@ -41,6 +41,7 @@ export class MongoBoxFinder implements BoxFinder {
         userId,
         role,
       })),
+      location: boxProjection.location,
     };
   }
 
@@ -60,6 +61,7 @@ export class MongoBoxFinder implements BoxFinder {
     return boxProjections.map(projection => ({
       _id: projection._id,
       name: projection.name,
+      location: projection.location,
     }));
   }
 }

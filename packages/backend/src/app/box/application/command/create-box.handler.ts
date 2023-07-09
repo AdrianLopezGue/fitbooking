@@ -12,6 +12,7 @@ import { UserId } from '../../../user';
 import { UserRepository } from '../../../user/domain/service/user.repository';
 import { User } from '../../../user/domain/model/user';
 import { UserNotFoundError } from '../../../user/domain/error/user-not-found.error';
+import { BoxLocation } from '../../domain/model/box-location';
 
 @CommandHandler(CreateBoxCommand)
 export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
@@ -29,7 +30,12 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
       return err(UserNotFoundError.causeUserDoesNotExist());
     }
 
-    const box = Box.add(BoxName.from(command.name), user.id, user.email);
+    const box = Box.add(
+      BoxName.from(command.name),
+      BoxLocation.from(command.location),
+      user.id,
+      user.email,
+    );
 
     await this.boxRepository.save(box);
 
