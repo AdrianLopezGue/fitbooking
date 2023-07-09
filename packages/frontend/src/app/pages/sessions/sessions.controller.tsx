@@ -6,6 +6,7 @@ import { UserContext } from '../../contexts/user-context';
 import { AthleteContext } from '../../contexts/athlete-context';
 import { boxActions } from '../../actions/box-actions';
 import { sessionActions } from '../../actions/session-actions';
+import { enviroment } from '../../../enviroment';
 
 export const useSessionPage = () => {
   const socketReference = useRef<Socket>();
@@ -40,7 +41,7 @@ export const useSessionPage = () => {
       const formattedDate = `${selectedDate.getFullYear()}-${
         selectedDate.getMonth() + 1
       }-${selectedDate.getDate()}`;
-      socketReference.current = io('http://localhost:8080', {
+      socketReference.current = io(enviroment.WEBSOCKET_URL, {
         query: { boxId, date: formattedDate },
       });
 
