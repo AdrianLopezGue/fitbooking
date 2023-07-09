@@ -6,10 +6,12 @@ const BoxCard = ({
   handleClick,
   id,
   name,
+  imageUrl,
 }: {
   handleClick: MouseEventHandler<HTMLDivElement>;
   id: string;
   name: string;
+  imageUrl: string;
 }) => {
   return (
     <Box
@@ -21,23 +23,35 @@ const BoxCard = ({
       position="relative"
       onClick={handleClick}
       cursor="pointer"
+      h="250px"
+      _hover={{ filter: 'brightness(0.7)' }}
     >
-      <Image
-        src="https://gripcrossfit.com/wp-content/uploads/2021/08/123268008_141401847673085_3971044477539622376_n.jpg"
-        alt="Gym"
-        style={{ filter: 'brightness(0.7)' }}
-      />
+      <Box
+        h="100%"
+        style={{ position: 'relative' }}
+      >
+        <Image
+          src={imageUrl}
+          alt="Gym"
+          style={{
+            filter: 'brightness(0.7)',
+            objectFit: 'cover',
+            width: '100%',
+            height: '100%',
+          }}
+        />
 
-      <Box position="absolute" bottom="4" left="4" color="white">
-        <Text fontSize="xl" fontWeight="bold" color="white" mb={1}>
-          {name}
-        </Text>
-        <Flex gap={1}>
-          <IoMdPin />
-          <Text fontSize="sm" color="white">
-            Córdoba
+        <Box position="absolute" bottom="4" left="4" color="white">
+          <Text fontSize="xl" fontWeight="bold" color="white" mb={1}>
+            {name}
           </Text>
-        </Flex>
+          <Flex gap={1}>
+            <IoMdPin />
+            <Text fontSize="sm" color="white">
+              Córdoba
+            </Text>
+          </Flex>
+        </Box>
       </Box>
     </Box>
   );

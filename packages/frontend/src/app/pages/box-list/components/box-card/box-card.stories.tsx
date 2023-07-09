@@ -14,5 +14,7 @@ export const Primary: Story = {
     handleClick: () => console.log('clicked'),
     name: 'Grip Crossfit',
     id: '1',
+    imageUrl:
+      'https://gripcrossfit.com/wp-content/uploads/2021/08/123268008_141401847673085_3971044477539622376_n.jpg',
   },
 };
