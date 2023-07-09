@@ -17,11 +17,11 @@ export const useAthletesList = () => {
       .findBoxById(boxId || '', token)
       .then(result => setBoxName(result.name))
       .catch(error => console.error(error));
-  });
+  }, [boxId, token]);
 
   useEffect(() => {
     boxActions.findAthletesByBox(boxId || '', token).then(result => setAthletes(result));
-  });
+  }, [boxId, token]);
 
   return {
     user,
