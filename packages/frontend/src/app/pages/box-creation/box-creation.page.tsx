@@ -9,12 +9,11 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { UserContext } from '../../contexts/user-context';
 import { NavBar } from './../../shared/components/navbar/navbar.component';
+import { useBoxCreationPage } from './box-creation.controller';
 
 const BoxCreationPage = () => {
-  const { user } = useContext(UserContext);
+  const { handleSubmit, form, user } = useBoxCreationPage();
 
   return (
     <>
@@ -38,27 +37,30 @@ const BoxCreationPage = () => {
             p={8}
           >
             <Stack spacing={4}>
-              <FormControl id="name" isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input type="text" />
-              </FormControl>
-              <FormControl id="location" isRequired>
-                <FormLabel>Location</FormLabel>
-                <Input type="text" />
-              </FormControl>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={'teal'}
-                  color={'white'}
-                  _hover={{
-                    bg: 'teal.500',
-                  }}
-                >
-                  Create
-                </Button>
-              </Stack>
+              <form onSubmit={handleSubmit}>
+                <FormControl id="name" isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input {...form.register('name')} type="text" />
+                </FormControl>
+                <FormControl id="location" isRequired>
+                  <FormLabel>Location</FormLabel>
+                  <Input {...form.register('location')} type="text" />
+                </FormControl>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={'teal'}
+                    color={'white'}
+                    type="submit"
+                    _hover={{
+                      bg: 'teal.500',
+                    }}
+                  >
+                    Create
+                  </Button>
+                </Stack>
+              </form>
             </Stack>
           </Box>
         </Stack>

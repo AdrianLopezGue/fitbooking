@@ -30,7 +30,34 @@ const findBoxByEmail = async (email: string, token: string) => {
   }
 };
 
+const createBox = async (
+  name: string,
+  location: string,
+  userId: string,
+  token: string,
+) => {
+  try {
+    const result = await fetch(`http://localhost:3333/api/box`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ name, location, userId }),
+    });
+
+    const data = await result.json();
+
+    if (data.status !== 201) {
+      throw new Error('Error creating new user');
+    }
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const boxActions = {
   findBoxById,
   findBoxByEmail,
+  createBox,
 };

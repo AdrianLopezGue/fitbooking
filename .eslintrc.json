@@ -30,7 +30,15 @@
         "unicorn/no-array-for-each": "off",
         "unicorn/no-array-callback-reference": "off",
         "unicorn/no-nested-ternary": "off",
-        "unicorn/consistent-function-scoping": "off"
+        "unicorn/consistent-function-scoping": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          { 
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_"
+          }
+        ]
 
       }
     },
