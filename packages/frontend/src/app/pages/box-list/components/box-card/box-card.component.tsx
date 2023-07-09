@@ -6,11 +6,13 @@ const BoxCard = ({
   handleClick,
   id,
   name,
+  location,
   imageUrl,
 }: {
   handleClick: MouseEventHandler<HTMLDivElement>;
   id: string;
   name: string;
+  location: string;
   imageUrl: string;
 }) => {
   return (
@@ -48,7 +50,7 @@ const BoxCard = ({
           <Flex gap={1}>
             <IoMdPin />
             <Text fontSize="sm" color="white">
-              Córdoba
+              {location}
             </Text>
           </Flex>
         </Box>
