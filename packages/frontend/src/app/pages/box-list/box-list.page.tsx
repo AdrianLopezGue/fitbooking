@@ -3,12 +3,14 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts/user-context';
 import { useBoxListPage } from './box-list.controller';
 import { BoxCard } from './components/box-card/box-card.component';
-import { NavBar } from './components/navbar/navbar.component';
+import { NavBar } from '../../shared/components/navbar/navbar.component';
 import { CreateBoxCard } from './components/box-card/create-box-card.component';
+import { useNavigate } from 'react-router-dom';
 
 const BoxList = () => {
   const { user } = useContext(UserContext);
   const { handleClick, boxes } = useBoxListPage();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -25,7 +27,7 @@ const BoxList = () => {
                 />
               ))
             : undefined}
-          <CreateBoxCard handleClick={() => console.log('1')} />
+          <CreateBoxCard handleClick={() => navigate(`/box-creation`)} />
         </Grid>
       </Flex>
     </>
