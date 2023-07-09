@@ -42,7 +42,7 @@ export const NavBar = ({ userName }: NavBarProperties) => {
         align={'center'}
       >
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text mx="4" fontSize="2xl" fontWeight="bold">
+          <Text mx="4" fontSize="2xl" fontWeight="bold" color={useColorModeValue('teal', 'white')}>
             Fitbooking
           </Text>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>

@@ -103,7 +103,13 @@ interface SidebarProperties extends BoxProps {
   role: string;
 }
 
-const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarProperties) => {
+const SidebarContent = ({
+  onClose,
+  boxId,
+  boxName,
+  role,
+  ...rest
+}: SidebarProperties) => {
   const linkItems = getLinkItems(boxId, role);
   return (
     <Box
@@ -118,7 +124,7 @@ const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarPrope
     >
       <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
         <Flex flexDirection={'column'}>
-          <Text fontSize="2xl" fontWeight="bold" color="teal">
+          <Text fontSize="2xl" fontWeight="bold" color={useColorModeValue('teal', 'white')}>
             Fitbooking
           </Text>
           <Text fontSize="small">{boxName}</Text>
@@ -199,7 +205,12 @@ const MobileNav = ({ onOpen, userName, role, ...rest }: MobileProperties) => {
         icon={<IoIosMenu />}
       />
 
-      <Text display={{ base: 'flex', md: 'none' }} fontSize="2xl" fontWeight="bold">
+      <Text
+        display={{ base: 'flex', md: 'none' }}
+        fontSize="2xl"
+        fontWeight="bold"
+        color={useColorModeValue('teal', 'white')}
+      >
         Fitbooking
       </Text>
 
