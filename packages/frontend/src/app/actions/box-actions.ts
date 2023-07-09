@@ -30,6 +30,25 @@ const findBoxByEmail = async (email: string, token: string) => {
   }
 };
 
+const findAthletesByBox = async (boxId: string, token: string) => {
+  try {
+    const result = await fetch(`http://localhost:3333/api/box/${boxId}/athletes`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await result.json();
+
+    if (data.statusCode && data.statusCode !== 200) {
+      return { error: data.message };
+    }
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const createBox = async (
   name: string,
   location: string,
@@ -59,5 +78,6 @@ const createBox = async (
 export const boxActions = {
   findBoxById,
   findBoxByEmail,
+  findAthletesByBox,
   createBox,
 };

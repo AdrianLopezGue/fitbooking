@@ -2,7 +2,6 @@ import {
   Avatar,
   Button,
   Flex,
-  HStack,
   Input,
   Table,
   Tbody,
@@ -11,80 +10,47 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { AthleteListDTO } from '@fitbooking/contracts';
 import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
 import { useAthletesList } from './athletes.controller';
 
-const athletesData = [
-  {
-    id: 1,
-    foto: 'ruta-a-la-imagen',
-    nombre: 'Nombre del Atleta 1',
-    email: 'atleta1@example.com',
-    joinedAt: '2022-01-01',
-  },
-];
-
-const DataTable = () => {
-  const [searchEmail, setSearchEmail] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const filteredAthletes = athletesData.filter(athlete =>
-    athlete.email.toLowerCase().includes(searchEmail.toLowerCase()),
-  );
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentAthletes = filteredAthletes.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
+const DataTable = ({ athletes }: { athletes: AthleteListDTO }) => {
   return (
     <Flex flexDirection={'column'} width={'70%'}>
-      <Input
-        placeholder="Buscar por email"
-        value={searchEmail}
-        onChange={error => setSearchEmail(error.target.value)}
-        mb={4}
-      />
+      <Flex flexDirection={'row'} gap={4}>
+        <Input placeholder="Search by email" onChange={value => value} mb={4} />
+        <Button colorScheme="teal">Invite athlete</Button>
+      </Flex>
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Foto</Th>
-            <Th>Nombre</Th>
+            <Th>Photo</Th>
+            <Th>Name</Th>
             <Th>Email</Th>
-            <Th>Joined At</Th>
+            <Th>Accepted At</Th>
+            <Th>Invited At</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {currentAthletes.map(athlete => (
-            <Tr key={athlete.id}>
+          {athletes.map(athlete => (
+            <Tr key={athlete._id}>
               <Td>
-                <Avatar name={athlete.nombre} src="https://bit.ly/dan-abramov" />
+                <Avatar name={athlete.name} src="https://bit.ly/dan-abramov" />
               </Td>
-              <Td>{athlete.nombre}</Td>
+              <Td>{athlete.name}</Td>
               <Td>{athlete.email}</Td>
-              <Td>{athlete.joinedAt}</Td>
+              <Td>{athlete.acceptedAt ? new Date(athlete.acceptedAt).toDateString() : undefined}</Td>
+              <Td>{athlete.invitedAt ? new Date(athlete.invitedAt).toDateString() : undefined}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-      <HStack mt={4}>
-        {Array.from({ length: Math.ceil(filteredAthletes.length / itemsPerPage) }).map(
-          (_, index) => (
-            <Button key={index} onClick={() => paginate(index + 1)}>
-              {index + 1}
-            </Button>
-          ),
-        )}
-      </HStack>
     </Flex>
   );
 };
 
 const AthletesList = () => {
-  const { user, athlete, boxId, boxName } = useAthletesList();
+  const { user, athlete, athletes, boxId, boxName } = useAthletesList();
 
   return (
     <SidebarWithHeader
@@ -94,7 +60,7 @@ const AthletesList = () => {
       boxName={boxName}
     >
       <Flex p={4} align={'center'} flexDirection={'column'}>
-        <DataTable />
+        <DataTable athletes={athletes} />
       </Flex>
     </SidebarWithHeader>
   );
