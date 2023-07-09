@@ -32,7 +32,6 @@ import {
   IoIosSettings,
   IoIosBusiness,
   IoIosMenu,
-  IoMdNotificationsOutline,
   IoIosArrowDown,
 } from 'react-icons/io';
 
@@ -124,7 +123,11 @@ const SidebarContent = ({
     >
       <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
         <Flex flexDirection={'column'}>
-          <Text fontSize="2xl" fontWeight="bold" color={useColorModeValue('teal', 'white')}>
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            color={useColorModeValue('teal', 'white')}
+          >
             Fitbooking
           </Text>
           <Text fontSize="small">{boxName}</Text>
@@ -218,12 +221,6 @@ const MobileNav = ({ onOpen, userName, role, ...rest }: MobileProperties) => {
         <Button variant="ghost" size="lg" onClick={toggleColorMode}>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Button>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<IoMdNotificationsOutline />}
-        />
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
