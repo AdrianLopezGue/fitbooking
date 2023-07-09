@@ -2,13 +2,13 @@ import { SessionDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
-import { UserContext } from '../../contexts/userContext';
-import { AthleteContext } from '../../contexts/athleteContext';
-import { boxActions } from '../../actions/boxActions';
-import { sessionActions } from '../../actions/sessionActions';
+import { UserContext } from '../../contexts/user-context';
+import { AthleteContext } from '../../contexts/athlete-context';
+import { boxActions } from '../../actions/box-actions';
+import { sessionActions } from '../../actions/session-actions';
 
 export const useSessionPage = () => {
-  const socketRef = useRef<Socket>();
+  const socketReference = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [calendarIsShown, showCalendar] = useState(false);
@@ -20,8 +20,8 @@ export const useSessionPage = () => {
   useEffect(() => {
     boxActions
       .findBoxById(boxId || '', token)
-      .then(res => setBoxName(res.name))
-      .catch(err => console.error(err));
+      .then(result => setBoxName(result.name))
+      .catch(error => console.error(error));
   });
 
   useEffect(() => {
@@ -31,34 +31,34 @@ export const useSessionPage = () => {
 
     sessionActions
       .findSessionsByDateAndBox(formattedDate, boxId || '', token)
-      .then(res => setSessions(res))
-      .catch(err => console.error(err));
+      .then(result => setSessions(result))
+      .catch(error => console.error(error));
   }, [selectedDate, token, boxId]);
 
   useEffect(() => {
-    if (!socketRef.current) {
+    if (!socketReference.current) {
       const formattedDate = `${selectedDate.getFullYear()}-${
         selectedDate.getMonth() + 1
       }-${selectedDate.getDate()}`;
-      socketRef.current = io('http://localhost:8080', {
+      socketReference.current = io('http://localhost:8080', {
         query: { boxId, date: formattedDate },
       });
 
-      socketRef.current.on('connect', () => {
+      socketReference.current.on('connect', () => {
         console.log('Connected');
       });
 
-      socketRef.current.on('exception', data => {
+      socketReference.current.on('exception', data => {
         console.log('event', data);
       });
 
-      socketRef.current.on('disconnect', () => {
+      socketReference.current.on('disconnect', () => {
         console.log('Disconnected');
       });
 
-      socketRef.current.on('classReserved', data => {
-        setSessions(prevSessions => {
-          const updatedSessions = [...prevSessions];
+      socketReference.current.on('classReserved', data => {
+        setSessions(previousSessions => {
+          const updatedSessions = [...previousSessions];
           const sessionIndex = updatedSessions.findIndex(
             session => session._id === data.sessionId,
           );
@@ -74,9 +74,9 @@ export const useSessionPage = () => {
         });
       });
 
-      socketRef.current.on('classCancelled', data => {
-        setSessions(prevSessions => {
-          const updatedSessions = [...prevSessions];
+      socketReference.current.on('classCancelled', data => {
+        setSessions(previousSessions => {
+          const updatedSessions = [...previousSessions];
           const sessionIndex = updatedSessions.findIndex(
             session => session._id === data.sessionId,
           );
@@ -93,9 +93,9 @@ export const useSessionPage = () => {
     }
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-        socketRef.current = undefined;
+      if (socketReference.current) {
+        socketReference.current.close();
+        socketReference.current = undefined;
       }
     };
   }, [boxId, selectedDate, sessions]);
@@ -106,8 +106,8 @@ export const useSessionPage = () => {
       date.getMonth() + 1
     }-${date.getDate()}`;
 
-    if (socketRef.current) {
-      socketRef.current.emit('dateChanged', {
+    if (socketReference.current) {
+      socketReference.current.emit('dateChanged', {
         boxId,
         date: formattedDate,
       });

@@ -1,6 +1,6 @@
 const bookSeat = async (sessionId: string, athleteId: string, token: string) => {
   try {
-    const res = await fetch(`http://localhost:3333/api/sessions/book/${sessionId}`, {
+    const result = await fetch(`http://localhost:3333/api/sessions/book/${sessionId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -8,7 +8,7 @@ const bookSeat = async (sessionId: string, athleteId: string, token: string) => 
       },
       body: JSON.stringify({ athleteId }),
     });
-    const data = await res.json();
+    const data = await result.json();
 
     if (data.statusCode && data.statusCode !== 200) {
       return { error: data.message };
@@ -23,7 +23,7 @@ const bookSeat = async (sessionId: string, athleteId: string, token: string) => 
 
 const cancelSeat = async (sessionId: string, athleteId: string, token: string) => {
   try {
-    const res = await fetch(`http://localhost:3333/api/sessions/cancel/${sessionId}`, {
+    const result = await fetch(`http://localhost:3333/api/sessions/cancel/${sessionId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const cancelSeat = async (sessionId: string, athleteId: string, token: string) =
       },
       body: JSON.stringify({ athleteId }),
     });
-    const data = await res.json();
+    const data = await result.json();
 
     if (data.statusCode && data.statusCode !== 200) {
       return { error: data.message };
@@ -46,14 +46,14 @@ const cancelSeat = async (sessionId: string, athleteId: string, token: string) =
 
 const findSessionsByDateAndBox = async (date: string, boxId: string, token: string) => {
   try {
-    const res = await fetch(
+    const result = await fetch(
       `http://localhost:3333/api/sessions?date=${date}&boxId=${boxId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       },
     );
 
-    return res.json();
+    return result.json();
   } catch (error) {
     console.log(error);
     throw error;

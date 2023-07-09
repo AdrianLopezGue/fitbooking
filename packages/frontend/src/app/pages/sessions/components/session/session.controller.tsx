@@ -1,14 +1,12 @@
-import { UserContext } from '../../../../contexts/userContext';
-import { AthleteContext } from '../../../../contexts/athleteContext';
+import { UserContext } from '../../../../contexts/user-context';
+import { AthleteContext } from '../../../../contexts/athlete-context';
 import { useContext, useEffect, useState } from 'react';
-import { sessionActions } from '../../../../actions/sessionActions';
+import { sessionActions } from '../../../../actions/session-actions';
 
 export const useSessionComponent = (id: string, assistants: string[], date: string) => {
   const { token } = useContext(UserContext);
   const { athlete } = useContext(AthleteContext);
-  const [isTraining, setIsTraining] = useState(
-    Boolean(assistants.find(assistant => assistant === athlete._id)),
-  );
+  const [isTraining, setIsTraining] = useState(assistants.includes(athlete._id));
 
   const parsedDate = new Date(date);
   const hours = String(parsedDate.getHours());
@@ -17,7 +15,7 @@ export const useSessionComponent = (id: string, assistants: string[], date: stri
   const hasPassed = parsedDate < currentDate;
 
   useEffect(() => {
-    setIsTraining(Boolean(assistants.find(assistant => assistant === athlete._id)));
+    setIsTraining(assistants.includes(athlete._id));
   }, [assistants, athlete._id]);
 
   const handleReserved = () =>

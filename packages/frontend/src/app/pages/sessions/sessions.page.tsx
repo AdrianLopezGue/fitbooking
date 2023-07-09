@@ -46,7 +46,7 @@ const TrainingDay = () => {
                 20: ['17:00'],
               }}
             />
-          ) : null}
+          ) : undefined}
           <Flex justify={'space-between'} mb={4} mt={4}>
             <Button
               leftIcon={<ArrowBackIcon />}
@@ -70,7 +70,7 @@ const TrainingDay = () => {
             </Button>
           </Flex>
           <Flex flexDirection="column" gap={4}>
-            {sessions.length
+            {sessions.length > 0
               ? sessions.map((session, index) => (
                   <Session
                     key={index}

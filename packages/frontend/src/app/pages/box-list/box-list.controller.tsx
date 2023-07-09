@@ -1,9 +1,9 @@
 import { BoxDTO, BoxListDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../contexts/userContext';
-import { AthleteContext } from '../../contexts/athleteContext';
-import { boxActions } from '../../actions/boxActions';
+import { UserContext } from '../../contexts/user-context';
+import { AthleteContext } from '../../contexts/athlete-context';
+import { boxActions } from '../../actions/box-actions';
 
 export const useBoxListPage = () => {
   const navigate = useNavigate();
@@ -14,17 +14,17 @@ export const useBoxListPage = () => {
   useEffect(() => {
     boxActions
       .findBoxByEmail(user.email, token)
-      .then(res => {
-        setBoxes(res);
+      .then(result => {
+        setBoxes(result);
       })
-      .catch(err => console.error(err));
+      .catch(error => console.error(error));
   }, [user.email, token]);
 
   const handleClick = (boxId: string) => {
     boxActions
       .findBoxById(boxId, token)
-      .then((res: BoxDTO) => {
-        const athleteFound = res.athletes.find(athlete => athlete.userId === user._id);
+      .then((result: BoxDTO) => {
+        const athleteFound = result.athletes.find(athlete => athlete.userId === user._id);
 
         if (!athleteFound) {
           return;
@@ -37,7 +37,7 @@ export const useBoxListPage = () => {
         });
         navigate(`/${boxId}/sessions`);
       })
-      .catch(err => console.error(err));
+      .catch(error => console.error(error));
   };
 
   return { handleClick, boxes };

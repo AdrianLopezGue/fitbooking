@@ -30,9 +30,9 @@ const AssistantsGrid = ({
             alignItems="center"
             borderRadius="md"
             bgImage={
-              !isEmpty
-                ? `url(https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50)`
-                : ''
+              isEmpty
+                ? ''
+                : `url(https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50)`
             }
           ></GridItem>,
         );

@@ -1,6 +1,6 @@
 import { Flex, Grid } from '@chakra-ui/react';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/user-context';
 import { useBoxListPage } from './box-list.controller';
 import { BoxCard } from './components/box-card/box-card.component';
 import { NavBar } from './components/navbar/navbar.component';
@@ -14,7 +14,7 @@ const BoxList = () => {
       <NavBar userName={user.name} />
       <Flex p={8} align={'center'} justifyContent="center">
         <Grid templateColumns="repeat(4, 1fr)" gap={4} maxW="70%">
-          {boxes.length
+          {boxes.length > 0
             ? boxes.map(box => (
                 <BoxCard
                   id={box._id}

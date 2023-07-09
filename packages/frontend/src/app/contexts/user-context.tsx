@@ -20,11 +20,11 @@ export const UserContext = createContext<{
   setToken: () => undefined,
 });
 
-type UserProviderProps = {
+type UserProviderProperties = {
   children: ReactNode;
 };
 
-const UserProvider = ({ children }: UserProviderProps) => {
+const UserProvider = ({ children }: UserProviderProperties) => {
   const [user, setUser] = useState<UserDTO>(() => {
     const storedUser = localStorage.getItem('logged_user');
     return storedUser

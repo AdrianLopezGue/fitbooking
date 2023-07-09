@@ -45,7 +45,7 @@ const DataTable = () => {
       <Input
         placeholder="Buscar por email"
         value={searchEmail}
-        onChange={e => setSearchEmail(e.target.value)}
+        onChange={error => setSearchEmail(error.target.value)}
         mb={4}
       />
       <Table variant="simple">

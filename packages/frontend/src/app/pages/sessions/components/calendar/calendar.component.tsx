@@ -27,13 +27,13 @@ const Calendar = ({
         ))}
       </Grid>
       <Grid templateColumns={`repeat(7, 1fr)`}>
-        {Array(firstDay === 0 ? 6 : firstDay - 1)
-          .fill(null)
+        {Array.from({length: firstDay === 0 ? 6 : firstDay - 1})
+          .fill(undefined)
           .map((_, index) => (
             <Box key={`empty-${index}`} />
           ))}
-        {Array(daysInMonth)
-          .fill(null)
+        {Array.from({length: daysInMonth})
+          .fill(undefined)
           .map((_, index) => (
             <CalendarDay index={index} reservations={reservations[index + 1]} />
           ))}

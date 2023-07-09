@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
-import { PrivateRoute } from '../../routes/privateRoute';
-import { AthleteProvider } from '../../contexts/athleteContext';
+import { PrivateRoute } from '../../routes/private-route';
+import { AthleteProvider } from '../../contexts/athlete-context';
 import { TrainingDay } from './sessions.page';
 
 export const sessionsRoute: RouteObject = {

@@ -96,14 +96,14 @@ export function SidebarWithHeader({
   );
 }
 
-interface SidebarProps extends BoxProps {
+interface SidebarProperties extends BoxProps {
   onClose: () => void;
   boxId: string;
   boxName: string;
   role: string;
 }
 
-const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarProperties) => {
   const linkItems = getLinkItems(boxId, role);
   return (
     <Box
@@ -134,12 +134,12 @@ const SidebarContent = ({ onClose, boxId, boxName, role, ...rest }: SidebarProps
   );
 };
 
-interface NavItemProps extends FlexProps {
+interface NavItemProperties extends FlexProps {
   icon: IconType;
   href: string;
   children: ReactNode;
 }
-const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, children, ...rest }: NavItemProperties) => {
   return (
     <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -171,12 +171,12 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
   );
 };
 
-interface MobileProps extends FlexProps {
+interface MobileProperties extends FlexProps {
   onOpen: () => void;
   userName: string;
   role: string;
 }
-const MobileNav = ({ onOpen, userName, role, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, userName, role, ...rest }: MobileProperties) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (

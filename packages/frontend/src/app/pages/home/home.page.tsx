@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/userContext';
+import { UserContext } from '../../contexts/user-context';
 import { Login } from '../auth/Login/login.page';
-import { PrivateRoute } from '../../routes/privateRoute';
-import { AthleteProvider } from '../../contexts/athleteContext';
+import { PrivateRoute } from '../../routes/private-route';
+import { AthleteProvider } from '../../contexts/athlete-context';
 import { BoxList } from '../box-list/box-list.page';
 
 const Home = () => {

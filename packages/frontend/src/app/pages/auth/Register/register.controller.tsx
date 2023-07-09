@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { userActions } from '../../../actions/userActions';
+import { userActions } from '../../../actions/user-actions';
 
 export const useRegisterPage = () => {
   const showToast = (message: string) =>

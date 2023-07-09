@@ -6,14 +6,14 @@ import { FinishedSessionButton } from '../buttons/finished-session-button.compon
 import { useSessionComponent } from './session.controller';
 import { AssistantsGrid } from './assistants-grid.component';
 
-export type SessionProps = {
+export type SessionProperties = {
   id: string;
   name: string;
   maxCapacity: number;
   assistants: string[];
   date: string;
 };
-const Session = ({ id, name, maxCapacity, assistants, date }: SessionProps) => {
+const Session = ({ id, name, maxCapacity, assistants, date }: SessionProperties) => {
   const { isTraining, handleReserved, handleCanceled, hours, minutes, hasPassed } =
     useSessionComponent(id, assistants, date);
 

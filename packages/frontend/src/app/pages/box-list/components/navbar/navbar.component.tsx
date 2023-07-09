@@ -20,11 +20,11 @@ import {
 } from '@chakra-ui/react';
 import { FiChevronDown } from 'react-icons/fi';
 
-type NavBarProps = {
+type NavBarProperties = {
   userName: string;
 };
 
-export const NavBar = (props: NavBarProps) => {
+export const NavBar = ({ userName }: NavBarProperties) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen } = useDisclosure();
 
@@ -69,7 +69,7 @@ export const NavBar = (props: NavBarProps) => {
                 spacing="1px"
                 ml="2"
               >
-                <Text fontSize="sm">{props.userName}</Text>
+                <Text fontSize="sm">{userName}</Text>
               </VStack>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <FiChevronDown />

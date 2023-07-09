@@ -1,10 +1,10 @@
 const findBoxById = async (boxId: string, token: string) => {
   try {
-    const res = await fetch(`http://localhost:3333/api/box/${boxId}`, {
+    const result = await fetch(`http://localhost:3333/api/box/${boxId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const data = await res.json();
+    const data = await result.json();
 
     if (data.statusCode && data.statusCode !== 200) {
       return { error: data.message };
@@ -19,11 +19,11 @@ const findBoxById = async (boxId: string, token: string) => {
 
 const findBoxByEmail = async (email: string, token: string) => {
   try {
-    const res = await fetch(`http://localhost:3333/api/box?email=${email}`, {
+    const result = await fetch(`http://localhost:3333/api/box?email=${email}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return res.json();
+    return result.json();
   } catch (error) {
     console.log(error);
     throw error;
