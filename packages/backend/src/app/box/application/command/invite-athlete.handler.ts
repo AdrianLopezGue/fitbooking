@@ -17,19 +17,19 @@ export class InviteAthleteHandler implements ICommandHandler<InviteAthleteComman
     @InjectAggregateRepository(Box) private readonly boxRepository: BoxRepository,
   ) {}
 
-  async execute(command: InviteAthleteCommand): Promise<Result<null, DomainError>> {
+  async execute(command: InviteAthleteCommand): Promise<Result<undefined, DomainError>> {
     const box = await this.boxRepository.find(BoxId.from(command.boxId));
 
     if (!box) {
       return err(BoxNotFoundError.causeBoxDoesNotExist());
     }
 
-    const res = box.addAthlete(UserEmail.from(command.email));
-    if (res.isErr()) {
-      return res;
+    const result = box.addAthlete(UserEmail.from(command.email));
+    if (result.isErr()) {
+      return result;
     }
 
     await this.boxRepository.save(box);
-    return ok(null);
+    return ok(undefined);
   }
 }

@@ -18,7 +18,7 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
     private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async execute(command: CreateSessionCommand): Promise<Result<null, DomainError>> {
+  async execute(command: CreateSessionCommand): Promise<Result<undefined, DomainError>> {
     const session = Session.add(
       SessionName.from(command.name),
       BoxId.from(command.boxId),
@@ -28,6 +28,6 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
 
     await this.sessionRepository.save(session);
 
-    return ok(null);
+    return ok(undefined);
   }
 }

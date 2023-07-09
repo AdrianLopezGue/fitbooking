@@ -6,10 +6,10 @@ import { AuthService } from '../../../auth/auth.service';
 export class AuthUserSecurity implements AuthUserSecurity, OnModuleInit {
   private authService: AuthService;
 
-  constructor(private moduleRef: ModuleRef) {}
+  constructor(private moduleReference: ModuleRef) {}
 
   onModuleInit() {
-    this.authService = this.moduleRef.get(AuthService, { strict: false });
+    this.authService = this.moduleReference.get(AuthService, { strict: false });
   }
 
   async encodePassword(password: string): Promise<string> {

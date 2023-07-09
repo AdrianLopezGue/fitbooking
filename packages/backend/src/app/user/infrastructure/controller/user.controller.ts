@@ -35,14 +35,14 @@ export class UserController {
       createUserDTO.password,
     );
 
-    createdUserResult.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    createdUserResult.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
   @Get(':id')
-  async getById(@Param() params: { id: string }): Promise<UserDTO | undefined> {
-    return await this.userService.getUserById(params.id);
+  async getById(@Param() parameters: { id: string }): Promise<UserDTO | undefined> {
+    return await this.userService.getUserById(parameters.id);
   }
 
   @Get()

@@ -25,7 +25,7 @@ describe('MongoBoxFinder', () => {
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
 
-    const moduleRef = await Test.createTestingModule({
+    const moduleReference = await Test.createTestingModule({
       providers: [
         MongoBoxFinder,
         {
@@ -39,9 +39,9 @@ describe('MongoBoxFinder', () => {
       ],
     }).compile();
 
-    boxFinder = moduleRef.get<MongoBoxFinder>(MongoBoxFinder);
-    boxProjectionModel = moduleRef.get<Model<BoxDocument>>(getModelToken(BOX_PROJECTION));
-    athleteProjectionModel = moduleRef.get<Model<AthleteDocument>>(
+    boxFinder = moduleReference.get<MongoBoxFinder>(MongoBoxFinder);
+    boxProjectionModel = moduleReference.get<Model<BoxDocument>>(getModelToken(BOX_PROJECTION));
+    athleteProjectionModel = moduleReference.get<Model<AthleteDocument>>(
       getModelToken(ATHLETE_PROJECTION),
     );
 

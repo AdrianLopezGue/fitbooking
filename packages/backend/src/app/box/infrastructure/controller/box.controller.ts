@@ -32,51 +32,51 @@ export class BoxController {
       createBoxDTO.userId,
     );
 
-    createdBoxResult.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    createdBoxResult.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
   @Put(':id/invite')
   @HttpCode(200)
   async inviteAthlete(
-    @Param() params: { id: string },
+    @Param() parameters: { id: string },
     @Body(new ValidationPipe())
     inviteAthleteDTO: {
       email: string;
     },
   ) {
     const athleteInvited = await this.boxService.inviteAthlete(
-      params.id,
+      parameters.id,
       inviteAthleteDTO.email,
     );
-    athleteInvited.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    athleteInvited.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
   @Put(':id/accept')
   @HttpCode(200)
   async acceptInvitation(
-    @Param() params: { id: string },
+    @Param() parameters: { id: string },
     @Body(new ValidationPipe())
     acceptInvitationDTO: {
       email: string;
     },
   ) {
     const athleteConfirmed = await this.boxService.acceptInvitation(
-      params.id,
+      parameters.id,
       acceptInvitationDTO.email,
     );
 
-    athleteConfirmed.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    athleteConfirmed.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
   @Get(':id')
-  async getById(@Param() params: { id: string }): Promise<BoxDTO | undefined> {
-    return await this.boxService.getBoxById(params.id);
+  async getById(@Param() parameters: { id: string }): Promise<BoxDTO | undefined> {
+    return await this.boxService.getBoxById(parameters.id);
   }
 
   @Get()

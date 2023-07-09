@@ -26,7 +26,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     private readonly userSecurity: UserSecurity,
   ) {}
 
-  async execute(command: CreateUserCommand): Promise<Result<null, DomainError>> {
+  async execute(command: CreateUserCommand): Promise<Result<undefined, DomainError>> {
     const userExists = await this.userFinder.findByEmail(command.email);
 
     if (userExists) {
@@ -43,6 +43,6 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
 
     await this.userRepository.save(user);
 
-    return ok(null);
+    return ok(undefined);
   }
 }

@@ -26,7 +26,7 @@ export class AcceptInvitationHandler implements ICommandHandler<AcceptInvitation
     private readonly userFinder: UserFinder,
   ) {}
 
-  async execute(command: AcceptInvitationCommand): Promise<Result<null, DomainError>> {
+  async execute(command: AcceptInvitationCommand): Promise<Result<undefined, DomainError>> {
     const box = await this.boxRepository.find(BoxId.from(command.boxId));
 
     if (!box) {
@@ -39,12 +39,12 @@ export class AcceptInvitationHandler implements ICommandHandler<AcceptInvitation
       return err(UserNotFoundError.causeUserDoesNotExist());
     }
 
-    const res = box.acceptInvitation(UserEmail.from(user.email), UserId.from(user._id));
-    if (res.isErr()) {
-      return res;
+    const result = box.acceptInvitation(UserEmail.from(user.email), UserId.from(user._id));
+    if (result.isErr()) {
+      return result;
     }
 
     await this.boxRepository.save(box);
-    return ok(null);
+    return ok(undefined);
   }
 }

@@ -22,7 +22,7 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(command: CreateBoxCommand): Promise<Result<null, DomainError>> {
+  async execute(command: CreateBoxCommand): Promise<Result<undefined, DomainError>> {
     const user = await this.userRepository.find(UserId.from(command.userId));
 
     if (!user) {
@@ -33,6 +33,6 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
 
     await this.boxRepository.save(box);
 
-    return ok(null);
+    return ok(undefined);
   }
 }

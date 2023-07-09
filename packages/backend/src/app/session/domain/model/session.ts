@@ -98,7 +98,7 @@ export class Session extends AggregateRoot {
   book(
     assistant: AthleteId,
   ): Result<Session, AssistantAlreadyConfirmed | SessionWithoutAvailableSeats> {
-    if (this.assistants.filter(a => a.value == assistant.value).length) {
+    if (this.assistants.some(a => a.value == assistant.value)) {
       return err(AssistantAlreadyConfirmed.with(this.id.value, assistant.value));
     }
 

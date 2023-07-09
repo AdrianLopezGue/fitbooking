@@ -16,7 +16,7 @@ describe('MongoSessionFinder', () => {
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
 
-    const moduleRef = await Test.createTestingModule({
+    const moduleReference = await Test.createTestingModule({
       providers: [
         MongoSessionFinder,
         {
@@ -26,8 +26,8 @@ describe('MongoSessionFinder', () => {
       ],
     }).compile();
 
-    sessionFinder = moduleRef.get<MongoSessionFinder>(MongoSessionFinder);
-    sessionProjectionModel = moduleRef.get<Model<SessionDocument>>(
+    sessionFinder = moduleReference.get<MongoSessionFinder>(MongoSessionFinder);
+    sessionProjectionModel = moduleReference.get<Model<SessionDocument>>(
       getModelToken(SESSION_PROJECTION),
     );
 

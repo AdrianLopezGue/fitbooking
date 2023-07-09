@@ -16,8 +16,8 @@ export class AuthService {
       );
 
       return user && bcrypt.compareSync(password, user.password);
-    } catch (e) {
-      console.error(`Access error with email ${email}: ${e.message}`);
+    } catch (error) {
+      console.error(`Access error with email ${email}: ${error.message}`);
 
       return false;
     }

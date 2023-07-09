@@ -36,8 +36,8 @@ export class SessionController {
       createSessionDTO.date,
     );
 
-    createdSessionResult.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    createdSessionResult.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
@@ -45,15 +45,15 @@ export class SessionController {
   @HttpCode(200)
   async bookSeat(
     @Body(new ValidationPipe()) bookSeatDTO: { athleteId: string },
-    @Param() params: { id: string },
+    @Param() parameters: { id: string },
   ) {
     const bookSeatResult = await this.sessionService.bookSeat(
-      params.id,
+      parameters.id,
       bookSeatDTO.athleteId,
     );
 
-    bookSeatResult.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    bookSeatResult.mapErr<Error>(erorr => {
+      throw new HttpException(erorr.message, HttpStatus.BAD_REQUEST);
     });
   }
 
@@ -61,21 +61,21 @@ export class SessionController {
   @HttpCode(200)
   async cancelSeat(
     @Body(new ValidationPipe()) cancelSeatSessionDTO: { athleteId: string },
-    @Param() params: { id: string },
+    @Param() parameters: { id: string },
   ) {
     const cancelSeatResult = await this.sessionService.cancelSeat(
-      params.id,
+      parameters.id,
       cancelSeatSessionDTO.athleteId,
     );
 
-    cancelSeatResult.mapErr<Error>(err => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    cancelSeatResult.mapErr<Error>(error => {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
   }
 
   @Get(':id')
-  async getById(@Param() params: { id: string }): Promise<SessionDTO | undefined> {
-    return await this.sessionService.getSessionById(params.id);
+  async getById(@Param() parameters: { id: string }): Promise<SessionDTO | undefined> {
+    return await this.sessionService.getSessionById(parameters.id);
   }
 
   @Get()

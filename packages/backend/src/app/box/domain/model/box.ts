@@ -66,8 +66,8 @@ export class Box extends AggregateRoot {
     this._athletes = [...this.athletes, adminAthlete];
   }
 
-  public addAthlete(email: UserEmail): Result<null, AthleteAlreadyExistingError> {
-    if (this.athletes.find(a => a.email.equals(email))) {
+  public addAthlete(email: UserEmail): Result<undefined, AthleteAlreadyExistingError> {
+    if (this.athletes.some(a => a.email.equals(email))) {
       return err(AthleteAlreadyExistingError.withEmail(email.value));
     }
 
@@ -80,7 +80,7 @@ export class Box extends AggregateRoot {
     );
 
     this.apply(athleteWasInvited);
-    return ok(null);
+    return ok(undefined);
   }
 
   private onAthleteWasInvitedEvent(event: AthleteWasInvitedEvent) {
@@ -97,7 +97,7 @@ export class Box extends AggregateRoot {
   public acceptInvitation(
     email: UserEmail,
     userId: UserId,
-  ): Result<null, PendingAthleteNotFoundError> {
+  ): Result<undefined, PendingAthleteNotFoundError> {
     const pendingAthlete = this._athletes.find(athlete => athlete.email.equals(email));
 
     if (!pendingAthlete) {
@@ -120,7 +120,7 @@ export class Box extends AggregateRoot {
     );
 
     this.apply(invitationWasAccepted);
-    return ok(null);
+    return ok(undefined);
   }
 
   private onInvitationWasAcceptedEvent(event: InvitationWasAcceptedEvent) {
