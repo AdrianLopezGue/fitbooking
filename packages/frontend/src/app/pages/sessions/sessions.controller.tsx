@@ -1,4 +1,4 @@
-import { SessionDTO } from '@fitbooking/contracts';
+import { SessionDTO, SessionsBookedDTO } from '@fitbooking/contracts';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
@@ -11,6 +11,7 @@ import { enviroment } from '../../../enviroment';
 export const useSessionPage = () => {
   const socketReference = useRef<Socket>();
   const [sessions, setSessions] = useState<SessionDTO[]>([]);
+  const [bookedSessions, setBookedSessions] = useState<SessionsBookedDTO>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [calendarIsShown, showCalendar] = useState(false);
   const [boxName, setBoxName] = useState('');
@@ -122,16 +123,31 @@ export const useSessionPage = () => {
     });
   };
 
+  const handleOnClick = (month: number, year: number) => {
+    if (calendarIsShown) {
+      showCalendar(!calendarIsShown);
+      return;
+    }
+    sessionActions
+      .findBookedSessionsByAthleteAndDate(athlete._id, month, year, token)
+      .then(response => {
+        console.log(response);
+        setBookedSessions(response);
+        showCalendar(!calendarIsShown);
+      });
+  };
+
   return {
     selectedDate,
     handleSelectedDate,
     calendarIsShown,
-    showCalendar,
     formatDate,
     user,
     athlete,
     sessions,
     boxId: boxId || '',
     boxName,
+    bookedSessions,
+    handleOnClick,
   };
 };

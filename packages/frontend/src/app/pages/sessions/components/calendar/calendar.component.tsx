@@ -8,7 +8,7 @@ const Calendar = ({
 }: {
   month: number;
   year: number;
-  reservations: { [date: number]: string[] };
+  reservations: { [date: string]: string[] };
 }) => {
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDay = new Date(year, month - 1, 1).getDay();
@@ -27,15 +27,18 @@ const Calendar = ({
         ))}
       </Grid>
       <Grid templateColumns={`repeat(7, 1fr)`}>
-        {Array.from({length: firstDay === 0 ? 6 : firstDay - 1})
+        {Array.from({ length: firstDay === 0 ? 6 : firstDay - 1 })
           .fill(undefined)
           .map((_, index) => (
             <Box key={`empty-${index}`} />
           ))}
-        {Array.from({length: daysInMonth})
+        {Array.from({ length: daysInMonth })
           .fill(undefined)
           .map((_, index) => (
-            <CalendarDay index={index} reservations={reservations[index + 1]} />
+            <CalendarDay
+              index={index}
+              reservations={reservations[(index + 1).toString()]}
+            />
           ))}
       </Grid>
     </Box>

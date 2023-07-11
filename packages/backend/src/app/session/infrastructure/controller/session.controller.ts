@@ -90,13 +90,13 @@ export class SessionController {
   @Get('/booked/:athleteId')
   async getBookedSessionsByAthleteAndDate(
     @Param() parameters: { athleteId: string },
-    @Query('month') month: number,
-    @Query('year') year: number,
+    @Query('month') month: string,
+    @Query('year') year: string,
   ): Promise<SessionDTO[] | undefined> {
     return await this.sessionService.getBookedSessionsByAthletedAndDate(
       parameters.athleteId,
-      month,
-      year,
+      Number(month),
+      Number(year),
     );
   }
 }

@@ -62,8 +62,30 @@ const findSessionsByDateAndBox = async (date: string, boxId: string, token: stri
   }
 };
 
+const findBookedSessionsByAthleteAndDate = async (
+  athleteId: string,
+  month: number,
+  year: number,
+  token: string,
+) => {
+  try {
+    const result = await fetch(
+      `${enviroment.API_URL}/sessions/booked/${athleteId}?month=${month}&year=${year}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    return await result.json();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const sessionActions = {
   bookSeat,
   cancelSeat,
   findSessionsByDateAndBox,
+  findBookedSessionsByAthleteAndDate,
 };

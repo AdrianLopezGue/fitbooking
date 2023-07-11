@@ -22,8 +22,8 @@ export class SessionSeatWasCancelledProjection
   async handle(event: SessionSeatWasCancelledEvent) {
     const { aggregateId, assistant, date: dateString } = event;
     const date = new Date(dateString);
-    const day = date.getDay();
-    const month = date.getMonth();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const hour = date.getHours() + ':' + date.getMinutes();
 

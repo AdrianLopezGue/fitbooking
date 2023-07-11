@@ -1,22 +1,23 @@
+import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
 import { Button, Flex, IconButton } from '@chakra-ui/react';
+import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
+import { Calendar } from './components/calendar/calendar.component';
 import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
-import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
-import { Calendar } from './components/calendar/calendar.component';
-import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
 
 const TrainingDay = () => {
   const {
     user,
     selectedDate,
     calendarIsShown,
-    showCalendar,
     formatDate,
     handleSelectedDate,
     athlete,
     sessions,
     boxId,
     boxName,
+    bookedSessions,
+    handleOnClick,
   } = useSessionPage();
   const currentMonth = selectedDate.getMonth() + 1;
   const currentYear = selectedDate.getFullYear();
@@ -39,12 +40,7 @@ const TrainingDay = () => {
             <Calendar
               month={currentMonth}
               year={currentYear}
-              reservations={{
-                1: ['10:00', '15:30'],
-                5: ['14:00', '18:30'],
-                10: ['09:30'],
-                20: ['17:00'],
-              }}
+              reservations={bookedSessions}
             />
           ) : undefined}
           <Flex justify={'space-between'} mb={4} mt={4}>
@@ -59,7 +55,7 @@ const TrainingDay = () => {
               variant="outline"
               icon={<CalendarIcon />}
               aria-label="Open calendar"
-              onClick={() => showCalendar(!calendarIsShown)}
+              onClick={() => handleOnClick(currentMonth, currentYear)}
             />
             <Button
               rightIcon={<ArrowForwardIcon />}
