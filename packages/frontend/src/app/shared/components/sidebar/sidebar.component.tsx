@@ -34,6 +34,7 @@ import {
   IoIosMenu,
   IoIosArrowDown,
 } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
 const getLinkItems = (boxId: string, role: string) => {
   const defaultOptions = [
@@ -109,6 +110,7 @@ const SidebarContent = ({
   role,
   ...rest
 }: SidebarProperties) => {
+  const navigate = useNavigate();
   const linkItems = getLinkItems(boxId, role);
   return (
     <Box
@@ -122,7 +124,7 @@ const SidebarContent = ({
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
-        <Flex flexDirection={'column'}>
+        <Flex flexDirection={'column'} onClick={() => navigate('/boxes')} cursor="pointer">
           <Text
             fontSize="2xl"
             fontWeight="bold"
