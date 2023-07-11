@@ -86,4 +86,17 @@ export class SessionController {
     const parsedDate = new Date(date);
     return await this.sessionService.getSessionsByDateAndBox(parsedDate, boxId);
   }
+
+  @Get('/booked/:athleteId')
+  async getBookedSessionsByAthleteAndDate(
+    @Param() parameters: { athleteId: string },
+    @Query('month') month: number,
+    @Query('year') year: number,
+  ): Promise<SessionDTO[] | undefined> {
+    return await this.sessionService.getBookedSessionsByAthletedAndDate(
+      parameters.athleteId,
+      month,
+      year,
+    );
+  }
 }

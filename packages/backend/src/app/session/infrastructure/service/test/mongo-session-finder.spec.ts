@@ -6,10 +6,16 @@ import { Model } from 'mongoose';
 
 import { SESSION_PROJECTION, SessionDocument, SessionSchema } from '../../projection';
 import { MongoSessionFinder } from './../mongo-session-finder.service';
+import {
+  ATHLETE_SESSIONS_BOOKED_PROJECTION,
+  AthleteSessionsBookedDocument,
+  AthleteSessionsBookedDocumentSchema,
+} from '../../projection/athlete-sessions-booked.schema';
 
 describe('MongoSessionFinder', () => {
   let sessionFinder: MongoSessionFinder;
   let sessionProjectionModel: Model<SessionDocument>;
+  let athleteSessionsBookedModel: Model<AthleteSessionsBookedDocument>;
   let mongoServer: MongoMemoryServer;
 
   beforeAll(async () => {
@@ -23,6 +29,14 @@ describe('MongoSessionFinder', () => {
           provide: getModelToken(SESSION_PROJECTION),
           useFactory: () => mongoose.model<SessionDocument>('Session', SessionSchema),
         },
+        {
+          provide: getModelToken(ATHLETE_SESSIONS_BOOKED_PROJECTION),
+          useFactory: () =>
+            mongoose.model<AthleteSessionsBookedDocument>(
+              'AthleteSessionsBooked',
+              AthleteSessionsBookedDocumentSchema,
+            ),
+        },
       ],
     }).compile();
 
@@ -30,6 +44,9 @@ describe('MongoSessionFinder', () => {
     sessionProjectionModel = moduleReference.get<Model<SessionDocument>>(
       getModelToken(SESSION_PROJECTION),
     );
+    athleteSessionsBookedModel = moduleReference.get<
+      Model<AthleteSessionsBookedDocument>
+    >(getModelToken(ATHLETE_SESSIONS_BOOKED_PROJECTION));
 
     await mongoose.connect(mongoUri);
   });
@@ -144,6 +161,26 @@ describe('MongoSessionFinder', () => {
 
       expect(result).toHaveLength(1);
       expect(result[0]._id).toEqual(sessionInSameDate._id);
+    });
+  });
+
+  describe('findByAthleteAndDate', () => {
+    it('should return sessions that match the given date', async () => {
+      const athleteId = 'e1003835-13d9-4eda-b0ae-9c6cc41d9a34';
+      const month = 6;
+      const year = 2023;
+      const sessionBooked: AthleteSessionsBookedDocument = {
+        athleteId,
+        month,
+        year,
+        sessions: { 1: ['20:00'], 22: ['10:30'] },
+      };
+
+      await athleteSessionsBookedModel.create([sessionBooked]);
+
+      const result = await sessionFinder.findByAthleteAndDate(athleteId, month, year);
+
+      expect(result).toBeDefined();
     });
   });
 });

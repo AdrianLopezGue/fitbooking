@@ -11,4 +11,8 @@ export class BookSeatDTO {
   @IsNotEmpty()
   @IsUUID()
   readonly assistant: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly date: Date;
 }

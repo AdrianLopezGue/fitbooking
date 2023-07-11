@@ -7,6 +7,7 @@ import { BookSeatCommand } from '../../application/command/book-seat.command';
 import { CancelSeatCommand } from '../../application/command/cancel-seat.command';
 import { GetSessionsByDateAndBoxQuery } from '../../application/query/get-sessions-by-date-and-box.query';
 import { SessionDTO } from '@fitbooking/contracts';
+import { GetSessionsByAthleteAndDateQuery } from '../../application/query/get-sessions-by-athlete-and-date.query';
 
 @Injectable()
 export class SessionService {
@@ -15,7 +16,7 @@ export class SessionService {
     private readonly queryBus: QueryBus,
   ) {}
 
-  async createSession(
+  createSession(
     name: string,
     boxId: string,
     maxCapacity: number,
@@ -26,25 +27,35 @@ export class SessionService {
     );
   }
 
-  async bookSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
+  bookSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
       new BookSeatCommand(id, athleteId),
     );
   }
 
-  async cancelSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
+  cancelSeat(id: string, athleteId: string): Promise<Result<null, Error>> {
     return this.commandBus.execute<ICommand, Result<null, Error>>(
       new CancelSeatCommand(id, athleteId),
     );
   }
 
-  async getSessionById(id: string): Promise<SessionDTO> {
+  getSessionById(id: string): Promise<SessionDTO> {
     return this.queryBus.execute<IQuery, SessionDTO>(new GetSessionByIdQuery(id));
   }
 
-  async getSessionsByDateAndBox(date: Date, boxId: string): Promise<SessionDTO[]> {
+  getSessionsByDateAndBox(date: Date, boxId: string): Promise<SessionDTO[]> {
     return this.queryBus.execute<IQuery, SessionDTO[]>(
       new GetSessionsByDateAndBoxQuery(date, boxId),
+    );
+  }
+
+  getBookedSessionsByAthletedAndDate(
+    athleteId: string,
+    month: number,
+    year: number,
+  ): Promise<SessionDTO[]> {
+    return this.queryBus.execute<IQuery, SessionDTO[]>(
+      new GetSessionsByAthleteAndDateQuery(athleteId, month, year),
     );
   }
 }

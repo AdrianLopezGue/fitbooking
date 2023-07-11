@@ -6,3 +6,4 @@ export * from './lib/box/response/box-list.dto';
 export * from './lib/box/response/box.dto';
 
 export * from './lib/session/response/session.dto';
+export * from './lib/sessions-booked/response/sessions-booked.dto';

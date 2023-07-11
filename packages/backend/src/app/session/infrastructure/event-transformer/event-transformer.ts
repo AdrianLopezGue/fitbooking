@@ -10,7 +10,11 @@ import {
 
 export const eventTransformers = {
   SessionSeatWasBookedEvent: (event: Event<BookSeatDTO>) =>
-    new SessionSeatWasBookedEvent(event.aggregateId, event.payload.assistant),
+    new SessionSeatWasBookedEvent(
+      event.aggregateId,
+      event.payload.assistant,
+      event.payload.date,
+    ),
   SessionWasCreatedEvent: (event: Event<CreateSessionDTO>) =>
     new SessionWasCreatedEvent(
       event.aggregateId,
@@ -21,5 +25,9 @@ export const eventTransformers = {
       event.payload.date,
     ),
   SessionSeatWasCancelledEvent: (event: Event<CancelSeatDTO>) =>
-    new SessionSeatWasCancelledEvent(event.aggregateId, event.payload.assistant),
+    new SessionSeatWasCancelledEvent(
+      event.aggregateId,
+      event.payload.assistant,
+      event.payload.date,
+    ),
 };

@@ -11,4 +11,8 @@ export class CancelSeatDTO {
   @IsNotEmpty()
   @IsUUID()
   readonly assistant: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly date: Date;
 }

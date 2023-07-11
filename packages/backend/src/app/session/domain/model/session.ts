@@ -106,7 +106,7 @@ export class Session extends AggregateRoot {
       return err(SessionWithoutAvailableSeats.with(this.id.value));
     }
 
-    this.apply(new SessionSeatWasBookedEvent(this.id.value, assistant.value));
+    this.apply(new SessionSeatWasBookedEvent(this.id.value, assistant.value, this.date));
     return ok(this);
   }
 
@@ -121,7 +121,9 @@ export class Session extends AggregateRoot {
       );
     }
 
-    this.apply(new SessionSeatWasCancelledEvent(this.id.value, assistant.value));
+    this.apply(
+      new SessionSeatWasCancelledEvent(this.id.value, assistant.value, this.date),
+    );
     return ok(this);
   }
 
