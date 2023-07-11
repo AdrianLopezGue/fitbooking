@@ -77,9 +77,31 @@ const createBox = async (
   }
 };
 
+const inviteAthlete = async (email: string, boxId: string, token: string) => {
+  try {
+    const result = await fetch(`${enviroment.API_URL}/box/${boxId}/invite`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await result.json();
+
+    if (result.status !== 200) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const boxActions = {
   findBoxById,
   findBoxByEmail,
   findAthletesByBox,
   createBox,
+  inviteAthlete,
 };

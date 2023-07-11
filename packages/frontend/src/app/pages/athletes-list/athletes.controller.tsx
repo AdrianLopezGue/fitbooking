@@ -29,5 +29,6 @@ export const useAthletesList = () => {
     athletes,
     boxId: boxId || '',
     boxName,
+    token,
   };
 };

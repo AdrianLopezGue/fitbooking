@@ -55,6 +55,8 @@ export class BoxController {
     athleteInvited.mapErr<Error>(error => {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
+
+    return { result: 'Ok' };
   }
 
   @Put(':id/accept')
