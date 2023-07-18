@@ -48,10 +48,10 @@ const Login = () => {
                 justify={'space-between'}
               >
                 <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.500'}>Forgot password?</Link>
+                <Link color={'teal'}>Forgot password?</Link>
               </Stack>
               <Button
-                colorScheme={'blue'}
+                colorScheme={'teal'}
                 variant={'solid'}
                 type="submit"
                 isLoading={form.formState.isSubmitting}
