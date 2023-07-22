@@ -4,6 +4,7 @@ import { QueryBus } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { GetUserByEmailQuery } from '../user/application/query/get-user-by-email.query';
+import { Password } from '../user/domain/model/password';
 
 @Injectable()
 export class AuthService {
@@ -33,9 +34,9 @@ export class AuthService {
     };
   }
 
-  async encodePassword(password: string): Promise<string> {
+  async encodePassword(password: Password): Promise<Password> {
     const salt = await bcrypt.genSalt();
 
-    return bcrypt.hashSync(password, salt);
+    return new Password({ value: bcrypt.hashSync(password.value, salt) });
   }
 }

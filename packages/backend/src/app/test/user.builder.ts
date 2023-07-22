@@ -13,7 +13,7 @@ export class UserBuilder {
 
   public constructor() {
     this.id = '0f6e8a59-7429-4930-9d38-3294552d2e40';
-    this.name = 'Defaul name';
+    this.name = 'Default name';
     this.email = 'test@test.com';
     this.password = 'Ultra secret password';
   }
@@ -21,9 +21,9 @@ export class UserBuilder {
   build(): User {
     return new User(
       UserId.from(this.id),
-      UserName.from(this.name),
+      new UserName({ value: this.name }),
       UserEmail.from(this.email),
-      Password.from(this.password),
+      new Password({ value: this.password }),
     );
   }
 

@@ -1,22 +1,21 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { InvalidPasswordError } from '../error/invalid-password.error';
+import { Result, err, ok } from 'neverthrow';
 
 export class Password extends ValueObject<{
   value: string;
 }> {
-  protected readonly name: string;
+  protected readonly password: string;
 
   public constructor(value: { value: string }) {
     super(value);
-    this.name = this.constructor.name;
+    this.password = this.constructor.name;
   }
 
-  public static from(name: string): Password {
-    if (name.length < 8) {
-      throw InvalidPasswordError.causeIsTooShort(name);
-    }
-
-    return new Password({ value: name });
+  public static from(password: string): Result<Password, InvalidPasswordError> {
+    return password.length < 8
+      ? err(InvalidPasswordError.causeIsTooShort(password))
+      : ok(new Password({ value: password }));
   }
 
   get value(): string {

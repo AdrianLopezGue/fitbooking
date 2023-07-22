@@ -35,9 +35,9 @@ export class User extends AggregateRoot {
 
   private onUserWasCreatedEvent(event: UserWasCreatedEvent): void {
     this._id = UserId.from(event.id);
-    this._name = UserName.from(event.name);
+    this._name = new UserName({ value: event.name });
     this._email = UserEmail.from(event.email);
-    this._password = Password.from(event.password);
+    this._password = new Password({ value: event.password });
   }
 
   aggregateId(): string {

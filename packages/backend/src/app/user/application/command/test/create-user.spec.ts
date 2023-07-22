@@ -1,9 +1,12 @@
+import { UserBuilder } from '../../../../test/user.builder';
+import { InvalidPasswordError } from '../../../domain/error/invalid-password.error';
+import { InvalidUserNameError } from '../../../domain/error/invalid-username.error';
+import { UserAlreadyExistsError } from '../../../domain/error/user-already-exists.error';
 import { InMemoryUserRepository } from '../../../infrastructure';
 import { InMemoryUserFinder } from '../../../infrastructure/service/in-memory-user.finder';
+import { UserSecurity } from '../../service/user-security.service';
 import { CreateUserCommand } from '../create-user.command';
 import { CreateUserHandler } from '../create-user.handler';
-import { UserBuilder } from '../../../../test/user.builder';
-import { UserSecurity } from '../../service/user-security.service';
 
 describe('Create user handler', () => {
   let userSecurity: UserSecurity;
@@ -55,12 +58,13 @@ describe('Create user handler', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(UserAlreadyExistsError);
   });
 
-  it('should should throw error if name is empty', async () => {
+  it('should return error if name is empty', async () => {
     const userRepository = new InMemoryUserRepository([]);
     const userFinder = new InMemoryUserFinder();
-    const bookSeatHandler = new CreateUserHandler(
+    const createUserHandler = new CreateUserHandler(
       userRepository,
       userFinder,
       userSecurity,
@@ -69,8 +73,31 @@ describe('Create user handler', () => {
     const userEmail = 'test@test.com';
     const password = 'Ultra secret password';
 
-    await expect(
-      bookSeatHandler.execute(new CreateUserCommand(emptyUserName, userEmail, password)),
-    ).rejects.toThrow(Error);
+    const result = await createUserHandler.execute(
+      new CreateUserCommand(emptyUserName, userEmail, password),
+    );
+
+    expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(InvalidUserNameError);
+  });
+
+  it('should return error if password is too short', async () => {
+    const userRepository = new InMemoryUserRepository([]);
+    const userFinder = new InMemoryUserFinder();
+    const createUserHandler = new CreateUserHandler(
+      userRepository,
+      userFinder,
+      userSecurity,
+    );
+    const userName = 'User Name';
+    const userEmail = 'test@test.com';
+    const shortPassword = 'A';
+
+    const result = await createUserHandler.execute(
+      new CreateUserCommand(userName, userEmail, shortPassword),
+    );
+
+    expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(InvalidPasswordError);
   });
 });

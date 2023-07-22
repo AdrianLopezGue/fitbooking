@@ -2,18 +2,18 @@ import {
   DomainError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Result, err, ok } from 'neverthrow';
-import { CreateUserCommand } from './create-user.command';
-import { User } from '../../domain/model/user';
-import { UserRepository } from '../../domain/service/user.repository';
-import { UserName } from '../../domain/model/user-name';
-import { UserEmail } from '../../domain/model/user-email';
-import { Password } from '../../domain/model/password';
-import { USER_SECURITY, UserSecurity } from '../service/user-security.service';
 import { Inject } from '@nestjs/common';
-import { USER_FINDER, UserFinder } from '../service/user-finder.service';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Result, ResultAsync, err } from 'neverthrow';
 import { UserAlreadyExistsError } from '../../domain/error/user-already-exists.error';
+import { Password } from '../../domain/model/password';
+import { User } from '../../domain/model/user';
+import { UserEmail } from '../../domain/model/user-email';
+import { UserName } from '../../domain/model/user-name';
+import { UserRepository } from '../../domain/service/user.repository';
+import { USER_FINDER, UserFinder } from '../service/user-finder.service';
+import { USER_SECURITY, UserSecurity } from '../service/user-security.service';
+import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
@@ -26,23 +26,22 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     private readonly userSecurity: UserSecurity,
   ) {}
 
-  async execute(command: CreateUserCommand): Promise<Result<undefined, DomainError>> {
+  async execute(command: CreateUserCommand): Promise<Result<void, DomainError>> {
     const userExists = await this.userFinder.findByEmail(command.email);
 
     if (userExists) {
       return err(UserAlreadyExistsError.causeUserAlreadyExists(command.email));
     }
 
-    const encodePassword = await this.userSecurity.encodePassword(command.password);
+    const userData = ResultAsync.combine([
+      UserName.from(command.name).asyncMap(value => Promise.resolve(value)),
+      Password.from(command.password).asyncMap(password =>
+        this.userSecurity.encodePassword(password),
+      ),
+    ]);
 
-    const user = User.add(
-      UserName.from(command.name),
-      UserEmail.from(command.email),
-      Password.from(encodePassword),
-    );
-
-    await this.userRepository.save(user);
-
-    return ok(undefined);
+    return userData
+      .map(userData => User.add(userData[0], UserEmail.from(command.email), userData[1]))
+      .map(user => this.userRepository.save(user));
   }
 }
