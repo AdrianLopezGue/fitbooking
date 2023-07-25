@@ -7,6 +7,8 @@ import { BoxId } from '../../../domain/model/box-id';
 import { Athlete } from '../../../domain/model/athlete';
 import { AthleteId } from '../../../domain/model/athlete-id';
 import { AthleteRole } from '../../../domain/model/athlete-role';
+import { BoxNotFoundError } from '../../../domain/error/box-not-found.error';
+import { AthleteAlreadyExistingError } from '../../../domain/error/athlete-already-existing.error';
 
 describe('Invite athlete handler', () => {
   it('should invite an athlete', async () => {
@@ -37,6 +39,7 @@ describe('Invite athlete handler', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(BoxNotFoundError);
   });
 
   it('should return error if email belongs to a current athlete in box', async () => {
@@ -50,9 +53,10 @@ describe('Invite athlete handler', () => {
     const handler = new InviteAthleteHandler(boxRepository);
 
     const result = await handler.execute(
-      new InviteAthleteCommand(BoxId.generate().value, user.email.value),
+      new InviteAthleteCommand(box.id.value, user.email.value),
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(AthleteAlreadyExistingError);
   });
 });

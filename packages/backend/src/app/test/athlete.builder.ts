@@ -24,7 +24,7 @@ export class AthleteBuilder {
       AthleteId.from(this.id),
       UserEmail.from(this.email),
       this.userId ? UserId.from(this.userId) : undefined,
-      AthleteRole.from(this.role),
+      new AthleteRole({ value: this.role }),
       BoxId.from(this.boxId),
     );
   }

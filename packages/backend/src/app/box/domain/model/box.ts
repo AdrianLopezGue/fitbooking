@@ -35,7 +35,7 @@ export class Box extends AggregateRoot {
     location: BoxLocation,
     userId: UserId,
     email: UserEmail,
-  ): Box {
+  ): Result<Box, Error> {
     const box = new Box();
     const boxId = BoxId.generate();
 
@@ -59,14 +59,14 @@ export class Box extends AggregateRoot {
     box.apply(boxWasCreatedEvent);
     box.apply(adminAthleteWasCreated);
 
-    return box;
+    return ok(box);
   }
 
   private onBoxWasCreatedEvent(event: BoxWasCreatedEvent): void {
     this._id = BoxId.from(event.id);
-    this._name = BoxName.from(event.payload.name);
+    this._name = new BoxName({ value: event.payload.name });
     this._athletes = [];
-    this._location = BoxLocation.from(event.payload.location);
+    this._location = new BoxLocation({ value: event.payload.location });
   }
 
   private onAdminAthleteWasCreatedEvent(event: AdminAthleteWasCreatedEvent): void {
@@ -81,7 +81,7 @@ export class Box extends AggregateRoot {
     this._athletes = [...this.athletes, adminAthlete];
   }
 
-  public addAthlete(email: UserEmail): Result<undefined, AthleteAlreadyExistingError> {
+  public addAthlete(email: UserEmail): Result<Box, AthleteAlreadyExistingError> {
     if (this.athletes.some(a => a.email.equals(email))) {
       return err(AthleteAlreadyExistingError.withEmail(email.value));
     }
@@ -96,14 +96,14 @@ export class Box extends AggregateRoot {
     );
 
     this.apply(athleteWasInvited);
-    return ok(undefined);
+    return ok(this);
   }
 
   private onAthleteWasInvitedEvent(event: AthleteWasInvitedEvent) {
     const athlete = Athlete.fromBoxInvitation(
       AthleteId.from(event.payload.athleteId),
       UserEmail.from(event.payload.email),
-      AthleteRole.from(event.payload.role),
+      new AthleteRole({ value: event.payload.role }),
       BoxId.from(event.payload.boxId),
     );
 
@@ -113,7 +113,7 @@ export class Box extends AggregateRoot {
   public acceptInvitation(
     email: UserEmail,
     userId: UserId,
-  ): Result<undefined, PendingAthleteNotFoundError> {
+  ): Result<Box, PendingAthleteNotFoundError> {
     const pendingAthlete = this._athletes.find(athlete => athlete.email.equals(email));
 
     if (!pendingAthlete) {
@@ -137,7 +137,7 @@ export class Box extends AggregateRoot {
     );
 
     this.apply(invitationWasAccepted);
-    return ok(undefined);
+    return ok(this);
   }
 
   private onInvitationWasAcceptedEvent(event: InvitationWasAcceptedEvent) {

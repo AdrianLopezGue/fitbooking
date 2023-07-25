@@ -1,5 +1,6 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { AthleteRoleNotValidError } from '../error/athlete-role-not-valid.error';
+import { Result, err, ok } from 'neverthrow';
 
 export enum AthleteRolesEnum {
   ADMIN = 'ADMIN',
@@ -9,14 +10,21 @@ export enum AthleteRolesEnum {
 export class AthleteRole extends ValueObject<{
   value: AthleteRolesEnum;
 }> {
-  public static from(role: string): AthleteRole {
-    if (role in AthleteRolesEnum === false) {
-      throw AthleteRoleNotValidError.withRole(role);
-    }
+  protected readonly name: string;
 
-    return new AthleteRole({
-      value: AthleteRolesEnum[role],
-    });
+  public constructor(value: { value: string }) {
+    super({ value: AthleteRolesEnum[value.value] });
+    this.name = this.constructor.name;
+  }
+
+  public static from(role: string): Result<AthleteRole, AthleteRoleNotValidError> {
+    return role in AthleteRolesEnum
+      ? ok(
+          new AthleteRole({
+            value: AthleteRolesEnum[role],
+          }),
+        )
+      : err(AthleteRoleNotValidError.withRole(role));
   }
 
   public static admin(): AthleteRole {

@@ -15,7 +15,7 @@ export class BoxBuilder {
   }
 
   build(): Box {
-    return new Box(BoxId.from(this.id), BoxName.from(this.name), this.athletes);
+    return new Box(BoxId.from(this.id), new BoxName({ value: this.name }), this.athletes);
   }
 
   withAthletes(athletes: Athlete[]): BoxBuilder {

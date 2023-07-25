@@ -3,7 +3,7 @@ import {
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Result, err, ok } from 'neverthrow';
+import { Result, err } from 'neverthrow';
 import { CreateBoxCommand } from './create-box.command';
 import { Box } from '../../domain/model/box';
 import { BoxRepository } from '../../domain/service/box.repository';
@@ -23,22 +23,22 @@ export class CreateBoxHandler implements ICommandHandler<CreateBoxCommand> {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(command: CreateBoxCommand): Promise<Result<undefined, DomainError>> {
+  async execute(command: CreateBoxCommand): Promise<Result<Promise<void>, DomainError>> {
     const user = await this.userRepository.find(UserId.from(command.userId));
 
     if (!user) {
       return err(UserNotFoundError.causeUserDoesNotExist());
     }
 
-    const box = Box.add(
+    const boxData = Result.combine([
       BoxName.from(command.name),
       BoxLocation.from(command.location),
-      user.id,
-      user.email,
-    );
+    ]);
 
-    await this.boxRepository.save(box);
-
-    return ok(undefined);
+    return boxData
+      .andThen(boxData =>
+        Box.add(boxData[0], boxData[1], user.id, user.email),
+      )
+      .map(box => this.boxRepository.save(box));
   }
 }

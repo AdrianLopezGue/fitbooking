@@ -5,7 +5,7 @@ import {
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Box } from '../../domain/model/box';
 import { BoxRepository } from '../../domain/service/box.repository';
-import { Result, err, ok } from 'neverthrow';
+import { Result, err } from 'neverthrow';
 import { BoxId } from '../../domain/model/box-id';
 import { UserEmail } from '../../../user/domain/model/user-email';
 import { AcceptInvitationCommand } from './accept-invitation.command';
@@ -26,7 +26,9 @@ export class AcceptInvitationHandler implements ICommandHandler<AcceptInvitation
     private readonly userFinder: UserFinder,
   ) {}
 
-  async execute(command: AcceptInvitationCommand): Promise<Result<undefined, DomainError>> {
+  async execute(
+    command: AcceptInvitationCommand,
+  ): Promise<Result<Promise<void>, DomainError>> {
     const box = await this.boxRepository.find(BoxId.from(command.boxId));
 
     if (!box) {
@@ -39,12 +41,8 @@ export class AcceptInvitationHandler implements ICommandHandler<AcceptInvitation
       return err(UserNotFoundError.causeUserDoesNotExist());
     }
 
-    const result = box.acceptInvitation(UserEmail.from(user.email), UserId.from(user._id));
-    if (result.isErr()) {
-      return result;
-    }
-
-    await this.boxRepository.save(box);
-    return ok(undefined);
+    return box
+      .acceptInvitation(UserEmail.from(user.email), UserId.from(user._id))
+      .map(box => this.boxRepository.save(box));
   }
 }
