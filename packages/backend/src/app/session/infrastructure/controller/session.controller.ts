@@ -79,6 +79,11 @@ export class SessionController {
   }
 
   @Get()
+  async getByBox(@Query('boxId') boxId: string): Promise<SessionDTO[]> {
+    return await this.sessionService.getSessionsByBox(boxId);
+  }
+
+  @Get()
   async getByDateAndBox(
     @Query('date') date: string,
     @Query('boxId') boxId: string,

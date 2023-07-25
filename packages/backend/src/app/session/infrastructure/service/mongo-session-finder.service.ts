@@ -23,6 +23,10 @@ export class MongoSessionFinder implements SessionFinder {
     return this.sessionProjection.findById(id).exec();
   }
 
+  findByBox(boxId: string): Promise<SessionDTO[]> {
+    return this.sessionProjection.find({ boxId }).exec();
+  }
+
   findByDateAndBox(date: Date, boxId: string): Promise<SessionDTO[] | undefined> {
     const startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);

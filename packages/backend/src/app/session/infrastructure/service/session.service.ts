@@ -8,6 +8,7 @@ import { CancelSeatCommand } from '../../application/command/cancel-seat.command
 import { GetSessionsByDateAndBoxQuery } from '../../application/query/get-sessions-by-date-and-box.query';
 import { SessionDTO } from '@fitbooking/contracts';
 import { GetSessionsByAthleteAndDateQuery } from '../../application/query/get-sessions-by-athlete-and-date.query';
+import { GetSessionsByBoxQuery } from '../../application/query/get-sessions-by-box.query';
 
 @Injectable()
 export class SessionService {
@@ -41,6 +42,10 @@ export class SessionService {
 
   getSessionById(id: string): Promise<SessionDTO> {
     return this.queryBus.execute<IQuery, SessionDTO>(new GetSessionByIdQuery(id));
+  }
+
+  getSessionsByBox(boxId: string): Promise<SessionDTO[]> {
+    return this.queryBus.execute<IQuery, SessionDTO[]>(new GetSessionsByBoxQuery(boxId));
   }
 
   getSessionsByDateAndBox(date: Date, boxId: string): Promise<SessionDTO[]> {

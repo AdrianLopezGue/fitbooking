@@ -164,6 +164,43 @@ describe('MongoSessionFinder', () => {
     });
   });
 
+  describe('findByBox', () => {
+    it('should return sessions that match the given date', async () => {
+      const boxId = 'a780873d-4bd2-44c7-b4f4-434781b2ee2b';
+      const session1: SessionDocument = {
+        _id: '572d1fed-8521-49f5-b6cb-767bd13b161e',
+        name: 'Session name 1',
+        boxId,
+        assistants: [],
+        maxCapacity: 1,
+        date: new Date('2023-06-17'),
+      };
+      const session2: SessionDocument = {
+        _id: 'ca014231-72db-4c32-adc1-c744a2e3b3a6',
+        name: 'Session name 2',
+        boxId: '2712bd5c-6d28-4346-982b-27272ae6934f',
+        assistants: [],
+        maxCapacity: 1,
+        date: new Date('2023-06-18'),
+      };
+
+      await sessionProjectionModel.create([session1, session2]);
+
+      const result = await sessionFinder.findByBox(boxId);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]._id).toEqual(session1._id);
+    });
+
+    it('should return an empty array if no sessions match the given date', async () => {
+      const result = await sessionFinder.findByBox(
+        'a780873d-4bd2-44c7-b4f4-434781b2ee2b',
+      );
+
+      expect(result).toHaveLength(0);
+    });
+  });
+
   describe('findByAthleteAndDate', () => {
     it('should return sessions that match the given date', async () => {
       const athleteId = 'e1003835-13d9-4eda-b0ae-9c6cc41d9a34';
