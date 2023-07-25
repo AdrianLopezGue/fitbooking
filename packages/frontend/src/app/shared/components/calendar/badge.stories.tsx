@@ -2,7 +2,7 @@ import { Badge } from './badge.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Components/Sessions/Calendar/Badge',
+  title: 'Components/Shared/Calendar/Badge',
   component: Badge,
 } as Meta<typeof Badge>;
 

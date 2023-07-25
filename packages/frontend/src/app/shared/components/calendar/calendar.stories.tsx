@@ -2,7 +2,7 @@ import { Calendar } from './calendar.component';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Components/Sessions/Calendar/Calendar',
+  title: 'Components/Shared/Calendar/Calendar',
   component: Calendar,
 } as Meta<typeof Calendar>;
 

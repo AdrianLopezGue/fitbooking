@@ -1,7 +1,7 @@
 import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
 import { Button, Flex, IconButton } from '@chakra-ui/react';
 import { SidebarWithHeader } from '../../shared/components/sidebar/sidebar.component';
-import { Calendar } from './components/calendar/calendar.component';
+import { Calendar } from '../../shared/components/calendar/calendar.component';
 import { Session } from './components/session/session.component';
 import { useSessionPage } from './sessions.controller';
 

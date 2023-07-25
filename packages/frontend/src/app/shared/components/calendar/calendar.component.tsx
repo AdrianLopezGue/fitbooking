@@ -37,6 +37,7 @@ const Calendar = ({
           .map((_, index) => (
             <CalendarDay
               index={index}
+              key={index}
               reservations={reservations[(index + 1).toString()]}
             />
           ))}

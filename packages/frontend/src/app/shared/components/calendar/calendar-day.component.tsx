@@ -8,7 +8,8 @@ const CalendarDay = ({
   index: number;
   reservations: string[] | null;
 }) => {
-  const renderBadges = () => reservations?.map(hour => <Badge hour={hour} />);
+  const renderBadges = () =>
+    reservations?.map((hour, index) => <Badge hour={hour} key={index} />);
 
   return (
     <Box
