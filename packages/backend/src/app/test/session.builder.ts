@@ -23,10 +23,10 @@ export class SessionBuilder {
   build(): Session {
     return new Session(
       SessionId.from(this.id),
-      SessionName.from(this.name),
+      new SessionName({ value: this.name }),
       BoxId.from(this.boxId),
       this.assistants.map(assistant => AthleteId.from(assistant)),
-      SessionMaxCapacity.from(this.maxCapacity),
+      new SessionMaxCapacity({ value: this.maxCapacity }),
     );
   }
 

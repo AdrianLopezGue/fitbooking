@@ -1,13 +1,19 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { SessionNameCannotBeEmpty } from '../error/session-name-cannot-be-empty.error';
+import { Result, err, ok } from 'neverthrow';
 
 export class SessionName extends ValueObject<{ value: string }> {
-  public static from(name: string): SessionName {
-    if (!name) {
-      throw SessionNameCannotBeEmpty.causeNameIsEmpty();
-    }
+  protected readonly name: string;
 
-    return new SessionName({ value: name });
+  public constructor(value: { value: string }) {
+    super(value);
+    this.name = this.constructor.name;
+  }
+
+  public static from(name: string): Result<SessionName, SessionNameCannotBeEmpty> {
+    return name
+      ? ok(new SessionName({ value: name }))
+      : err(SessionNameCannotBeEmpty.causeNameIsEmpty());
   }
 
   get value() {

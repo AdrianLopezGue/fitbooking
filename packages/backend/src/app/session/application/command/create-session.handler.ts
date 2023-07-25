@@ -3,7 +3,7 @@ import {
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Result, ok } from 'neverthrow';
+import { Result } from 'neverthrow';
 import { Session } from '../../domain/model/session';
 import { SessionRepository } from '../../domain/service/session.repository';
 import { CreateSessionCommand } from './create-session.command';
@@ -18,16 +18,23 @@ export class CreateSessionHandler implements ICommandHandler<CreateSessionComman
     private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async execute(command: CreateSessionCommand): Promise<Result<undefined, DomainError>> {
-    const session = Session.add(
+  async execute(
+    command: CreateSessionCommand,
+  ): Promise<Result<Promise<void>, DomainError>> {
+    const boxData = Result.combine([
       SessionName.from(command.name),
-      BoxId.from(command.boxId),
       SessionMaxCapacity.from(command.maxCapacity),
-      command.date,
-    );
+    ]);
 
-    await this.sessionRepository.save(session);
-
-    return ok(undefined);
+    return boxData
+      .andThen(boxData =>
+        Session.add(
+          boxData[0],
+          BoxId.from(command.boxId),
+          boxData[1],
+          command.date,
+        ),
+      )
+      .map(session => this.sessionRepository.save(session));
   }
 }

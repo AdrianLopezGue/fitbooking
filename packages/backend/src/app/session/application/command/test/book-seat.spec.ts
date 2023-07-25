@@ -1,12 +1,12 @@
+import { AthleteId } from '../../../../box/domain/model/athlete-id';
 import { SessionBuilder } from '../../../../test/session.builder';
-
+import { AssistantAlreadyConfirmed } from '../../../domain/error/assistant-already-confirmed.error';
+import { SessionNotFound } from '../../../domain/error/session-not-found.error';
+import { SessionWithoutAvailableSeats } from '../../../domain/error/session-without-available-seats.error';
+import { SessionId } from '../../../domain/model/session-id';
+import { InMemorySessionRepository } from '../../../infrastructure';
 import { BookSeatCommand } from '../book-seat.command';
 import { BookSeatHandler } from '../book-seat.handler';
-
-import { InMemorySessionRepository } from '../../../infrastructure';
-
-import { AthleteId } from '../../../../box/domain/model/athlete-id';
-import { SessionId } from '../../../domain/model/session-id';
 
 describe('Book seat command', () => {
   it('should book a seat if a session has empty seats', async () => {
@@ -37,6 +37,7 @@ describe('Book seat command', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(AssistantAlreadyConfirmed);
   });
 
   it('should return error if max capacity is already reached', async () => {
@@ -52,6 +53,7 @@ describe('Book seat command', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(SessionWithoutAvailableSeats);
   });
 
   it('should return error if session with given id is not found', async () => {
@@ -63,5 +65,6 @@ describe('Book seat command', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(SessionNotFound);
   });
 });

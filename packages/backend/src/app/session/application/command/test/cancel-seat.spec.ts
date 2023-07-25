@@ -1,12 +1,11 @@
 import { SessionBuilder } from '../../../../test/session.builder';
-
 import { CancelSeatHandler } from '../cancel-seat.handler';
 import { CancelSeatCommand } from '../cancel-seat.command';
-
 import { InMemorySessionRepository } from '../../../infrastructure';
-
 import { SessionId } from '../../../domain/model/session-id';
 import { AthleteId } from '../../../../box/domain/model/athlete-id';
+import { AssistantNotFound } from '../../../domain/error/assistant-not-found.error';
+import { SessionNotFound } from '../../../domain/error/session-not-found.error';
 
 describe('Cancel seat command', () => {
   it('should cancel a booked seat which belongs to a session', async () => {
@@ -37,6 +36,7 @@ describe('Cancel seat command', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(AssistantNotFound);
   });
 
   it('should return error if session with given id is not found', async () => {
@@ -48,5 +48,6 @@ describe('Cancel seat command', () => {
     );
 
     expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(SessionNotFound);
   });
 });

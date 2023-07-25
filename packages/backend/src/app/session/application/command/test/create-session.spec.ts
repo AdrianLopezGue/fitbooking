@@ -1,3 +1,5 @@
+import { SessionCapacityMustBePositiveError } from '../../../domain/error/session-capacity-must-be-positive.error';
+import { SessionNameCannotBeEmpty } from '../../../domain/error/session-name-cannot-be-empty.error';
 import { InMemorySessionRepository } from '../../../infrastructure';
 import { CreateSessionCommand } from '../create-session.command';
 import { CreateSessionHandler } from '../create-session.handler';
@@ -32,11 +34,12 @@ describe('Create session handler', () => {
     const sessionDate = new Date();
     const boxId = 'd5b3881b-f5e6-4868-856e-b6c056e02cdc';
 
-    await expect(
-      bookSeatHandler.execute(
-        new CreateSessionCommand(sessionName, boxId, -1, sessionDate),
-      ),
-    ).rejects.toThrow(Error);
+    const result = await bookSeatHandler.execute(
+      new CreateSessionCommand(sessionName, boxId, -1, sessionDate),
+    );
+
+    expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(SessionCapacityMustBePositiveError);
   });
 
   it('should should throw error if name is empty', async () => {
@@ -46,10 +49,11 @@ describe('Create session handler', () => {
     const sessionDate = new Date();
     const boxId = 'd5b3881b-f5e6-4868-856e-b6c056e02cdc';
 
-    await expect(
-      bookSeatHandler.execute(
-        new CreateSessionCommand(emptySessionName, boxId, 1, sessionDate),
-      ),
-    ).rejects.toThrow(Error);
+    const result = await bookSeatHandler.execute(
+      new CreateSessionCommand(emptySessionName, boxId, 1, sessionDate),
+    );
+
+    expect(result.isErr()).toBe(true);
+    expect(result._unsafeUnwrapErr()).toBeInstanceOf(SessionNameCannotBeEmpty);
   });
 });

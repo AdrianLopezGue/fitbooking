@@ -42,7 +42,7 @@ export class Session extends AggregateRoot {
     boxId: BoxId,
     maxCapacity: SessionMaxCapacity,
     date: Date,
-  ): Session {
+  ): Result<Session, Error> {
     const session = new Session();
 
     const event = new SessionWasCreatedEvent(
@@ -55,14 +55,14 @@ export class Session extends AggregateRoot {
     );
 
     session.apply(event);
-    return session;
+    return ok(session);
   }
 
   private onSessionWasCreatedEvent(event: SessionWasCreatedEvent): void {
     this._id = SessionId.from(event.id);
-    this._name = SessionName.from(event.name);
+    this._name = new SessionName({ value: event.name });
     this._boxId = BoxId.from(event.boxId);
-    this._maxCapacity = SessionMaxCapacity.from(event.maxCapacity);
+    this._maxCapacity = new SessionMaxCapacity({ value: event.maxCapacity });
     this._assistants = event.assistants.map(assistant => AthleteId.from(assistant));
     this._date = event.date;
   }

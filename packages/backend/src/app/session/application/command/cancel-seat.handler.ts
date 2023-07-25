@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Result, err, ok } from 'neverthrow';
+import { Result, err } from 'neverthrow';
 import { SessionRepository } from '../../domain/service/session.repository';
 import {
   DomainError,
@@ -18,23 +18,17 @@ export class CancelSeatHandler implements ICommandHandler<CancelSeatCommand> {
     private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async execute(command: CancelSeatCommand): Promise<Result<void, DomainError>> {
+  async execute(command: CancelSeatCommand): Promise<Result<Promise<void>, DomainError>> {
     const sessionId = SessionId.from(command.id);
-    const assistantId = AthleteId.from(command.athleteId);
-
     const session = await this.sessionRepository.find(sessionId);
 
     if (!session) {
       return err(SessionNotFound.with(sessionId.value));
     }
 
-    const canceledSession = session.cancel(assistantId);
-
-    if (canceledSession.isErr()) {
-      return err(canceledSession.error);
-    }
-
-    this.sessionRepository.save(canceledSession.value);
-    return ok(undefined);
+    const assistantId = AthleteId.from(command.athleteId);
+    return session
+      .cancel(assistantId)
+      .map(session => this.sessionRepository.save(session));
   }
 }
