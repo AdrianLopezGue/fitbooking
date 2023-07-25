@@ -51,6 +51,6 @@ export class MongoSessionFinder implements SessionFinder {
       })
       .exec();
 
-    return document?.sessions;
+    return document?.sessions || [];
   }
 }
