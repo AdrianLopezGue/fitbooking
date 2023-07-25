@@ -80,6 +80,7 @@ const DataTable = ({
             <Th>Photo</Th>
             <Th>Name</Th>
             <Th>Email</Th>
+            <Th>Role</Th>
             <Th>Accepted At</Th>
             <Th>Invited At</Th>
           </Tr>
@@ -92,6 +93,7 @@ const DataTable = ({
               </Td>
               <Td>{athlete.name}</Td>
               <Td>{athlete.email}</Td>
+              <Td>{athlete.role}</Td>
               <Td>
                 {athlete.acceptedAt
                   ? new Date(athlete.acceptedAt).toDateString()
