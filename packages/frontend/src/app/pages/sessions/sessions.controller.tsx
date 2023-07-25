@@ -131,7 +131,6 @@ export const useSessionPage = () => {
     sessionActions
       .findBookedSessionsByAthleteAndDate(athlete._id, month, year, token)
       .then(response => {
-        console.log(response);
         setBookedSessions(response);
         showCalendar(!calendarIsShown);
       });
