@@ -45,7 +45,6 @@ const DataTable = ({
   const toast = useToast();
 
   const onClick = form.handleSubmit(data => {
-    console.log(data.email, boxId, token);
     boxActions
       .inviteAthlete(data.email, boxId, token)
       .then(() => {
