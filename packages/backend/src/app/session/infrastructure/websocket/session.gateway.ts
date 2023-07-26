@@ -29,7 +29,7 @@ export class WebsocketSessionGateway implements OnGatewayConnection, OnGatewayDi
   @WebSocketServer()
   server: Server;
 
-  private sessions: Map<string, string[]> = new Map<string, string[]>();
+  private sessions: { [clientId: string]: string[] } = {};
 
   constructor(private readonly queryBus: QueryBus) {}
 
@@ -39,14 +39,13 @@ export class WebsocketSessionGateway implements OnGatewayConnection, OnGatewayDi
     const sessions = await this.queryBus.execute<IQuery, SessionDTO[]>(
       new GetSessionsByDateAndBoxQuery(new Date(dateParsed), boxId),
     );
-    this.sessions[client.id] = sessions.map(session => session._id);
+    this.sessions[client.id.toString()] = sessions.map(session => session._id);
 
     sessions.forEach(session => client.join(session._id));
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    console.log(`Client disconnected: ${client.id}`, this.sessions);
-    this.sessions.delete(client.id);
+    delete this.sessions[client.id.toString()];
   }
 
   @SubscribeMessage('dateChanged')
@@ -55,8 +54,8 @@ export class WebsocketSessionGateway implements OnGatewayConnection, OnGatewayDi
     { boxId, date }: { boxId: string; athleteId: string; date: string },
     @ConnectedSocket() client: Socket,
   ): Promise<void> {
-    if (this.sessions.has(client.id)) {
-      this.sessions.get(client.id).forEach(session => client.leave(session));
+    if (this.sessions[client.id.toString()]) {
+      this.sessions[client.id.toString()].forEach(session => client.leave(session));
       const dateParsed = Date.parse(date);
       const sessions = await this.queryBus.execute<IQuery, SessionDTO[]>(
         new GetSessionsByDateAndBoxQuery(new Date(dateParsed), boxId),
