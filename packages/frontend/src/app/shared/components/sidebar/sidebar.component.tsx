@@ -33,13 +33,14 @@ import {
   IoIosBusiness,
   IoIosMenu,
   IoIosArrowDown,
+  IoMdApps,
 } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 const getLinkItems = (boxId: string, role: string) => {
   const defaultOptions = [
     { name: 'Calendar', icon: IoIosCalendar, href: `/${boxId}/calendar` },
-    { name: 'Sessions', icon: IoIosFitness, href: `/${boxId}/sessions` },
+    { name: 'Book class', icon: IoIosFitness, href: `/${boxId}/sessions` },
     { name: 'Boxes', icon: IoIosBusiness, href: `/boxes` },
   ];
 
@@ -47,6 +48,7 @@ const getLinkItems = (boxId: string, role: string) => {
     ? [
         ...defaultOptions,
         { name: 'Athletes', icon: IoIosSettings, href: `/${boxId}/athletes` },
+        { name: 'Sessions', icon: IoMdApps, href: `/${boxId}/sessions-management` },
       ]
     : defaultOptions;
 };
@@ -124,7 +126,11 @@ const SidebarContent = ({
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" mb="8" justifyContent="space-between">
-        <Flex flexDirection={'column'} onClick={() => navigate('/boxes')} cursor="pointer">
+        <Flex
+          flexDirection={'column'}
+          onClick={() => navigate('/boxes')}
+          cursor="pointer"
+        >
           <Text
             fontSize="2xl"
             fontWeight="bold"

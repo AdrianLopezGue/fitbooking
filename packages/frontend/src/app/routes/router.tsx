@@ -6,6 +6,7 @@ import { boxCreationRoute } from '../pages/box-creation/box-creation.route';
 import { boxListRoute } from '../pages/box-list/box-list.route';
 import { calendarRoute } from '../pages/calendar/calendar.route';
 import { homeRoute } from '../pages/home/home.route';
+import { sessionsManagementRoute } from '../pages/sessions-management/sessions-management.route';
 import { sessionsRoute } from '../pages/sessions/sessions.route';
 
 export const router = createBrowserRouter([
@@ -17,4 +18,5 @@ export const router = createBrowserRouter([
   homeRoute,
   athletesListRoute,
   calendarRoute,
+  sessionsManagementRoute,
 ]);
