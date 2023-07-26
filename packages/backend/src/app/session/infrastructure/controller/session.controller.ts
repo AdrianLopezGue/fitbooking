@@ -87,9 +87,9 @@ export class SessionController {
     return await this.sessionService.getSessionsByDateAndBox(parsedDate, boxId);
   }
 
-  @Get()
-  async getByBox(@Query('boxId') boxId: string): Promise<SessionDTO[]> {
-    return await this.sessionService.getSessionsByBox(boxId);
+  @Get('/all/:boxId')
+  async getByBox(@Param() parameters: { boxId: string }): Promise<SessionDTO[]> {
+    return await this.sessionService.getSessionsByBox(parameters.boxId);
   }
 
   @Get('/booked/:athleteId')
